@@ -1,7 +1,7 @@
 # Sand Battery Project — Sand Battery Studio v1.0
 
 **İzmir Institute of Technology (IZTECH) · Department of Energy Systems Engineering**  
-**ESE 101 · Group 8 (three students) · Fall 2026/27 · Maintainer: [@bysquizy](https://github.com/bysquizy)**
+**ESE 101 · Group 8 (three students) · Fall 2026/27 · Maintainer: Yağız Topaç ([@bysquizy](https://github.com/bysquizy))**
 
 A lightweight English-language **browser-based** thermal-energy-storage simulator. Explore industrial-scale sensible-heat storage, transient losses and heat delivery, 0-D and exploratory 1-D simulations, interactive 3D silo visualization, idealized material comparisons, capacity screening and scientific evidence.
 
@@ -59,4 +59,4 @@ Tests verify numerical consistency, not experimental accuracy. GitHub Actions ru
 
 ## Team and disclosure
 
-The project team contains three ESE101 Group 8 students. Maintainer **@bysquizy** is the only currently confirmed public identifier; full names may be added with explicit consent. The team reports verbal faculty approval for AI-assisted coding; the general written course handout restricts AI to brainstorming. Confirm the exception's scope and disclose authorized use in any assessed submission. No general open-source license is currently granted. See [Security Policy](.github/SECURITY.md) and [Contributing](CONTRIBUTING.md).
+The project team contains three ESE101 Group 8 students. Lead developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)). Other contributor names will be added when explicitly provided. The team reports verbal faculty approval for AI-assisted coding; the general written course handout restricts AI to brainstorming. Confirm the exception's scope and disclose authorized use in any assessed submission. No general open-source license is currently granted. See [Security Policy](.github/SECURITY.md) and [Contributing](CONTRIBUTING.md).
