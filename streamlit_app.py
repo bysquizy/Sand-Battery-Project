@@ -63,7 +63,7 @@ div[data-testid='stExpander'] {border:1px solid #273d4a;border-radius:11px;backg
 with st.sidebar:
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
-    <div class="small">ESE101 · GROUP 08 · v1.0</div>''',unsafe_allow_html=True)
+    <div class="small">ESE101 · GROUP 08 · v2.0 beta</div>''',unsafe_allow_html=True)
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
         vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=1000.,step=25.)
@@ -103,6 +103,10 @@ with st.sidebar:
         st.caption(f'Modeled source power: {power:.2f} MW')
     st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
 
+st.markdown('''<div class="info-line"><b>NEW — v2.0 Research Laboratory:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
+st.page_link("pages/1_Engineering_Research_Lab.py",label="🔬 Open Advanced Engineering Research Lab")
+st.page_link("pages/2_Material_Atlas.py",label="🧱 Open Material Atlas (18 scenarios)")
+st.page_link("pages/3_Virtual_Experiments.py",label="🧪 Open Virtual Experiments")
 st.markdown('''<div class="hero"><div class="eyebrow">IZTECH · ESE101 · GROUP 8 <span class="pill">● RESEARCH PLATFORM</span></div>
 <h1>Design the next era of thermal storage.</h1>
 <p>Explore industrial-scale sand batteries through physics-based simulation, high-temperature materials, thermal dynamics and constraint-driven design screening. Built for clarity, not complexity.</p></div>''',unsafe_allow_html=True)
