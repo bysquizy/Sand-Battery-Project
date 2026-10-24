@@ -1,6 +1,6 @@
 # Sand Battery Project — Engineering Development Roadmap
 
-**Current release:** Sand Battery Studio **v1.0 Stable Software Baseline**, 24 October 2026.  
+**Current release:** Sand Battery Studio **v1.1 Research Update**, 24 October 2026.  
 **Project:** IZTECH, Department of Energy Systems Engineering · ESE101 Group 8 · Maintainer: Yağız Topaç (@bysquizy).
 
 ## Delivered in v1.0
@@ -73,3 +73,13 @@ The ESE101 course information sheet generally permits AI only for brainstorming.
 - [ ] Independently validate physical equations using appropriate measured datasets; beyond the software-stability release.
 
 Historic v2.0–v2.2 beta iterations below describe the development sequence; the public software version was rebaselined to v1.0 stable for the current academic milestone.
+
+## v1.1 — Legacy-inspired engineering tools and evidence portal
+
+- [x] Compare uploaded 1,978-line legacy code against current research engine.
+- [x] Add temperature-dependent passive cooling and module geometry/insulation comparisons.
+- [x] Add sidewall radial temperature visualizations and target stored-energy sizing.
+- [x] Consolidate bibliography, equations, university/team context and provenance audit into a standalone page.
+- [ ] Legacy multi-configuration JSON import and comparison requires separate schema security review.
+- [ ] Independently inspect the original and new live site visually; the site URLs were not readable through available automated web inspection.
+- [ ] Obtain measured material cp(T) and geometry data for meaningful experimental validation.
