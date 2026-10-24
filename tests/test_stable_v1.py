@@ -33,7 +33,9 @@ def test_full_router_home_and_all_registered_research_pages():
         assert not app.exception, [
             f"{page}: {x.message}" for x in app.exception
         ]
-    app.switch_page("home_app.py").run(timeout=TIMEOUT)
+    # Streamlit registers the default page by the entrypoint script rather
+    # than the underlying home_app.py file.
+    app.switch_page("streamlit_app.py").run(timeout=TIMEOUT)
     assert not app.exception, [str(x.message) for x in app.exception]
 
 
