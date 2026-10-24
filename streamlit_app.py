@@ -15,6 +15,8 @@ from engine.solar import csp_thermal_mw, electrical_renewables_mw
 from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
+from engine.reporting import scenario_markdown
+from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONES, bibliography_text
 
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
@@ -59,9 +61,9 @@ div[data-testid='stExpander'] {border:1px solid #273d4a;border-radius:11px;backg
 """,unsafe_allow_html=True)
 
 with st.sidebar:
-    st.markdown('''<div class="eyebrow">ENGINEERING CONTROL ROOM</div>
+    st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
-    <div class="small">ESE101 · GROUP 08 · v1.0 alpha</div>''',unsafe_allow_html=True)
+    <div class="small">ESE101 · GROUP 08 · v1.0</div>''',unsafe_allow_html=True)
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
         vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=1000.,step=25.)
@@ -101,7 +103,7 @@ with st.sidebar:
         st.caption(f'Modeled source power: {power:.2f} MW')
     st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
 
-st.markdown('''<div class="hero"><div class="eyebrow">THERMAL SYSTEMS LAB <span class="pill">● RESEARCH PREVIEW</span></div>
+st.markdown('''<div class="hero"><div class="eyebrow">IZTECH · ESE101 · GROUP 8 <span class="pill">● RESEARCH PLATFORM</span></div>
 <h1>Design the next era of thermal storage.</h1>
 <p>Explore industrial-scale sand batteries through physics-based simulation, high-temperature materials, thermal dynamics and constraint-driven design screening. Built for clarity, not complexity.</p></div>''',unsafe_allow_html=True)
 
@@ -125,8 +127,8 @@ c2.metric('DELIVERED USEFUL HEAT',f"{result['useful_heat_mwh']:,.1f} MWh")
 c3.metric('SOURCE → USEFUL HEAT',f"{result['source_to_useful_heat_pct']:.1f}%")
 c4.metric('INITIAL THERMAL LOSS',f"{result['initial_loss_kw']:.1f} kW")
 
-overview,thermal,explorer,material_tab,science=st.tabs([
-    '◈  Overview','⌁  Thermal Dynamics','⬡  3D Plant Explorer','▤  Materials & Optimization','◎  Methods & Evidence'])
+overview,thermal,explorer,material_tab,science,team=st.tabs([
+    '◈  Overview','⌁  Thermal Dynamics','⬡  3D Plant Explorer','▤  Materials & Optimization','◎  Evidence Library','◇  Project & Team'])
 with overview:
     a,b=st.columns([1.45,1],gap='large')
     with a:
@@ -241,15 +243,58 @@ with science:
 **Material blending:** ideal mass/volume averaging; unverified for composite packing or temperature cycling. 
 **Weather:** fixed DNI or averaged PV/wind capacity factors are scenarios; there is no location-aware solar position or hourly meteorology. 
 **No claims:** electrical reconversion efficiency, structural stability, laboratory-calibrated thermal conductivity, lifetime or actual CAPEX.''')
-    st.markdown('<div class="sect">Source trail · APA-style starting references</div>',unsafe_allow_html=True)
-    st.markdown('''- Bošnjaković, M., & Santa, R. (2026). Sand batteries for thermal energy storage: A review of operating principles, technologies, challenges and future perspectives. *Clean Technologies, 8*(5), 165. https://doi.org/10.3390/cleantechnol8050165
-- Polar Night Energy. (n.d.). *Sand battery*. https://polarnightenergy.com/sand-battery/
-- National Renewable Energy Laboratory. (2024). *Solution to energy storage may be beneath your feet*. https://www.nrel.gov/news/features/2024/solution-to-energy-storage-may-be-beneath-your-feet.html''')
-    st.caption('The supplied internal source-verification audit informs claim wording. Every assumption must be replaced with measured or sourced property data before a validated design assessment.')
+    st.markdown('<div class="sect">Verified reference installations</div>',unsafe_allow_html=True)
+    st.caption('Manufacturer-stated capacities are context, not calibration data for this solver.')
+    rows=[{
+        "Installation":site["site"],
+        "Year":site["year"],
+        "Power (MW thermal)":site["thermal_power_mw"],
+        "Storage (MWh thermal)":site["thermal_capacity_mwh"],
+        "Medium":site["material"],
+        "Evidence":site["evidence"],
+        "Reference URL":site["url"],
+    } for site in FIELD_REFERENCES]
+    st.dataframe(pd.DataFrame(rows),hide_index=True,use_container_width=True)
+    st.info('Reference correction: Kankaanpää = 200 kW and 8 MWh according to its current manufacturer project page; older 100 kW notes are not confirmed.')
+    st.markdown('<div class="sect">Evidence Library · APA references</div>',unsafe_allow_html=True)
+    st.caption('Primary sources, peer-reviewed work, manufacturer statements and software documentation are categorized separately.')
+    for category in dict.fromkeys(r["group"] for r in REFERENCES):
+        with st.expander(category,expanded=(category=="Peer-reviewed research")):
+            for reference in REFERENCES:
+                if reference["group"] != category:
+                    continue
+                st.markdown(reference["apa"])
+                st.caption(f"Evidence type: {reference['type']} · Supports: {reference['claim']}")
+                st.link_button('Open original source ↗',reference["url"])
+                st.divider()
+    st.download_button('↓ Download bibliography · TXT',bibliography_text(),file_name='sand_battery_apa_references.txt',mime='text/plain')
+    st.warning('NREL’s >95% five-day heat retention refers to a DIFFERENT particle-TES architecture and a modeled commercial-scale case. It does not validate this simulator. Stored heat and delivered heat are not electrical round-trip efficiency.')
 
-payload={'version':'1.0-alpha','design':asdict(design),'material':asdict(material),
+with team:
+    st.markdown('<div class="sect">Academic identity & project team</div>',unsafe_allow_html=True)
+    st.markdown(f"### {PROJECT['institution']}")
+    st.markdown(f"**{PROJECT['department']}**")
+    st.markdown(f"**{PROJECT['course']}** · {PROJECT['academic_year']} · **{PROJECT['group']}**")
+    st.caption(PROJECT["affiliation_notice"])
+    left,right=st.columns(2)
+    with left:
+        st.markdown('**Lead developer & repository maintainer**')
+        st.markdown(f"[@bysquizy](https://github.com/bysquizy)")
+        st.caption('Full legal name will be added after confirmation.')
+    with right:
+        st.markdown('**Two other Group 8 team members**')
+        st.caption('Names are not yet provided, so no student identities are invented.')
+    st.markdown('<div class="sect">Course milestones</div>',unsafe_allow_html=True)
+    st.dataframe(pd.DataFrame(COURSE_MILESTONES,columns=['Date','Tentative ESE101 milestone']),hide_index=True,use_container_width=True)
+    st.caption('Dates from the uploaded tentative course calendar; Teams updates may supersede them.')
+    st.markdown('**Project objective:** Analyze sensible-heat storage, losses, thermal delivery and constrained geometrical capacity optimization with transparent input assumptions.')
+    st.markdown('**Academic integrity:** The team reports verbal permission for AI-assisted coding. The written course sheet generally limits AI to brainstorming; clarify and disclose the authorized exception before academic submission.')
+    st.link_button('Visit the project on GitHub ↗','https://github.com/bysquizy/Sand-Battery-Project')
+
+payload={'version':'1.0','design':asdict(design),'material':asdict(material),
          'results':{k:float(v) for k,v in result.items() if isinstance(v,(int,float,np.floating))},
          'status':'research-preview; not experimentally validated'}
 st.download_button('↓  Export current simulation · JSON',json.dumps(payload,indent=2),
                    file_name='sand_battery_scenario.json',mime='application/json')
-st.markdown('<div class="foot">SAND BATTERY STUDIO · ESE101 GROUP 8 · ENGLISH RESEARCH PREVIEW<br>All published performance figures require named system boundaries, provenance and uncertainty. Built on an independently inspectable Python 3.13-compatible physics core.</div>',unsafe_allow_html=True)
+st.download_button('↓ Export engineering summary · Markdown',scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
+st.markdown('<div class="foot">SAND BATTERY STUDIO v1.0 · IZTECH / DEPARTMENT OF ENERGY SYSTEMS ENGINEERING · ESE101 GROUP 8<br>Maintainer: @bysquizy · Independent research demonstration · Not experimentally validated or university endorsed.</div>',unsafe_allow_html=True)
