@@ -10,7 +10,7 @@ PROJECT={
 "affiliation_notice":"Independent student research project for an IZTECH course. Not an official university service or endorsed industrial design.",
 }
 FIELD_REFERENCES=(
-{"site":"Kankaanpää, Finland","year":2022,"thermal_power_mw":0.2,"thermal_capacity_mwh":8.0,"material":"Sand","evidence":"PNE manufacturer: 200 kW; Vatajankoski operator: 100 kW (unresolved discrepancy)","url":"https://polarnightenergy.com/reference/worlds-first-sand-battery/"},
+{"site":"Kankaanpää, Finland","year":2022,"thermal_power_mw":0.2,"operator_power_mw":0.1,"thermal_capacity_mwh":8.0,"material":"Sand","evidence":"PNE manufacturer: 200 kW; Vatajankoski operator: 100 kW (unresolved discrepancy)","url":"https://polarnightenergy.com/reference/worlds-first-sand-battery/"},
 {"site":"Pornainen, Finland","year":2025,"thermal_power_mw":1.0,"thermal_capacity_mwh":100.0,"material":"Crushed soapstone","evidence":"Manufacturer-stated specification (not model validation)","url":"https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/"},
 )
 REFERENCES=(
