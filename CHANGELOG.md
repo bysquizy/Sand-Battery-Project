@@ -1,15 +1,16 @@
 # Changelog
 
-## v2.0.0-beta — 24 October 2026
+## v2.0.0-beta — 24 October 2026 (research platform)
 
 - Added a modular advanced research engine and optional multipage laboratory.
 - Added sensible exergy, hourly renewable dispatch and conservation residual, ideal ε–NTU exchangers, Ergun fan pressure, LCOH cost scenarios and deterministic input Monte Carlo experiments.
 - Added 1-D local thermal nonequilibrium (gas and solid) scenario solver with numerical energy balance verification.
 - Added 13 additional assumption-labeled granular media (18 total); unknown medium suitability is explicitly disclosed.
 - Added optional model-grid, pressure-velocity and standby/insulation virtual experiments.
-- Expanded numerical and Streamlit multipage smoke test coverage.
+- Expanded numerical and Streamlit multipage smoke test coverage; 42 tests passed on Python 3.13 in GitHub Actions.
 - Reconciled presentation of conflicting 100/200 kW Kankaanpää operator/manufacturer descriptions as **unresolved and source-specific**, not hidden.
 - Preserved existing base thermal model for backward compatibility; no field or material-specific calibration is claimed.
+- Release scope and remaining limitations documented in `docs/RELEASE_NOTES_V2.md`.
 
 
 ## v1.0 — 24 October 2026 (academic web release)
@@ -21,8 +22,6 @@
 - Added scenario Markdown export and bibliography TXT export.
 - Simplified web-first GitHub/Streamlit setup instructions.
 - Retained existing numerical models. This is a research release, not experimental or structural validation.
-
-# Changelog
 
 ## 1.0.0-alpha — 24 October 2026
 
