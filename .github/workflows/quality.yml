@@ -32,5 +32,7 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Compile all web pages and models
         run: python -m compileall -q streamlit_app.py home_app.py project_info.py visuals.py pages engine
+      - name: Check undefined names and locals
+        run: python -m ruff check --select F821,F823 .
       - name: Numerical and web-entry tests
         run: python -m pytest -q
