@@ -9,7 +9,7 @@ A lightweight English-language **browser-based v2 research platform** for therma
 
 ## Open as a website — preferred
 
-The team reports that this project is already hosted on Streamlit Community Cloud. The public application URL has not yet been provided for independent checking; add its exact URL here and to the repository **About → Website** after confirming the deployed version.
+The team reports that this project is already hosted on Streamlit Community Cloud. The public application's **exact** address has not been supplied, so it is not linked here yet. Once confirmed, add the Streamlit URL to this README and to GitHub **About → Website**. Do not guess a deployed URL.
 
 If deployment must be configured or refreshed, use [Streamlit Community Cloud](https://share.streamlit.io/) with:
 
@@ -42,7 +42,7 @@ py -3.13 -m venv .venv
 
 The original interface remains available:
 
-- **Overview:** stored thermal energy, delivered heat, energy balance and interactive Sankey.
+- **Dashboard** (`home_app.py`, routed by `streamlit_app.py`): stored thermal energy, delivered heat, energy balance and interactive Sankey.
 - **Thermal Dynamics:** transient charge/hold/discharge and optional 1-D LTE research surrogate.
 - **3D Plant Explorer:** animated idealized silo—not CFD or a construction drawing.
 - **Materials & Optimization:** illustrative solid-media properties and bounded design screening.
