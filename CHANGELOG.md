@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0 — 24 October 2026 (academic web release)
+
+- Added official IZTECH and Department of Energy Systems Engineering identification, ESE101 Group 8 and the @bysquizy maintainer credit.
+- Added a linked Evidence Library with source categories, APA references and reference plant specifications.
+- Corrected Kankaanpää to 200 kW / 8 MWh based on Polar Night Energy's official plant page.
+- Added separate project/team page and tentative course milestones.
+- Added scenario Markdown export and bibliography TXT export.
+- Simplified web-first GitHub/Streamlit setup instructions.
+- Retained existing numerical models. This is a research release, not experimental or structural validation.
+
+# Changelog
+
 ## 1.0.0-alpha — 24 October 2026
 
 - Built a separate English Streamlit application with custom responsive dark theme and lightweight animation.
