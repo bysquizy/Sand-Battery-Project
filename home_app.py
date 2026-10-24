@@ -23,9 +23,8 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root {--copper:#eeb37e;--mint:#58dfc3;--ink:#08111d;--faint:#8ca4b6;}
-html,body,[class*='css'] {font-family:'DM Sans',system-ui,sans-serif}
+html,body,[class*='css'] {font-family:'Segoe UI',system-ui,sans-serif}
 .stApp {background:radial-gradient(ellipse 900px 450px at 75% -200px,rgba(45,124,145,.14),transparent 80%),#08111d;color:#e7eff5;}
 [data-testid='stAppViewContainer'] .main .block-container {padding-top:1.25rem;padding-bottom:4rem;max-width:1480px;}
 [data-testid='stSidebar'] {background:#0c1825;border-right:1px solid #213440;}
@@ -35,7 +34,7 @@ section[data-testid='stSidebar'] .block-container {padding-top:1rem;}
 [data-testid='stMetric'] {background:linear-gradient(130deg,rgba(30,50,63,.93),rgba(14,30,44,.98));border:1px solid #253b48;border-radius:16px;padding:16px 17px;min-height:113px;transition:transform .2s ease,border-color .2s;}
 [data-testid='stMetric']:hover {transform:translateY(-2px);border-color:#ca9a6c;}
 [data-testid='stMetricLabel'] p{font-size:.76rem;color:#9bb1c0;letter-spacing:.025em;font-weight:600;}
-[data-testid='stMetricValue'] {font-family:'Manrope',sans-serif;font-size:1.7rem;font-weight:800;color:#f0f7fb;}
+[data-testid='stMetricValue'] {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.7rem;font-weight:800;color:#f0f7fb;}
 div[data-testid='stTabs'] button[role='tab'] {font-size:.89rem;font-weight:700;padding-left:15px;padding-right:15px;color:#93abba;}
 div[data-testid='stTabs'] button[aria-selected='true'] {color:#eeb37e;}
 div[data-testid='stTabs'] [data-baseweb='tab-highlight'] {background-color:#eeb37e;}
@@ -48,17 +47,22 @@ div[data-testid='stExpander'] {border:1px solid #273d4a;border-radius:11px;backg
 .hero:after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;right:-125px;top:-225px;border:55px solid rgba(235,166,105,.10);box-shadow:0 0 110px #4be6c21a;animation:orbit 13s ease-in-out infinite alternate;pointer-events:none;}
 @keyframes orbit{to{transform:translate(-42px,55px) rotate(55deg)}}
 .eyebrow {font-size:.70rem;letter-spacing:.2em;text-transform:uppercase;color:#72ddcb;font-weight:800;}
-.hero h1 {font-family:'Manrope',sans-serif;font-size:clamp(1.65rem,3.4vw,2.55rem);font-weight:800;margin:.5rem 0;letter-spacing:-.045em;color:#f1f7fc;}
+.hero h1 {font-family:'Segoe UI',system-ui,sans-serif;font-size:clamp(1.65rem,3.4vw,2.55rem);font-weight:800;margin:.5rem 0;letter-spacing:-.045em;color:#f1f7fc;}
 .hero p {color:#a8bfcd;max-width:700px;font-size:.93rem;line-height:1.7;margin:0;}
 .pill {display:inline-flex;align-items:center;font-size:.7rem;padding:5px 10px;color:#94f6dd;border:1px solid #387a72;background:#143936;border-radius:20px;margin-left:9px;}
 .info-line {border-left:3px solid #eeb37e;background:#12232e;border-radius:0 9px 9px 0;padding:12px 16px;color:#abc1cd;font-size:.86rem;margin:12px 0;}
-.sect {font-family:'Manrope',sans-serif;font-size:1.12rem;font-weight:800;color:#e9f3f8;margin:15px 0 10px;}
+.sect {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.12rem;font-weight:800;color:#e9f3f8;margin:15px 0 10px;}
 .label-block {color:#eeb37e;font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.09em;}
 .small {font-size:.81rem;color:#96abba;line-height:1.65;}
 .foot {border-top:1px solid #243947;margin-top:28px;padding-top:16px;color:#8da5b5;font-size:.75rem;line-height:1.8;}
 @media(max-width:680px){.hero{padding:19px}.hero:after{display:none}}
 </style>
 """,unsafe_allow_html=True)
+
+@st.cache_data(max_entries=24,ttl=1800,show_spinner=False)
+def _cached_cycle(d,m):
+    """Reuse a valid scenario instead of re-solving on every UI rerun."""
+    return simulate_cycle(d,m)
 
 with st.sidebar:
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
@@ -115,7 +119,7 @@ try:
         source_kind=("solar_thermal" if method.startswith("CSP") else "electricity"),
         minimum_c=tmin,maximum_c=tmax,ambient_c=tamb,hold_days=standby,
         thermal_output_mw=output,charge_mw=power,charge_efficiency=eta)
-    result=simulate_cycle(design,material)
+    result=_cached_cycle(design,material)
 except (ValueError,RuntimeError,OverflowError,ZeroDivisionError) as exc:
     st.error(f'This configuration cannot be simulated: {exc}')
     st.info('Adjust temperature limits, available charging power or heat-loss parameters in the sidebar.')
@@ -136,12 +140,12 @@ with overview:
     a,b=st.columns([1.45,1],gap='large')
     with a:
         st.markdown('<div class="sect">Operating temperature profile</div>',unsafe_allow_html=True)
-        st.plotly_chart(timeline(result),use_container_width=True,key='chart_overview_timeline')
+        st.plotly_chart(timeline(result),width='stretch',key='chart_overview_timeline')
     with b:
         st.markdown('<div class="sect">Energy distribution</div>',unsafe_allow_html=True)
         flow=ledger(result)
         if flow is not None:
-            st.plotly_chart(flow,use_container_width=True,key='chart_overview_ledger')
+            st.plotly_chart(flow,width='stretch',key='chart_overview_ledger')
         else:
             st.info('Standby cooled below the minimum useful temperature. A nonnegative Sankey cannot represent this reference state; use the ledger below.')
     c1,c2,c3,c4=st.columns(4)
@@ -157,12 +161,12 @@ with overview:
             {'Term':'Discharge ambient loss (MWh)','Energy':result['discharge_loss_mwh']},
             {'Term':'Useful thermal delivery (MWh)','Energy':result['useful_heat_mwh']},
             {'Term':'Remaining energy relative to Tmin (MWh)','Energy':result['ending_relative_energy_mwh']}])
-        st.dataframe(df,hide_index=True,use_container_width=True)
+        st.dataframe(df,hide_index=True,width='stretch')
     st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
 
 with thermal:
     st.markdown('<div class="sect">Transient response · 0-D energy balance</div>',unsafe_allow_html=True)
-    st.plotly_chart(timeline(result),use_container_width=True,key='chart_thermal_timeline')
+    st.plotly_chart(timeline(result),width='stretch',key='chart_thermal_timeline')
     st.markdown('<div class="sect">1-D thermocline · exploratory comparison</div>',unsafe_allow_html=True)
     st.caption('Finite-volume direct-contact/local-thermal-equilibrium model. This is NOT a validated simulation of Polar Night Energy’s closed-loop air pipes.')
     cells=st.slider('Axial resolution · cells',16,80,32,8)
@@ -180,7 +184,7 @@ with thermal:
         k1.metric('1-D delivered heat',f"{tc['useful_heat_mwh']:.1f} MWh")
         k2.metric('1-D charge duration',f"{tc['charge_h']:.1f} h")
         k3.metric('1-D discharge duration',f"{tc['discharge_h']:.1f} h")
-        st.plotly_chart(thermocline_plot(tc,design),use_container_width=True,key='chart_1d_profile')
+        st.plotly_chart(thermocline_plot(tc,design),width='stretch',key='chart_1d_profile')
         st.caption('This surrogate uses axial through-bed advection and its boundary power varies with outlet temperature. Comparing its absolute outputs directly with the fixed-power 0-D system requires care.')
     else:
         st.info('Run the 1-D model to view vertical temperature profiles and source-specific differences.')
@@ -189,7 +193,7 @@ with explorer:
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown('<div class="sect">Animated thermal storage module</div>',unsafe_allow_html=True)
-        st.plotly_chart(plant_3d(result,design),use_container_width=True,key='chart_3d_silo')
+        st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
     with right:
         st.markdown('<div class="sect">Plant geometry</div>',unsafe_allow_html=True)
         st.metric('Internal silo radius',f"{result['radius_m']:.2f} m")
@@ -208,8 +212,8 @@ with material_tab:
                      'Evidence status':m.provenance})
     compare=pd.DataFrame(rows).sort_values('Theoretical MWh',ascending=False)
     c1,c2=st.columns([1.05,1],gap='large')
-    with c1:st.plotly_chart(material_comparison(compare),use_container_width=True,key='chart_materials')
-    with c2:st.dataframe(compare,hide_index=True,use_container_width=True)
+    with c1:st.plotly_chart(material_comparison(compare),width='stretch',key='chart_materials')
+    with c2:st.dataframe(compare,hide_index=True,width='stretch')
     st.warning('All material-specific properties here are legacy or assumed inputs; material screening does not establish material suitability, stability or a safe design temperature.')
     st.divider()
     st.markdown('<div class="sect">Maximum usable heat · constrained design screening</div>',unsafe_allow_html=True)
@@ -232,8 +236,8 @@ with material_tab:
         if rows:
             df=pd.DataFrame(rows)
             st.success(f'{len(rows)} geometrically feasible candidates. Best of the sampled designs: {rows[0]["usable_mwh"]:.1f} MWh useful heat.')
-            st.plotly_chart(optimization_scatter(df),use_container_width=True,key='chart_screening')
-            st.dataframe(df.head(20),hide_index=True,use_container_width=True)
+            st.plotly_chart(optimization_scatter(df),width='stretch',key='chart_screening')
+            st.dataframe(df.head(20),hide_index=True,width='stretch')
             st.download_button('↓  Export screening · CSV',df.to_csv(index=False),file_name='capacity_screening.csv',mime='text/csv')
         else:st.info('No candidate satisfies the current height/diameter limits.')
 
@@ -258,7 +262,7 @@ with science:
         "Evidence":site["evidence"],
         "Reference URL":site["url"],
     } for site in FIELD_REFERENCES]
-    st.dataframe(pd.DataFrame(rows),hide_index=True,use_container_width=True)
+    st.dataframe(pd.DataFrame(rows),hide_index=True,width='stretch')
     st.info('Kankaanpää source discrepancy: Polar Night Energy lists 200 kW / 8 MWh; operator Vatajankoski lists 100 kW / 8 MWh. Different rating definitions may apply; the discrepancy is unresolved. Neither figure calibrates our model.')
     st.markdown('<div class="sect">Evidence Library · APA references</div>',unsafe_allow_html=True)
     st.caption('Primary sources, peer-reviewed work, manufacturer statements and software documentation are categorized separately.')
@@ -289,7 +293,7 @@ with team:
         st.markdown('**Two other Group 8 team members**')
         st.caption('Names are not yet provided, so no student identities are invented.')
     st.markdown('<div class="sect">Course milestones</div>',unsafe_allow_html=True)
-    st.dataframe(pd.DataFrame(COURSE_MILESTONES,columns=['Date','Tentative ESE101 milestone']),hide_index=True,use_container_width=True)
+    st.dataframe(pd.DataFrame(COURSE_MILESTONES,columns=['Date','Tentative ESE101 milestone']),hide_index=True,width='stretch')
     st.caption('Dates from the uploaded tentative course calendar; Teams updates may supersede them.')
     st.link_button('Open the live web application ↗',PROJECT['public_app'])
     st.markdown('**Project objective:** Analyze sensible-heat storage, losses, thermal delivery and constrained geometrical capacity optimization with transparent input assumptions.')
