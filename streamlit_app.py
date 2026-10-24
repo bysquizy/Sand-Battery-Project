@@ -133,12 +133,12 @@ with overview:
     a,b=st.columns([1.45,1],gap='large')
     with a:
         st.markdown('<div class="sect">Operating temperature profile</div>',unsafe_allow_html=True)
-        st.plotly_chart(timeline(result),use_container_width=True)
+        st.plotly_chart(timeline(result),use_container_width=True,key='chart_overview_timeline')
     with b:
         st.markdown('<div class="sect">Energy distribution</div>',unsafe_allow_html=True)
         flow=ledger(result)
         if flow is not None:
-            st.plotly_chart(flow,use_container_width=True)
+            st.plotly_chart(flow,use_container_width=True,key='chart_overview_ledger')
         else:
             st.info('Standby cooled below the minimum useful temperature. A nonnegative Sankey cannot represent this reference state; use the ledger below.')
     c1,c2,c3,c4=st.columns(4)
@@ -159,7 +159,7 @@ with overview:
 
 with thermal:
     st.markdown('<div class="sect">Transient response · 0-D energy balance</div>',unsafe_allow_html=True)
-    st.plotly_chart(timeline(result),use_container_width=True)
+    st.plotly_chart(timeline(result),use_container_width=True,key='chart_thermal_timeline')
     st.markdown('<div class="sect">1-D thermocline · exploratory comparison</div>',unsafe_allow_html=True)
     st.caption('Finite-volume direct-contact/local-thermal-equilibrium model. This is NOT a validated simulation of Polar Night Energy’s closed-loop air pipes.')
     cells=st.slider('Axial resolution · cells',16,80,32,8)
@@ -177,7 +177,7 @@ with thermal:
         k1.metric('1-D delivered heat',f"{tc['useful_heat_mwh']:.1f} MWh")
         k2.metric('1-D charge duration',f"{tc['charge_h']:.1f} h")
         k3.metric('1-D discharge duration',f"{tc['discharge_h']:.1f} h")
-        st.plotly_chart(thermocline_plot(tc,design),use_container_width=True)
+        st.plotly_chart(thermocline_plot(tc,design),use_container_width=True,key='chart_1d_profile')
         st.caption('This surrogate uses axial through-bed advection and its boundary power varies with outlet temperature. Comparing its absolute outputs directly with the fixed-power 0-D system requires care.')
     else:
         st.info('Run the 1-D model to view vertical temperature profiles and source-specific differences.')
@@ -186,7 +186,7 @@ with explorer:
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown('<div class="sect">Animated thermal storage module</div>',unsafe_allow_html=True)
-        st.plotly_chart(plant_3d(result,design),use_container_width=True)
+        st.plotly_chart(plant_3d(result,design),use_container_width=True,key='chart_3d_silo')
     with right:
         st.markdown('<div class="sect">Plant geometry</div>',unsafe_allow_html=True)
         st.metric('Internal silo radius',f"{result['radius_m']:.2f} m")
@@ -205,7 +205,7 @@ with material_tab:
                      'Evidence status':m.provenance})
     compare=pd.DataFrame(rows).sort_values('Theoretical MWh',ascending=False)
     c1,c2=st.columns([1.05,1],gap='large')
-    with c1:st.plotly_chart(material_comparison(compare),use_container_width=True)
+    with c1:st.plotly_chart(material_comparison(compare),use_container_width=True,key='chart_materials')
     with c2:st.dataframe(compare,hide_index=True,use_container_width=True)
     st.warning('All material-specific properties here are legacy or assumed inputs; material screening does not establish material suitability, stability or a safe design temperature.')
     st.divider()
@@ -229,7 +229,7 @@ with material_tab:
         if rows:
             df=pd.DataFrame(rows)
             st.success(f'{len(rows)} geometrically feasible candidates. Best of the sampled designs: {rows[0]["usable_mwh"]:.1f} MWh useful heat.')
-            st.plotly_chart(optimization_scatter(df),use_container_width=True)
+            st.plotly_chart(optimization_scatter(df),use_container_width=True,key='chart_screening')
             st.dataframe(df.head(20),hide_index=True,use_container_width=True)
             st.download_button('↓  Export screening · CSV',df.to_csv(index=False),file_name='capacity_screening.csv',mime='text/csv')
         else:st.info('No candidate satisfies the current height/diameter limits.')
