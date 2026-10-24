@@ -16,7 +16,7 @@ from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
 from engine.reporting import scenario_markdown
-from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONES, bibliography_text
+from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONES, MODEL_EVIDENCE, bibliography_text
 
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
@@ -128,6 +128,7 @@ with overview:
             {'Term':'Useful thermal delivery (MWh)','Energy':result['useful_heat_mwh']},
             {'Term':'Remaining energy relative to Tmin (MWh)','Energy':result['ending_relative_energy_mwh']}])
         st.dataframe(df,hide_index=True,width='stretch')
+    st.caption('Energy Sankey and time series represent simulated flows. Reported conservation residual checks numerical accounting, not agreement with measured hardware.')
     st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
 
 with thermal:
@@ -216,6 +217,13 @@ with science:
 **Material blending:** ideal mass/volume averaging; unverified for composite packing or temperature cycling. 
 **Weather:** fixed DNI or averaged PV/wind capacity factors are scenarios; there is no location-aware solar position or hourly meteorology. 
 **No claims:** electrical reconversion efficiency, structural stability, laboratory-calibrated thermal conductivity, lifetime or actual CAPEX.''')
+    st.markdown('<div class="sect">Governing equations & source traceability</div>',unsafe_allow_html=True)
+    st.caption('These are methodological sources and equation-level checks. They do NOT validate the material properties or demonstrate measured plant performance.')
+    method_table=pd.DataFrame(MODEL_EVIDENCE)
+    st.dataframe(method_table,hide_index=True,use_container_width=True)
+    st.download_button('Download equation–evidence map · CSV',method_table.to_csv(index=False),
+        file_name='sand_battery_method_evidence_map.csv',mime='text/csv',key='method_evidence_export')
+    st.divider()
     st.markdown('<div class="sect">Verified reference installations</div>',unsafe_allow_html=True)
     st.caption('Manufacturer-stated capacities are context, not calibration data for this solver.')
     rows=[{
