@@ -5,7 +5,7 @@ PROJECT={
 "department":"Department of Energy Systems Engineering",
 "course":"ESE 101 — Introduction to Energy Systems Engineering",
 "academic_year":"Fall 2026/27","group":"Group 8","team_size":3,
-"lead_github":"@bysquizy","advisor":"Not specified — confirmation pending",
+"lead_github":"@bysquizy","lead_name":"Yağız Topaç","advisor":"Not specified — confirmation pending",
 "affiliation_notice":"Independent student research project for an IZTECH course. Not an official university service or endorsed industrial design.",
 }
 FIELD_REFERENCES=(
