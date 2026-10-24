@@ -279,8 +279,8 @@ with team:
     left,right=st.columns(2)
     with left:
         st.markdown('**Lead developer & repository maintainer**')
-        st.markdown(f"[@bysquizy](https://github.com/bysquizy)")
-        st.caption('Full legal name will be added after confirmation.')
+        st.markdown(f"**{PROJECT['lead_name']}** · [@bysquizy](https://github.com/bysquizy)")
+        st.caption('Name shown on the linked GitHub profile; corrections can be requested from the maintainer.')
     with right:
         st.markdown('**Two other Group 8 team members**')
         st.caption('Names are not yet provided, so no student identities are invented.')
@@ -297,4 +297,4 @@ payload={'version':'1.0','design':asdict(design),'material':asdict(material),
 st.download_button('↓  Export current simulation · JSON',json.dumps(payload,indent=2),
                    file_name='sand_battery_scenario.json',mime='application/json')
 st.download_button('↓ Export engineering summary · Markdown',scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
-st.markdown('<div class="foot">SAND BATTERY STUDIO v1.0 · IZTECH / DEPARTMENT OF ENERGY SYSTEMS ENGINEERING · ESE101 GROUP 8<br>Maintainer: @bysquizy · Independent research demonstration · Not experimentally validated or university endorsed.</div>',unsafe_allow_html=True)
+st.markdown('<div class="foot">SAND BATTERY STUDIO v1.0 · IZTECH / DEPARTMENT OF ENERGY SYSTEMS ENGINEERING · ESE101 GROUP 8<br>Maintainer: Yağız Topaç (@bysquizy) · Independent research demonstration · Not experimentally validated or university endorsed.</div>',unsafe_allow_html=True)
