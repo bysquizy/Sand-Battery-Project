@@ -21,43 +21,9 @@ from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONE
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
 
-st.markdown("""
-<style>
-:root {--copper:#eeb37e;--mint:#58dfc3;--ink:#08111d;--faint:#8ca4b6;}
-html,body,[class*='css'] {font-family:'Segoe UI',system-ui,sans-serif}
-.stApp {background:radial-gradient(ellipse 900px 450px at 75% -200px,rgba(45,124,145,.14),transparent 80%),#08111d;color:#e7eff5;}
-[data-testid='stAppViewContainer'] .main .block-container {padding-top:1.25rem;padding-bottom:4rem;max-width:1480px;}
-[data-testid='stSidebar'] {background:#0c1825;border-right:1px solid #213440;}
-[data-testid='stSidebar'] div[data-testid='stMarkdownContainer'] p {font-size:.89rem;}
-[data-testid='stSidebar'] h3 {font-size:1rem;letter-spacing:.01em;}
-section[data-testid='stSidebar'] .block-container {padding-top:1rem;}
-[data-testid='stMetric'] {background:linear-gradient(130deg,rgba(30,50,63,.93),rgba(14,30,44,.98));border:1px solid #253b48;border-radius:16px;padding:16px 17px;min-height:113px;transition:transform .2s ease,border-color .2s;}
-[data-testid='stMetric']:hover {transform:translateY(-2px);border-color:#ca9a6c;}
-[data-testid='stMetricLabel'] p{font-size:.76rem;color:#9bb1c0;letter-spacing:.025em;font-weight:600;}
-[data-testid='stMetricValue'] {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.7rem;font-weight:800;color:#f0f7fb;}
-div[data-testid='stTabs'] button[role='tab'] {font-size:.89rem;font-weight:700;padding-left:15px;padding-right:15px;color:#93abba;}
-div[data-testid='stTabs'] button[aria-selected='true'] {color:#eeb37e;}
-div[data-testid='stTabs'] [data-baseweb='tab-highlight'] {background-color:#eeb37e;}
-[data-testid='stPlotlyChart'] {border:1px solid #233744;border-radius:17px;background:linear-gradient(145deg,#111e2b,#0b1724);padding:2px 7px;}
-div[data-testid='stExpander'] {border:1px solid #273d4a;border-radius:11px;background:rgba(18,32,45,.62)}
-[data-testid='stAlert'] {border-radius:10px}
-.stButton button[kind='primary'] {background:linear-gradient(105deg,#f2c48e,#df9874);color:#08111d;border:0;font-weight:800;border-radius:10px;}
-.stDownloadButton button {border:1px solid #406274;color:#c7e6ed;border-radius:11px;}
-.hero {position:relative;overflow:hidden;border:1px solid #304652;border-radius:20px;padding:27px 32px;margin:2px 0 24px;background:linear-gradient(110deg,#132e3b 0%,#10222e 55%,#1d2830 100%);}
-.hero:after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;right:-125px;top:-225px;border:55px solid rgba(235,166,105,.10);box-shadow:0 0 110px #4be6c21a;animation:orbit 13s ease-in-out infinite alternate;pointer-events:none;}
-@keyframes orbit{to{transform:translate(-42px,55px) rotate(55deg)}}
-.eyebrow {font-size:.70rem;letter-spacing:.2em;text-transform:uppercase;color:#72ddcb;font-weight:800;}
-.hero h1 {font-family:'Segoe UI',system-ui,sans-serif;font-size:clamp(1.65rem,3.4vw,2.55rem);font-weight:800;margin:.5rem 0;letter-spacing:-.045em;color:#f1f7fc;}
-.hero p {color:#a8bfcd;max-width:700px;font-size:.93rem;line-height:1.7;margin:0;}
-.pill {display:inline-flex;align-items:center;font-size:.7rem;padding:5px 10px;color:#94f6dd;border:1px solid #387a72;background:#143936;border-radius:20px;margin-left:9px;}
-.info-line {border-left:3px solid #eeb37e;background:#12232e;border-radius:0 9px 9px 0;padding:12px 16px;color:#abc1cd;font-size:.86rem;margin:12px 0;}
-.sect {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.12rem;font-weight:800;color:#e9f3f8;margin:15px 0 10px;}
-.label-block {color:#eeb37e;font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.09em;}
-.small {font-size:.81rem;color:#96abba;line-height:1.65;}
-.foot {border-top:1px solid #243947;margin-top:28px;padding-top:16px;color:#8da5b5;font-size:.75rem;line-height:1.8;}
-@media(max-width:680px){.hero{padding:19px}.hero:after{display:none}}
-</style>
-""",unsafe_allow_html=True)
+from ui_theme import inject
+inject()
+
 
 @st.cache_data(max_entries=24,ttl=1800,show_spinner=False)
 def _cached_cycle(d,m):
