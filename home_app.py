@@ -251,7 +251,8 @@ with science:
     rows=[{
         "Installation":site["site"],
         "Year":site["year"],
-        "Power (MW thermal)":site["thermal_power_mw"],
+        "Manufacturer power (MWth)":site["thermal_power_mw"],
+        "Operator power (MWth)":site.get("operator_power_mw"),
         "Storage (MWh thermal)":site["thermal_capacity_mwh"],
         "Medium":site["material"],
         "Evidence":site["evidence"],
