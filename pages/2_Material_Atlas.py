@@ -15,6 +15,11 @@ a,b,c=st.columns(3)
 with a:vol=st.number_input('Packed bulk volume (m³)',100.,10000.,1000.,step=100.,key='atlas_volume')
 with b:low=st.number_input('Minimum temperature (°C)',20.,250.,60.,step=10.,key='atlas_low')
 with c:high=st.number_input('Maximum temperature (°C)',250.,850.,550.,step=10.,key='atlas_high')
+if high <= low:
+    st.error('Maximum temperature must be above the minimum temperature.')
+    st.stop()
+if high >= 570:
+    st.warning('Around 573 °C, quartz-rich media have a phase inversion not represented by these linear specific-heat curves. Rankings are not validated above this region.')
 rows=[]
 for m in all_materials.values():
     heat=m.bulk_density*vol*(m.enthalpy(high)-m.enthalpy(low))/3.6e9
@@ -24,10 +29,12 @@ df=pd.DataFrame(rows).sort_values('Thermal capacity MWh',ascending=False)
 st.caption(f'{len(df)} material scenarios. Capacity ranking is NOT a safety, durability, price or validated performance ranking.')
 col1,col2=st.columns([1.1,1])
 with col1:
-    fig=go.Figure()
-    for idx,row in df.head(15).sort_values('Thermal capacity MWh').iterrows():
-        fig.add_trace(go.Bar(x=[row['Thermal capacity MWh']],y=[row['Medium']],orientation='h',name=row['Medium'],showlegend=False))
-    fig.update_layout(template='plotly_dark',height=600,xaxis_title='Sensible storage MWhth',margin=dict(l=5,r=5,t=30,b=45))
+    ranked=df.head(15).sort_values('Thermal capacity MWh')
+    fig=go.Figure(go.Bar(
+        x=ranked['Thermal capacity MWh'],y=ranked['Medium'],orientation='h',
+        marker=dict(color=ranked['Thermal capacity MWh'],colorscale=[[0,'#275369'],[0.5,'#65b9ba'],[1,'#f3b379']],showscale=False),
+        hovertemplate='%{y}<br>Stored heat: %{x:.2f} MWhth<extra>Assumed model</extra>'))
+    fig.update_layout(template='plotly_dark',height=600,xaxis_title='Sensible heat capacity · MWh(th)',margin=dict(l=5,r=5,t=30,b=45),showlegend=False)
     st.plotly_chart(fig,width='stretch',key='atlas_mwh_fig')
 with col2:st.dataframe(df,height=600,hide_index=True,width='stretch')
 st.divider()
@@ -39,6 +46,16 @@ for k in selected[:10]:f.add_trace(go.Scatter(x=temps,y=all_materials[k].cp(temp
 f.add_vline(x=573,line_dash='dash',annotation_text='Quartz inversion (~573°C), absent from cp model',line_color='#f1ae66')
 f.update_layout(template='plotly_dark',height=420,xaxis_title='Temperature °C',yaxis_title='Assumed cp(T), J/kgK')
 st.plotly_chart(f,width='stretch',key='atlas_cp_fig')
+st.subheader('Capacity response to maximum temperature')
+st.caption('A temperature-sweep of the same illustrative property models; it does not imply safe operation at those temperatures.')
+heat_options=st.multiselect('Choose materials for the heatmap',list(all_materials),default=['Silica sand','Crushed basalt','Crushed refractory brick'],max_selections=8,key='atlas_heatmap_mats')
+if heat_options:
+    tgrid=np.linspace(max(low+1,300),min(850,max(400,high)),8)
+    z=[[all_materials[label].bulk_density*vol*(all_materials[label].enthalpy(t)-all_materials[label].enthalpy(low))/3.6e9 for t in tgrid] for label in heat_options]
+    fg=go.Figure(go.Heatmap(z=z,x=[round(t) for t in tgrid],y=heat_options,colorscale='YlOrRd',colorbar=dict(title='MWhth'),hovertemplate='%{y}<br>Maximum: %{x} °C<br>Storage: %{z:.1f} MWhth<extra>Scenario</extra>'))
+    fg.update_layout(template='plotly_dark',height=max(260,64*len(heat_options)+110),xaxis_title='Maximum storage temperature (°C)',margin=dict(l=10,r=10,t=15,b=55))
+    st.plotly_chart(fg,width='stretch',key='atlas_capacity_heatmap')
+st.divider()
 st.subheader('Idealized two-medium mixture')
 x,y=st.columns(2)
 with x:first=st.selectbox('Medium A',list(all_materials),key='atlas_first')
