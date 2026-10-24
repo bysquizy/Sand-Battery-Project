@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.0.0-beta — 24 October 2026
+
+- Added a modular advanced research engine and optional multipage laboratory.
+- Added sensible exergy, hourly renewable dispatch and conservation residual, ideal ε–NTU exchangers, Ergun fan pressure, LCOH cost scenarios and deterministic input Monte Carlo experiments.
+- Added 1-D local thermal nonequilibrium (gas and solid) scenario solver with numerical energy balance verification.
+- Added 13 additional assumption-labeled granular media (18 total); unknown medium suitability is explicitly disclosed.
+- Added optional model-grid, pressure-velocity and standby/insulation virtual experiments.
+- Expanded numerical and Streamlit multipage smoke test coverage.
+- Reconciled presentation of conflicting 100/200 kW Kankaanpää operator/manufacturer descriptions as **unresolved and source-specific**, not hidden.
+- Preserved existing base thermal model for backward compatibility; no field or material-specific calibration is claimed.
+
+
 ## v1.0 — 24 October 2026 (academic web release)
 
 - Added official IZTECH and Department of Energy Systems Engineering identification, ESE101 Group 8 and the @bysquizy maintainer credit.
