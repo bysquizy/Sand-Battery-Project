@@ -1,36 +1,39 @@
-"""Sand Battery Studio — lightweight, grouped research navigation.
+"""Sand Battery Studio — research-oriented, compact multipage navigation.
 
-Every page remains on the existing Streamlit-hosted Python backend.
+File-based pages are registered explicitly to work reliably on Streamlit Cloud.
 """
 import streamlit as st
 
 pages = {
     "Simulation": [
         st.Page("home_app.py", title="Engineering Dashboard", icon="🏠", default=True),
+        st.Page("pages/4_Thermal_Design_Studio.py", title="Thermal Design Studio", icon="📐"),
     ],
-    "Research & Comparison": [
+    "Advanced Research": [
         st.Page("pages/1_Engineering_Research_Lab.py", title="Advanced Research Lab", icon="🔬"),
         st.Page("pages/2_Material_Atlas.py", title="Material Atlas", icon="🧱"),
-    ],
-    "Model Verification": [
         st.Page("pages/3_Virtual_Experiments.py", title="Virtual Experiments", icon="🧪"),
+    ],
+    "Project & Evidence": [
+        st.Page("pages/5_Project_Research_Library.py", title="Project & Research Library", icon="📚"),
     ],
 }
 current = st.navigation(pages, position="sidebar", expanded=True)
 with st.sidebar:
     st.caption("IZTECH · ENERGY SYSTEMS ENGINEERING · ESE101 / GROUP 8")
-    with st.expander("How to use this simulator", expanded=False):
+    with st.expander("Getting started", expanded=False):
         st.markdown(
-            "**1.** Start with the Engineering Dashboard and choose a design.\n\n"
-            "**2.** Run optional 1-D or LTNE experiments only when needed.\n\n"
-            "**3.** Compare illustrative media and their assumptions in Material Atlas.\n\n"
-            "**4.** Review the Evidence Library before citing numerical results.\n\n"
-            "**Important:** No experimental measurements or certified equipment behavior are simulated."
+            "**01 · Dashboard:** Start with the 0-D charge/hold/discharge calculation.\n\n"
+            "**02 · Thermal Design:** Compare cooling curves, modules and insulation.\n\n"
+            "**03 · Advanced Research:** Explore optional 1-D, heat exchanger, and uncertainty studies.\n\n"
+            "**04 · Material Atlas:** Understand property assumptions and material comparisons.\n\n"
+            "**05 · Project & Research Library:** Read the evidence trail before citing results.\n\n"
+            "**Important:** This is a simulation-only academic application, not measured equipment."
         )
-    st.link_button("Open public web application ↗",
-                   "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/",
-                   use_container_width=True)
-    st.link_button("GitHub source & citations ↗",
+    st.link_button("GitHub source & verification ↗",
                    "https://github.com/bysquizy/Sand-Battery-Project",
-                   use_container_width=True)
+                   width="stretch")
+    st.link_button("Live web platform ↗",
+                   "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/",
+                   width="stretch")
 current.run()
