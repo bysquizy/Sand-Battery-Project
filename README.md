@@ -1,21 +1,28 @@
-# Sand Battery Project
+# Sand Battery Project — Sand Battery Studio v1.0
 
-**Sand Battery Studio** · English-language engineering simulator · **ESE101 / Group 8**  
-**Python 3.13 · Streamlit · Research preview (v1.0 alpha)**
+**İzmir Institute of Technology (IZTECH) · Department of Energy Systems Engineering**  
+**ESE 101 · Group 8 (three students) · Fall 2026/27 · Maintainer: [@bysquizy](https://github.com/bysquizy)**
 
-A lightweight, physics-first workspace for studying industrial-scale sensible thermal energy storage. Explore charging and discharging, material assumptions, idealized temperature gradients, energy accounting, interactive charts, animated 3D silo and geometry-constrained capacity screening.
+A lightweight English-language **browser-based** thermal-energy-storage simulator. Explore industrial-scale sensible-heat storage, transient losses and heat delivery, 0-D and exploratory 1-D simulations, interactive 3D silo visualization, idealized material comparisons, capacity screening and scientific evidence.
 
-> **Research prototype, not a certified engineering tool.** No measured field data are included, so numerical tests do not establish experimental accuracy. **Electricity-to-useful-heat efficiency is not electricity-to-electricity round-trip efficiency.** Material data and operating boundaries are illustrative.
+> **Academic research release, not experimentally validated.** This repository is an independent student project, not an official IZTECH website or an engineering design certification. Input material properties are illustrative. Electricity-to-useful-heat is not electricity-to-electricity round-trip efficiency.
 
-## Quick start — Windows (Python 3.13)
+## Open as a website — preferred
 
-1. Download this repository using **Code → Download ZIP** and **extract** the folder.
-2. Double-click **`start.bat`**. The first launch creates a local Python environment and installs dependencies automatically.
-3. Open the local address in the terminal, usually <http://localhost:8501>.
+Deploy this GitHub repository with [Streamlit Community Cloud](https://share.streamlit.io/):
 
-Python **3.13.17** is the intended Windows version. The numerical tests were previously exercised with Python 3.13.5; full Streamlit browser testing on 3.13.17 is still required.
+| Setting | Value |
+| --- | --- |
+| Repository | `bysquizy/Sand-Battery-Project` |
+| Branch | `main` |
+| Main file | `streamlit_app.py` |
+| Python | **3.13** (select in Advanced settings) |
 
-### Manual start — Windows PowerShell
+Click **Deploy**. When a real live URL has been issued, add it here and in the GitHub About website field. A GitHub repository link is **not** itself the web application. Streamlit hosts the Python calculation engine and browser interface; GitHub Pages alone cannot run this backend.
+
+## Windows installation (Python 3.13.17)
+
+Download the repository ZIP, extract the folder and double-click **`start.bat`**. First run installs dependencies. Manual alternative:
 
 ```powershell
 py -3.13 -m venv .venv
@@ -23,61 +30,33 @@ py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
 ```
 
-### macOS / Linux
+## Navigation
 
-```bash
-python3.13 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m streamlit run streamlit_app.py
-```
+- **Overview:** stored thermal energy, delivered heat, energy balance and interactive Sankey.
+- **Thermal Dynamics:** transient charge/hold/discharge and optional 1-D LTE research surrogate.
+- **3D Plant Explorer:** animated idealized silo—not CFD or a construction drawing.
+- **Materials & Optimization:** illustrative solid-media properties and bounded design screening.
+- **Evidence Library:** manufacturer reference plants, methods, APA-style citations and original links.
+- **Project & Team:** IZTECH affiliation, Group 8 credit, milestones and academic-integrity notice.
 
-## Features
+Export the simulation as JSON, an engineering summary as Markdown or the bibliography as TXT.
 
-| Workspace | Description |
-| --- | --- |
-| **Overview** | Stored energy, deliverable thermal energy, heat losses and cycle energy balance. |
-| **Thermal Dynamics** | 0-D energy-balance calculations and optional exploratory 1-D LTE model. |
-| **3D Plant Explorer** | Animated, idealized silo and thermal-state presentation; **not** a CFD prediction. |
-| **Materials & Optimization** | Assumption-labeled media, idealized blends and bounded design screening. |
-| **Methods & Evidence** | Model equations, scientific limitations and references. |
+## Technical validity
 
-Charging input scenarios cover electric resistance heating, constant-irradiance CSP (Fresnel/heliostat), and average-power PV and wind. They are **not live weather forecasts**.
+Theoretical storage capacity differs from **usable thermal delivery**. The 0-D model approximates mean temperature, heat losses and fixed-output operation; the 1-D finite-volume LTE model is a **different, direct-contact topology**, not a calibrated commercial pipe-in-sand exchanger. CSP irradiance and PV/wind capacity factors are scenario inputs, not hourly weather or guaranteed electricity generation. No validated construction, capital-cost or electricity-reconversion claim is made.
 
-## Technical structure
+For full source and limitation notes see [Source Register](docs/SOURCE_REGISTER.md), [Model Validation](docs/MODEL_VALIDATION.md), [Roadmap](docs/ROADMAP.md), and [Changelog](CHANGELOG.md). Primary sources include [Bošnjaković & Santa (2026)](https://doi.org/10.3390/cleantechnol8050165), [Polar Night Energy — Kankaanpää (200 kW, 8 MWh)](https://polarnightenergy.com/reference/worlds-first-sand-battery/), [Pornainen (1 MW, 100 MWh)](https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/), and [NREL (2024)](https://www.nrel.gov/news/features/2024/solution-to-energy-storage-may-be-beneath-your-feet.html). The app includes an expanded bibliography and claim boundaries.
 
-- `streamlit_app.py` — English interface and main entry point
-- `engine/` — thermophysical materials, 0-D and 1-D models, renewable scenarios and optimization
-- `visuals.py` — plots, 3D silo and energy-flow diagrams
-- `tests/` — numerical and visualization construction tests
-- `docs/` — source register, limitations and roadmap
-- `.github/workflows/quality.yml` — automatic Python 3.13 tests
-
-To run the tests:
+## Quality checks (Python 3.13)
 
 ```powershell
 py -3.13 -m pip install -r requirements-dev.txt
 py -3.13 -m pytest -q
+py -3.13 -m compileall -q streamlit_app.py project_info.py visuals.py engine
 ```
 
-Read the [model-validation notes](docs/MODEL_VALIDATION.md), [source register](docs/SOURCE_REGISTER.md), and [roadmap](docs/ROADMAP.md) before reporting simulated values as engineering findings. Numerical consistency tests **do not** establish full experimental validation.
+Tests verify numerical consistency, not experimental accuracy. GitHub Actions runs on pushes and pull requests.
 
-## Online deployment
+## Team and disclosure
 
-Use [Streamlit Community Cloud](https://share.streamlit.io/) with:
-
-- **Repository:** `bysquizy/Sand-Battery-Project`
-- **Branch:** `main`
-- **Main file path:** `streamlit_app.py`
-- **Python version:** `3.13`
-
-This app cannot be hosted as a static GitHub Pages site. A public GitHub repository is not itself a deployed live application.
-
-## Research provenance and integrity
-
-Developed for a three-person ESE101 Group 8 project. A team member reports verbal instructor permission for AI-assisted coding; the course's written AI policy is more restrictive, so scope and disclosure should be confirmed before academic submission. The team remains responsible for reviewing the mathematics, documentation and results.
-
-The current solver was reimplemented after reviewing an earlier project archive and academic references. The older unlicensed monolithic project was not copied into this repository. Relevant literature is catalogued in [SOURCE_REGISTER.md](docs/SOURCE_REGISTER.md).
-
-## Security, contributions and license
-
-Please read the [security policy](.github/SECURITY.md) and [contribution guide](CONTRIBUTING.md). There is no general open-source reuse license at this stage; the three-person team should agree on licensing before inviting redistribution.
+The project team contains three ESE101 Group 8 students. Maintainer **@bysquizy** is the only currently confirmed public identifier; full names may be added with explicit consent. The team reports verbal faculty approval for AI-assisted coding; the general written course handout restricts AI to brainstorming. Confirm the exception's scope and disclose authorized use in any assessed submission. No general open-source license is currently granted. See [Security Policy](.github/SECURITY.md) and [Contributing](CONTRIBUTING.md).
