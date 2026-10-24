@@ -60,3 +60,16 @@ Tests verify numerical consistency, not experimental accuracy. GitHub Actions ru
 ## Team and disclosure
 
 The project team contains three ESE101 Group 8 students. Lead developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)). Other contributor names will be added when explicitly provided. The team reports verbal faculty approval for AI-assisted coding; the general written course handout restricts AI to brainstorming. Confirm the exception's scope and disclose authorized use in any assessed submission. No general open-source license is currently granted. See [Security Policy](.github/SECURITY.md) and [Contributing](CONTRIBUTING.md).
+
+
+## Advanced Engineering Research — v2.0 beta
+
+Use Streamlit's built-in page navigation to open three new optional workspaces:
+
+- **Engineering Research Lab:** reversible sensible-heat exergy; simulated hourly solar/wind dispatch and CSV import; 1-D two-temperature gas/solid LTNE; packed-bed pressure drop; ideal ε–NTU heat exchanger; sensitivity, uncertainty and hypothetical cost of heat.
+- **Material Atlas:** 18 source-labeled/assumption-labeled media, temperature-dependent heat capacity comparisons and ideal mixture scenarios.
+- **Virtual Experiments:** pressure loss vs velocity, optional resolution-refinement checks and insulation vs standby-loss heatmaps.
+
+Full methods, equation bounds and source conflicts: [Advanced Research v2](docs/ADVANCED_RESEARCH_V2.md).
+
+These remain a research **beta**, not field-validated or construction-certified. Streamlit Community Cloud will update automatically after the verified release is merged into main.
