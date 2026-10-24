@@ -31,3 +31,41 @@ COURSE_MILESTONES=(
 )
 def bibliography_text():
     return "References (APA-style; review before academic submission)\n\n"+"\n\n".join(ref["apa"].replace("*","") for ref in REFERENCES)+"\n"
+
+
+# Traceability register: describes the method and the *role* of each reference.
+# Linking a source does not calibrate the software to that source.
+MODEL_EVIDENCE = (
+    {"method":"Sensible heat integral / enthalpy","equation":"Q = m ∫ cp(T) dT",
+     "sources":"NREL report 84728; Bošnjaković & Santa (2026) review",
+     "evidence":"Thermodynamic method; cp parameters in app are illustrative, not NREL DSC measurements",
+     "status":"Analytical method; unvalidated material input"},
+    {"method":"0-D thermal storage balance","equation":"m cp(T) dT/dt = P_charge - P_discharge - UA(T − Tamb)",
+     "sources":"Energy conservation (first law); simplified cylindrical thermal resistance",
+     "evidence":"Numerical energy-closure tests; no field-calibrated heat loss data",
+     "status":"Numerically verified, not experimentally validated"},
+    {"method":"1-D LTE direct-contact bed","equation":"Transient convection/diffusion with a single local gas/solid temperature",
+     "sources":"Bošnjaković & Santa (2026) review",
+     "evidence":"General packed-bed research method; not an embedded pipe model",
+     "status":"Exploratory numerical model"},
+    {"method":"LTNE separate gas–solid 1-D","equation":"Separate gas and solid energy balances; interphase hv(Tgas−Tsolid)",
+     "sources":"Liu et al. (2024) DOI:10.1016/j.est.2023.109957",
+     "evidence":"Methodological reference from a different glass-bead test apparatus",
+     "status":"Numerically exercised, uncalibrated parameters"},
+    {"method":"Packed-bed pressure loss","equation":"Ergun viscous + inertial terms",
+     "sources":"Ergun packed-bed equation (classical engineering correlation)",
+     "evidence":"Direct-contact porous media only; no pipe-geometry hydraulics",
+     "status":"Equation-level verification only"},
+    {"method":"Heat exchanger","equation":"Q = effectiveness × Cmin × (Th,in − Tc,in)",
+     "sources":"Classical effectiveness–NTU method",
+     "evidence":"Isolated steady model, not coupled to whole storage plant",
+     "status":"Analytical check; no device validation"},
+    {"method":"Exergy bound","equation":"X = m ∫ cp(T)(1 − T0/T)dT; Kelvin",
+     "sources":"Second-law exergy analysis",
+     "evidence":"Upper thermodynamic bound; NOT produced electricity",
+     "status":"Analytical method"},
+    {"method":"Input uncertainty / LCOH","equation":"Synthetic input perturbations; annualized costs / useful delivered heat",
+     "sources":"Transparent scenario assumptions; no vendor quotes",
+     "evidence":"Assumed probability distributions and user-set price levels",
+     "status":"Illustrative only"},
+)
