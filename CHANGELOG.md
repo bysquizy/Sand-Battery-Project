@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0 Stable — 24 October 2026
+
+- Consolidated the previously released engineering research prototypes into a stable software baseline for ESE101.
+- Fixed a cloud startup failure by making optional `MODEL_EVIDENCE` import backward-compatible with older project metadata during rolling deploys.
+- Added full Streamlit router-level navigation regression tests across all four pages.
+- Standardized the public release name and citation to `v1.0.0` while preserving historical beta entries.
+- No numerical physics formulas or five runtime dependencies were changed. Scientific assumptions and lack of field validation remain explicit.
+- See `docs/RELEASE_NOTES_V1_STABLE.md` for test evidence and limitations.
+
+
 ## v2.2.0-beta — 24 October 2026
 
 - Adopted a unified responsive UI theme inspired by the team-supplied Claude CSS proposal, preserving reduced-motion support and no external font requests.
