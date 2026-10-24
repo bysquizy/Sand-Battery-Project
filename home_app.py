@@ -67,7 +67,7 @@ def _cached_cycle(d,m):
 with st.sidebar:
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
-    <div class="small">ESE101 · GROUP 08 · v2.0 beta</div>''',unsafe_allow_html=True)
+    <div class="small">ESE101 · GROUP 08 · v2.1 web</div>''',unsafe_allow_html=True)
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
         vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=1000.,step=25.)
@@ -107,7 +107,7 @@ with st.sidebar:
         st.caption(f'Modeled source power: {power:.2f} MW')
     st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
 
-st.markdown('''<div class="info-line"><b>v2.0 Research Laboratory:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
+st.markdown('''<div class="info-line"><b>v2.1 Research Laboratory:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
 st.markdown('<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · V2.1</div>',unsafe_allow_html=True)
 st.caption("Simulation assumptions and uncertainty are disclosed in the Evidence Library. New calculations are illustrative and not equipment design certifications.")
 st.markdown('''<div class="hero"><div class="eyebrow">IZTECH · ESE101 · GROUP 8 <span class="pill">● RESEARCH PLATFORM</span></div>
