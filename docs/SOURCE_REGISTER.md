@@ -31,3 +31,12 @@ Streamlit. (n.d.). *Deploy your app on Community Cloud*. https://docs.streamlit.
 - **Seasonal storage:** stand-by heat retention alone does not prove heat can be delivered continuously at the required outlet temperature.
 - **NREL retention/cost values:** refer to a distinct moving-particle system and modeled cases; do not transfer to this geometry.
 - **No project outputs are experimentally calibrated** without an appropriate source measurement dataset.
+
+
+## Public web-release verification — 24 October 2026
+
+- University name: **İzmir Institute of Technology (IZTECH)**; department: **Department of Energy Systems Engineering**, based on https://ese.iyte.edu.tr/en/technical-and-practical-information/.
+- Kankaanpää: **200 kW thermal / 8 MWh**, 2022, from https://polarnightenergy.com/reference/worlds-first-sand-battery/. Earlier notes mentioning 100 kW are inconsistent with the currently published manufacturer page; do not reproduce 100 kW as verified.
+- Pornainen: **1 MW thermal / 100 MWh**, 2025, crushed soapstone, from https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/.
+- NREL's **>95% thermal retention over five days** is a **modeled commercial-scale outcome for a distinct particle TES architecture** supported by prototype work, NOT a measurement of this project or of Polar Night Energy's plant: https://www.nrel.gov/news/features/2024/solution-to-energy-storage-may-be-beneath-your-feet.html.
+- The bibliography displayed in the website is maintained in `project_info.py`, with APA-style entries and a claim-evidence mapping. None of these public references certifies the app's uncalibrated material inputs or heat delivery figures.
