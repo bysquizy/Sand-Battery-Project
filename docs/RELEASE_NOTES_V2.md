@@ -1,4 +1,4 @@
-# Sand Battery Studio — v2.0 Beta Release Notes
+# Sand Battery Studio — v2.1 Web Research Preview (v2 foundation)
 
 **Release date:** 24 October 2026  
 **Institutional context:** İzmir Institute of Technology (IZTECH), Department of Energy Systems Engineering; ESE101 Group 8.  
@@ -54,3 +54,16 @@ See [ADVANCED_RESEARCH_V2.md](ADVANCED_RESEARCH_V2.md), [MODEL_VALIDATION.md](MO
 2. Run realistic lab-scale input cases and independently verify unit conversions.
 3. Inspect hosted Streamlit app on desktop and mobile; test sliders, visual animations, CSV upload and export.
 4. Disclose all faculty-authorized AI use under the ESE101 course rules.
+
+## v2.1 — Web-first refinement, 24 October 2026
+
+- Added user-supplied live Streamlit link to README, metadata and page navigation.
+- Removed the unused local Windows launcher; no new runtime dependencies.
+- Corrected v1.0 footer and export metadata to v2.1.
+- Updated material chart to a single lighter Plotly bar trace and added interactive maximum-temperature/capacity heatmap.
+- Added validation for equal temperature bounds and clearer quartz transition warnings.
+- Bounded 0-D scenario caching to reduce repeated simulation on Cloud reruns.
+- Correctly attributed the separate Vatajankoski operator (100 kW) and Polar Night Energy developer (200 kW) Kankaanpää thermal-power statements.
+- Modernized GitHub Actions and added web/source-integrity tests. CI evidence is available under the repository Actions tab.
+
+**Caution:** the published website URL comes from the project owner; automated CI can test Streamlit page execution, not guarantee the externally hosted browser rendering or production performance.
