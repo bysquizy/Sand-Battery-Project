@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.0 — 24 October 2026 (research and layout update)
+
+- Added a pure-physics `design_lab` module implementing temperature-dependent passive cooling, module-count tradeoffs, simplified insulation shell volume, radial sidewall thermal profile, reverse MWh sizing and bounded geometry studies.
+- Added English Thermal Design Studio with cooling/loss curves, schematic 3D module arrangement, radial heat map, sizing and CSV/JSON exports.
+- Added full IZTECH ESE101 Group 8 Project & Research Library with original source audit terms, operator/manufacturer discrepancy, APA citations and governing equation context.
+- Reorganized six Streamlit pages into simulation, advanced research and project/evidence groups.
+- Audited user-provided 1,978-line legacy ZIP and explained what was independently implemented vs deferred.
+- Expanded numerical and multipage Streamlit tests. No runtime packages or equipment-validation claims added.
+
+
 ## v1.0.0 Stable — 24 October 2026
 
 - Consolidated the previously released engineering research prototypes into a stable software baseline for ESE101.
