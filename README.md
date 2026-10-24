@@ -1,4 +1,4 @@
-# Sand Battery Project — Sand Battery Studio v1.0 Stable
+# Sand Battery Project — Sand Battery Studio v1.1 Research Update
 
 **İzmir Institute of Technology (IZTECH)** · Department of Energy Systems Engineering · **ESE101 / Group 8** · Fall 2026/27  
 Project developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)) · Team of three
@@ -19,6 +19,17 @@ A **browser-first** Python/Streamlit engineering research platform for industria
 - **Repository hygiene:** scoped Ruff checks, Dependabot, issue/PR templates, contributor conduct policy and formal software citation.
 - The existing 0-D, 1-D, LTNE and related numerical research models are preserved. **Software stability is not experimental validation.** Do not infer new experimental accuracy from a new visual theme.
 
+## v1.1 — Thermal Design Studio and source-linked academic portal
+
+This update is grounded in the **user-supplied legacy sand-battery ZIP**, the team-provided Polar Night Energy research DOCX, the complete Bošnjaković & Santa (2026) review and the enhanced source verification audit. The old public website was **not directly browser-renderable** by the inspection tool; its uploaded source code was reviewed instead. See the [source-to-feature mapping](docs/LEGACY_METHODS_PORTING.md).
+
+Two additional pages are included without new Python runtime packages:
+
+- **Thermal Design Studio:** temperature-dependent passive cooling, cumulative ambient loss, module-count tradeoffs, interactive schematic 3D modular layouts, radial insulation temperatures, time–radius heatmap, theoretical target-MWh volume sizing, constrained silo dimensions, and CSV/JSON scenario exports.
+- **Project & Research Library:** dedicated IZTECH Energy Systems Engineering / ESE101 Group 8 identity; course timeline and contributor credits; governing equations with explicit applicability; manufacturer vs operator specifications; NREL material data caveats; reference categories, source audit principles and downloadable APA-style bibliography.
+
+The new computations are numerical scenarios: no physical prototype, temperature sensor data, certified design, verified field efficiency or experimental material fitting is implied.
+
 ## What's inside
 
 | Web workspace | Calculations and visuals |
@@ -27,7 +38,7 @@ A **browser-first** Python/Streamlit engineering research platform for industria
 | **Engineering Research Lab** | Exergy, hourly synthetic PV/wind heat dispatch with optional CSV, two-temperature LTNE, ε–NTU exchanger, Ergun flow loss, hypothetical Monte Carlo inputs and LCOH |
 | **Material Atlas** | 18 comparison scenarios, provenance labels, cp(T) curves, capacity charts, temperature-sweep heatmap and ideal two-material blending |
 | **Virtual Experiments** | Velocity-pressure comparison, axial mesh sensitivity, insulation and standby heat-loss screening |
-| **Evidence Library** | APA references, manufacturer/utility claims, model equations, assumptions and uncertainty boundaries |
+| **Thermal Design Studio** | 0-D passive cooling, radial wall heat profile, module layouts, energy-target sizing, dimension screening and explanatory Plotly visuals |\n| **Project & Research Library** | Student/team profile, source evidence classifications, governing equations, published field references and APA bibliography |\n| **Evidence Library** | APA references, manufacturer/utility claims, model equations, assumptions and uncertainty boundaries |
 | **Project & Team** | IZTECH, department, ESE101 Group 8 and named lead-developer credit |
 
 **No external AI service, GPU, large ML model, paid weather API or browser plug-in.** The five direct Python dependencies are Streamlit, NumPy, SciPy, Pandas and Plotly. They support the current UI, solvers, tabular data and figures. Test-only Pytest lives in `requirements-dev.txt` and is not required by the hosted app.
@@ -54,3 +65,7 @@ The source runs on Python **3.13**. GitHub Actions automatically installs the fi
 The team reports verbal instructor permission for AI-assisted coding, although the general ESE101 information sheet restricts AI to brainstorming. The team must confirm and disclose the authorized exception for assessed submissions. This is an **independent student project**; it does not claim official university endorsement, experimental performance certification, validated construction safety or third-party intellectual property rights. No general source reuse license has yet been granted.
 
 See [Security policy](.github/SECURITY.md), [Contributing](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [software citation](CITATION.cff), [Changelog](CHANGELOG.md) and [v1.0 stable release notes](docs/RELEASE_NOTES_V1_STABLE.md). MIT/GPL licensing is **not** asserted without agreement of all student contributors.
+
+### Interpretation of the supplied older project
+
+The older project archive contains additional engineering explorations; not all original features can be safely copied or assumed scientifically equivalent. The new capabilities are independently implemented with current model definitions. See [Legacy source mapping](docs/LEGACY_METHODS_PORTING.md) for a precise delivered/deferred comparison.
