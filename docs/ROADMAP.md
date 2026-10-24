@@ -1,6 +1,6 @@
 # Sand Battery Project — Engineering Development Roadmap
 
-**Current release:** Sand Battery Studio **v2.2 Beta Web Research Preview**, 24 October 2026.  
+**Current release:** Sand Battery Studio **v1.0 Stable Software Baseline**, 24 October 2026.  
 **Project:** IZTECH, Department of Energy Systems Engineering · ESE101 Group 8 · Maintainer: Yağız Topaç (@bysquizy).
 
 ## Delivered in v1.0
@@ -63,3 +63,13 @@ The ESE101 course information sheet generally permits AI only for brainstorming.
 - [ ] Obtain team approval for open-source licensing and verify all authorship.
 - [ ] Perform visual browser and mobile QA using the actual deployed website.
 - [ ] Collect measured material data and compatible lab results for calibration; **not done by styling changes**.
+
+## v1.0 stability freeze (24 October 2026)
+
+- [x] Recover from partial/rolling Streamlit metadata updates without losing the dashboard when the optional evidence register is absent.
+- [x] Router-level all-page smoke tests and version label consistency.
+- [x] Keep five runtime dependencies and existing scientific boundaries unchanged.
+- [ ] Confirm live-cloud reload/reboot and check rendered desktop/mobile navigation with the account owner.
+- [ ] Independently validate physical equations using appropriate measured datasets; beyond the software-stability release.
+
+Historic v2.0–v2.2 beta iterations below describe the development sequence; the public software version was rebaselined to v1.0 stable for the current academic milestone.
