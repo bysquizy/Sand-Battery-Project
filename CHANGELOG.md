@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.2.0-beta — 24 October 2026
+
+- Adopted a unified responsive UI theme inspired by the team-supplied Claude CSS proposal, preserving reduced-motion support and no external font requests.
+- Grouped navigation, added onboarding, three presentation scenarios, low-power visualization mode and method/source traceability export.
+- Added GitHub Dependabot, behavioral policy, issue and PR templates, CITATION metadata and development-only Ruff static checks.
+- Kept five runtime dependencies and the existing engineering mathematics unchanged; added web interaction tests.
+- See `docs/RELEASE_NOTES_V22.md` for limitations and postponed model changes.
+
+
 ## v2.1 — 24 October 2026 (web-first research release)
 
 - Linked the owner-supplied public Streamlit site throughout GitHub docs and the multi-page interface.

@@ -1,4 +1,4 @@
-# Sand Battery Project — Sand Battery Studio v2.1
+# Sand Battery Project — Sand Battery Studio v2.2 Beta
 
 **İzmir Institute of Technology (IZTECH)** · Department of Energy Systems Engineering · **ESE101 / Group 8** · Fall 2026/27  
 Project developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)) · Team of three
@@ -8,6 +8,16 @@ Project developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy))
 A **browser-first** Python/Streamlit engineering research platform for industrial sensible-heat storage. **No installation is required to use the live app.** The repository contains the numerical models and reproducible tests.
 
 > **Research demonstration, not a field-validated engineering design.** Results are derived from simplified physics and illustrative material properties. The 1-D direct-contact LTE/LTNE research models are not calibrated representations of commercial closed-pipe sand batteries. Sensible heat, usable thermal heat and thermodynamic exergy are different quantities.
+
+## v2.2 interface and research improvements
+
+- **Shared visual language:** responsive copper/teal engineering theme adapted from a team-submitted UI proposal; no third-party font downloads; reduced-motion and keyboard-focus support.
+- **Guided navigation:** grouped Simulation, Research & Comparison, and Model Verification workspaces plus a quick-start guide.
+- **Faculty demo presets:** three illustrative one-click input configurations; explicitly **not** measured commercial-plant profiles.
+- **Light mode:** skip expensive 3D figures when using a mobile device or slower connection.
+- **Traceable equations:** a downloadable table maps each implemented model to its governing equation, relevant reference, assumption boundary and verification status.
+- **Repository hygiene:** scoped Ruff checks, Dependabot, issue/PR templates, contributor conduct policy and formal software citation.
+- The 0-D, 1-D, LTNE and other numerical formulas are **unchanged** in this UI-quality release. Do not infer new experimental accuracy from a new visual theme.
 
 ## What's inside
 
@@ -43,4 +53,4 @@ The source runs on Python **3.13**. GitHub Actions automatically installs the fi
 
 The team reports verbal instructor permission for AI-assisted coding, although the general ESE101 information sheet restricts AI to brainstorming. The team must confirm and disclose the authorized exception for assessed submissions. This is an **independent student project**; it does not claim official university endorsement, experimental performance certification, validated construction safety or third-party intellectual property rights. No general source reuse license has yet been granted.
 
-See [Security policy](.github/SECURITY.md), [Contributing](CONTRIBUTING.md), [Changelog](CHANGELOG.md) and [v2 release notes](docs/RELEASE_NOTES_V2.md).
+See [Security policy](.github/SECURITY.md), [Contributing](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [software citation](CITATION.cff), [Changelog](CHANGELOG.md) and [v2.2 release notes](docs/RELEASE_NOTES_V22.md). MIT/GPL licensing is **not** asserted without agreement of all student contributors.

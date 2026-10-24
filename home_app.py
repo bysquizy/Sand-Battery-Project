@@ -16,70 +16,51 @@ from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
 from engine.reporting import scenario_markdown
-from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONES, bibliography_text
+from project_info import PROJECT, REFERENCES, FIELD_REFERENCES, COURSE_MILESTONES, MODEL_EVIDENCE, bibliography_text
 
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
 
-st.markdown("""
-<style>
-:root {--copper:#eeb37e;--mint:#58dfc3;--ink:#08111d;--faint:#8ca4b6;}
-html,body,[class*='css'] {font-family:'Segoe UI',system-ui,sans-serif}
-.stApp {background:radial-gradient(ellipse 900px 450px at 75% -200px,rgba(45,124,145,.14),transparent 80%),#08111d;color:#e7eff5;}
-[data-testid='stAppViewContainer'] .main .block-container {padding-top:1.25rem;padding-bottom:4rem;max-width:1480px;}
-[data-testid='stSidebar'] {background:#0c1825;border-right:1px solid #213440;}
-[data-testid='stSidebar'] div[data-testid='stMarkdownContainer'] p {font-size:.89rem;}
-[data-testid='stSidebar'] h3 {font-size:1rem;letter-spacing:.01em;}
-section[data-testid='stSidebar'] .block-container {padding-top:1rem;}
-[data-testid='stMetric'] {background:linear-gradient(130deg,rgba(30,50,63,.93),rgba(14,30,44,.98));border:1px solid #253b48;border-radius:16px;padding:16px 17px;min-height:113px;transition:transform .2s ease,border-color .2s;}
-[data-testid='stMetric']:hover {transform:translateY(-2px);border-color:#ca9a6c;}
-[data-testid='stMetricLabel'] p{font-size:.76rem;color:#9bb1c0;letter-spacing:.025em;font-weight:600;}
-[data-testid='stMetricValue'] {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.7rem;font-weight:800;color:#f0f7fb;}
-div[data-testid='stTabs'] button[role='tab'] {font-size:.89rem;font-weight:700;padding-left:15px;padding-right:15px;color:#93abba;}
-div[data-testid='stTabs'] button[aria-selected='true'] {color:#eeb37e;}
-div[data-testid='stTabs'] [data-baseweb='tab-highlight'] {background-color:#eeb37e;}
-[data-testid='stPlotlyChart'] {border:1px solid #233744;border-radius:17px;background:linear-gradient(145deg,#111e2b,#0b1724);padding:2px 7px;}
-div[data-testid='stExpander'] {border:1px solid #273d4a;border-radius:11px;background:rgba(18,32,45,.62)}
-[data-testid='stAlert'] {border-radius:10px}
-.stButton button[kind='primary'] {background:linear-gradient(105deg,#f2c48e,#df9874);color:#08111d;border:0;font-weight:800;border-radius:10px;}
-.stDownloadButton button {border:1px solid #406274;color:#c7e6ed;border-radius:11px;}
-.hero {position:relative;overflow:hidden;border:1px solid #304652;border-radius:20px;padding:27px 32px;margin:2px 0 24px;background:linear-gradient(110deg,#132e3b 0%,#10222e 55%,#1d2830 100%);}
-.hero:after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;right:-125px;top:-225px;border:55px solid rgba(235,166,105,.10);box-shadow:0 0 110px #4be6c21a;animation:orbit 13s ease-in-out infinite alternate;pointer-events:none;}
-@keyframes orbit{to{transform:translate(-42px,55px) rotate(55deg)}}
-.eyebrow {font-size:.70rem;letter-spacing:.2em;text-transform:uppercase;color:#72ddcb;font-weight:800;}
-.hero h1 {font-family:'Segoe UI',system-ui,sans-serif;font-size:clamp(1.65rem,3.4vw,2.55rem);font-weight:800;margin:.5rem 0;letter-spacing:-.045em;color:#f1f7fc;}
-.hero p {color:#a8bfcd;max-width:700px;font-size:.93rem;line-height:1.7;margin:0;}
-.pill {display:inline-flex;align-items:center;font-size:.7rem;padding:5px 10px;color:#94f6dd;border:1px solid #387a72;background:#143936;border-radius:20px;margin-left:9px;}
-.info-line {border-left:3px solid #eeb37e;background:#12232e;border-radius:0 9px 9px 0;padding:12px 16px;color:#abc1cd;font-size:.86rem;margin:12px 0;}
-.sect {font-family:'Segoe UI',system-ui,sans-serif;font-size:1.12rem;font-weight:800;color:#e9f3f8;margin:15px 0 10px;}
-.label-block {color:#eeb37e;font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.09em;}
-.small {font-size:.81rem;color:#96abba;line-height:1.65;}
-.foot {border-top:1px solid #243947;margin-top:28px;padding-top:16px;color:#8da5b5;font-size:.75rem;line-height:1.8;}
-@media(max-width:680px){.hero{padding:19px}.hero:after{display:none}}
-</style>
-""",unsafe_allow_html=True)
+from ui_theme import inject
+inject()
+
 
 @st.cache_data(max_entries=24,ttl=1800,show_spinner=False)
 def _cached_cycle(d,m):
     """Reuse a valid scenario instead of re-solving on every UI rerun."""
     return simulate_cycle(d,m)
 
+DEMO_PRESETS = {
+    "Industrial thermal store": dict(volume=1000., modules=1, max_temperature=550.,
+                                   standby_days=2., thermal_output=2., charging_power=5., source_index=0),
+    "Compact research study": dict(volume=250., modules=1, max_temperature=450.,
+                                  standby_days=0.5, thermal_output=1., charging_power=2., source_index=0),
+    "CSP-assisted thermal storage": dict(volume=1500., modules=2, max_temperature=500.,
+                                        standby_days=1.5, thermal_output=3., charging_power=5., source_index=1),
+}
+
 with st.sidebar:
+    preset_name = st.selectbox("Illustrative presentation scenario", tuple(DEMO_PRESETS), key="demo_preset")
+    preset = DEMO_PRESETS[preset_name]
+    st.caption("Example configurations only — not measured Finnish plants.")
+    st.divider()
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
     <div class="small">ESE101 · GROUP 08 · v2.1 web</div>''',unsafe_allow_html=True)
+    lightweight = st.toggle("Light mode (skip 3D animation)",value=False,key="low_power_mode",
+                            help="Useful for mobile devices or slower connections.")
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
-        vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=1000.,step=25.)
-        modules=st.number_input('Identical modules',min_value=1,max_value=20,value=1)
+        vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=preset['volume'],step=25.)
+        modules=st.number_input('Identical modules',min_value=1,max_value=20,value=preset['modules'])
         ratio=st.slider('Height / inner radius',.8,6.,3.,.1)
         insulation=st.slider('Insulation thickness · m',.1,2.,.5,.05)
     with st.expander('02  THERMAL CONDITIONS',expanded=True):
         tmin=st.number_input('Minimum useful temperature · °C',min_value=20.,max_value=250.,value=50.,step=10.)
-        tmax=st.number_input('Maximum medium temperature · °C',min_value=180.,max_value=800.,value=550.,step=10.)
+        tmax=st.number_input('Maximum medium temperature · °C',min_value=180.,max_value=800.,value=preset['max_temperature'],step=10.)
         tamb=st.number_input('Ambient temperature · °C',min_value=-30.,max_value=45.,value=15.)
-        standby=st.slider('Standby time · days',0.,30.,2.,.5)
-        output=st.number_input('Useful heat output · MW',min_value=.1,max_value=40.,value=2.,step=.5)
+        standby=st.slider('Standby time · days',0.,30.,preset['standby_days'],.5)
+        output=st.number_input('Useful heat output · MW',min_value=.1,max_value=40.,value=preset['thermal_output'],step=.5)
     with st.expander('03  STORAGE MATERIAL',expanded=True):
         choice=st.selectbox('Storage material',list(MATERIALS))
         material=MATERIALS[choice]
@@ -88,10 +69,10 @@ with st.sidebar:
             pct=st.slider('First material volume fraction · %',0,100,60,5)
             material=blend(material,MATERIALS[other],pct/100,basis='volume')
     with st.expander('04  CHARGING SOURCE',expanded=True):
-        method=st.selectbox('Scenario',('Electric heater','CSP — Fresnel / heliostat','PV + wind — average power'))
+        method=st.selectbox('Scenario',('Electric heater','CSP — Fresnel / heliostat','PV + wind — average power'),index=preset['source_index'])
         eta=.99
         if method=='Electric heater':
-            power=st.number_input('Electrical input power · MW',.2,100.,5.,.2)
+            power=st.number_input('Electrical input power · MW',.2,100.,preset['charging_power'],.2)
         elif method.startswith('CSP'):
             area=st.number_input('Collector aperture · m²',100.,150000.,10000.,500.)
             dni=st.slider('Assumed constant DNI · W/m²',100,1400,850,25)
@@ -162,6 +143,7 @@ with overview:
             {'Term':'Useful thermal delivery (MWh)','Energy':result['useful_heat_mwh']},
             {'Term':'Remaining energy relative to Tmin (MWh)','Energy':result['ending_relative_energy_mwh']}])
         st.dataframe(df,hide_index=True,width='stretch')
+    st.caption('Energy Sankey and time series represent simulated flows. Reported conservation residual checks numerical accounting, not agreement with measured hardware.')
     st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
 
 with thermal:
@@ -193,7 +175,10 @@ with explorer:
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown('<div class="sect">Animated thermal storage module</div>',unsafe_allow_html=True)
-        st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
+        if lightweight:
+            st.info("3D animation is paused in Light mode. Disable Light mode to explore the interactive silo.")
+        else:
+            st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
     with right:
         st.markdown('<div class="sect">Plant geometry</div>',unsafe_allow_html=True)
         st.metric('Internal silo radius',f"{result['radius_m']:.2f} m")
@@ -250,6 +235,13 @@ with science:
 **Material blending:** ideal mass/volume averaging; unverified for composite packing or temperature cycling. 
 **Weather:** fixed DNI or averaged PV/wind capacity factors are scenarios; there is no location-aware solar position or hourly meteorology. 
 **No claims:** electrical reconversion efficiency, structural stability, laboratory-calibrated thermal conductivity, lifetime or actual CAPEX.''')
+    st.markdown('<div class="sect">Governing equations & source traceability</div>',unsafe_allow_html=True)
+    st.caption('These are methodological sources and equation-level checks. They do NOT validate the material properties or demonstrate measured plant performance.')
+    method_table=pd.DataFrame(MODEL_EVIDENCE)
+    st.dataframe(method_table,hide_index=True,use_container_width=True)
+    st.download_button('Download equation–evidence map · CSV',method_table.to_csv(index=False),
+        file_name='sand_battery_method_evidence_map.csv',mime='text/csv',key='method_evidence_export')
+    st.divider()
     st.markdown('<div class="sect">Verified reference installations</div>',unsafe_allow_html=True)
     st.caption('Manufacturer-stated capacities are context, not calibration data for this solver.')
     rows=[{

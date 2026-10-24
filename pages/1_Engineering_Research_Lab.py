@@ -12,11 +12,9 @@ from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
    Exchanger,exchanger,ergun,uncertainty,levelized_heat,LTNE,ltne)
 
 st.set_page_config(page_title="Engineering Research Lab | Sand Battery Studio",page_icon="🔬",layout="wide")
-st.markdown("""<style>
-.stApp{background:linear-gradient(140deg,#091521,#132335 70%,#0c1b2b);color:#e7f1fa}
-.block-container{max-width:1460px;padding-top:1.5rem}
-div[data-testid="stMetric"]{background:#13283a;border:1px solid #334b5b;padding:13px;border-radius:14px}
-</style>""",unsafe_allow_html=True)
+from ui_theme import inject
+inject()
+
 st.caption("IZTECH · ESE101 / GROUP 8 · SAND BATTERY STUDIO / EXPERIMENTAL RESEARCH")
 st.title("Advanced Engineering Laboratory")
 st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
