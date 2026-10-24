@@ -47,6 +47,8 @@ with st.sidebar:
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
     <div class="small">ESE101 · GROUP 08 · v2.1 web</div>''',unsafe_allow_html=True)
+    lightweight = st.toggle("Light mode (skip 3D animation)",value=False,key="low_power_mode",
+                            help="Useful for mobile devices or slower connections.")
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
         vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=preset['volume'],step=25.)
@@ -173,7 +175,10 @@ with explorer:
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown('<div class="sect">Animated thermal storage module</div>',unsafe_allow_html=True)
-        st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
+        if lightweight:
+            st.info("3D animation is paused in Light mode. Disable Light mode to explore the interactive silo.")
+        else:
+            st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
     with right:
         st.markdown('<div class="sect">Plant geometry</div>',unsafe_allow_html=True)
         st.metric('Internal silo radius',f"{result['radius_m']:.2f} m")
