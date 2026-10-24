@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.1 — 24 October 2026 (web-first research release)
+
+- Linked the owner-supplied public Streamlit site throughout GitHub docs and the multi-page interface.
+- Replaced stale version labels, added light, bounded simulation caching and removed a third-party web-font dependency.
+- Rebuilt material-ranking visualization as a lighter single Plotly chart and added temperature/capacity heatmap.
+- Added safeguards for nonphysical temperature bounds and a clear quartz inversion warning.
+- Distinguished Kankaanpää operator's **100 kW / 8 MWh** from the manufacturer's **200 kW / 8 MWh**, without claiming resolution.
+- Removed unused `start.bat`; unchanged five direct Python runtime dependencies for the web platform.
+- Expanded web/source regression tests and CI coverage for the full Streamlit project.
+- Recorded the distinction between numerical code checks, literature-backed model assumptions and absent experimental validation.
+
 ## v2.0.0-beta — 24 October 2026 (research platform)
 
 - Added a modular advanced research engine and optional multipage laboratory.
