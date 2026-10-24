@@ -1,76 +1,46 @@
-# Sand Battery Project — Sand Battery Studio v2.0 Beta
+# Sand Battery Project — Sand Battery Studio v2.1
 
-**İzmir Institute of Technology (IZTECH) · Department of Energy Systems Engineering**  
-**ESE 101 · Group 8 (three students) · Fall 2026/27 · Maintainer: Yağız Topaç ([@bysquizy](https://github.com/bysquizy))**
+**İzmir Institute of Technology (IZTECH)** · Department of Energy Systems Engineering · **ESE101 / Group 8** · Fall 2026/27  
+Project developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)) · Team of three
 
-A lightweight English-language **browser-based v2 research platform** for thermal-energy-storage simulation. Explore industrial-scale sensible-heat storage, transient losses and heat delivery, 0-D and exploratory 1-D simulations, interactive 3D silo visualization, idealized material comparisons, capacity screening and scientific evidence.
+[**Open the live web application ↗**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [Browse source](https://github.com/bysquizy/Sand-Battery-Project) · [Evidence and formulas](docs/ADVANCED_RESEARCH_V2.md)
 
-> **Academic research release, not experimentally validated.** This repository is an independent student project, not an official IZTECH website or an engineering design certification. Input material properties are illustrative. Electricity-to-useful-heat is not electricity-to-electricity round-trip efficiency.
+A **browser-first** Python/Streamlit engineering research platform for industrial sensible-heat storage. **No installation is required to use the live app.** The repository contains the numerical models and reproducible tests.
 
-## Open as a website — preferred
+> **Research demonstration, not a field-validated engineering design.** Results are derived from simplified physics and illustrative material properties. The 1-D direct-contact LTE/LTNE research models are not calibrated representations of commercial closed-pipe sand batteries. Sensible heat, usable thermal heat and thermodynamic exergy are different quantities.
 
-The team reports that this project is already hosted on Streamlit Community Cloud. The public application's **exact** address has not been supplied, so it is not linked here yet. Once confirmed, add the Streamlit URL to this README and to GitHub **About → Website**. Do not guess a deployed URL.
+## What's inside
 
-If deployment must be configured or refreshed, use [Streamlit Community Cloud](https://share.streamlit.io/) with:
-
-| Setting | Value |
+| Web workspace | Calculations and visuals |
 | --- | --- |
-| Repository | `bysquizy/Sand-Battery-Project` |
-| Branch | `main` |
-| Main file | `streamlit_app.py` |
-| Python | **3.13** (select in Advanced settings) |
+| **Dashboard** | Interactive 0-D charging/standby/discharge, energy ledger, Plotly timeline, thermal metrics, animated 3D silo and bounded geometry screening |
+| **Engineering Research Lab** | Exergy, hourly synthetic PV/wind heat dispatch with optional CSV, two-temperature LTNE, ε–NTU exchanger, Ergun flow loss, hypothetical Monte Carlo inputs and LCOH |
+| **Material Atlas** | 18 comparison scenarios, provenance labels, cp(T) curves, capacity charts, temperature-sweep heatmap and ideal two-material blending |
+| **Virtual Experiments** | Velocity-pressure comparison, axial mesh sensitivity, insulation and standby heat-loss screening |
+| **Evidence Library** | APA references, manufacturer/utility claims, model equations, assumptions and uncertainty boundaries |
+| **Project & Team** | IZTECH, department, ESE101 Group 8 and named lead-developer credit |
 
-Select **Deploy** or **Reboot** as appropriate. Verify that the hosted app is pulling the latest `main` commit. A GitHub repository link is **not** itself the web application. Streamlit hosts the Python calculation engine and browser interface; GitHub Pages alone cannot run this backend.
+**No external AI service, GPU, large ML model, paid weather API or browser plug-in.** The five direct Python dependencies are Streamlit, NumPy, SciPy, Pandas and Plotly. They support the current UI, solvers, tabular data and figures. Test-only Pytest lives in `requirements-dev.txt` and is not required by the hosted app.
 
-## Windows installation (Python 3.13.17)
+## Use on the web
 
-Download the repository ZIP, extract the folder and double-click **`start.bat`**. First run installs dependencies. Manual alternative:
+Open **https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/**. From the left-hand navigation, choose the desired engineering workspace. Parameter changes update the calculations; heavier numerical experiments run only when requested. Outputs can be exported as JSON, Markdown or CSV where available.
 
-```powershell
-py -3.13 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
-```
+The website is configured from **GitHub `main` → `streamlit_app.py`**. Streamlit Community Cloud automatically deploys updates from the repository. No local installation or separate backend server is necessary for visitors. If a new version seems stale, reload the browser or use **Manage app → Reboot app** as its owner.
 
-## Navigation
+## Engineering evidence: what is and isn't confirmed
 
-**New v2 pages** are available through Streamlit's built-in navigation:
+- **Kankaanpää, 2022:** utility operator Vatajankoski describes **100 kW thermal** / **8 MWh**, while system developer Polar Night Energy describes **200 kW thermal** / **8 MWh**. These are **source-attributed inconsistent power figures**, potentially reflecting different definitions; neither is a calibration measurement for this simulator. [Operator](https://www.vatajankoski.fi/en/projects/sand-battery/) · [Developer](https://polarnightenergy.com/reference/worlds-first-sand-battery/).
+- **Pornainen, 2025:** Polar Night Energy's published description states **1 MW thermal** / **100 MWh**. [Manufacturer report](https://polarnightenergy.com/news/worlds-largest-sand-battery-now-in-operation/).
+- **NREL specific silica-sand sample:** report 84728 gives **1,543 kg/m³ bulk density**, describes measured cp(T) and the quartz transition around **573 °C**. Our *illustrative linear cp(T)* is **not** that experimental curve. [NREL report 84728](https://www.nrel.gov/docs/fy23osti/84728.pdf).
+- **Thermal-model literature:** [Bošnjaković & Santa (2026)](https://doi.org/10.3390/cleantechnol8050165) surveys technical systems and research gaps; [Liu et al. (2024)](https://doi.org/10.1016/j.est.2023.109957) concerns experimentally studied packed-bed LTNE physics with a different apparatus. Neither independently certifies this app's chosen parameters.
 
-- **Engineering Research Lab:** exergy, hypothetical hourly renewable dispatch with optional CSV inputs, direct-contact LTNE solver, Ergun flow loss, ε–NTU heat exchanger, uncertainty distributions and scenario LCOH.
-- **Material Atlas:** 18 material scenarios, including **13 additional illustration-only media** with source/provenance flags, cp(T) curves and ideal mixtures.
-- **Virtual Experiments:** pressure drop, grid sensitivity and insulation–standby heat loss.
+Details: [Source register](docs/SOURCE_REGISTER.md) · [Advanced equations and limits](docs/ADVANCED_RESEARCH_V2.md) · [Model verification](docs/MODEL_VALIDATION.md) · [Roadmap](docs/ROADMAP.md).
 
-The original interface remains available:
+## Developers and academic integrity
 
-- **Dashboard** (`home_app.py`, routed by `streamlit_app.py`): stored thermal energy, delivered heat, energy balance and interactive Sankey.
-- **Thermal Dynamics:** transient charge/hold/discharge and optional 1-D LTE research surrogate.
-- **3D Plant Explorer:** animated idealized silo—not CFD or a construction drawing.
-- **Materials & Optimization:** illustrative solid-media properties and bounded design screening.
-- **Evidence Library:** manufacturer reference plants, methods, APA-style citations and original links.
-- **Project & Team:** IZTECH affiliation, Group 8 credit, milestones and academic-integrity notice.
+The source runs on Python **3.13**. GitHub Actions automatically installs the five runtime dependencies plus Pytest and runs syntax, numerical and Streamlit page-startup checks. To repeat locally *only if you're developing the source*, install `requirements-dev.txt` and run `python -m pytest -q`.
 
-Export the simulation as JSON, an engineering summary as Markdown or the bibliography as TXT.
+The team reports verbal instructor permission for AI-assisted coding, although the general ESE101 information sheet restricts AI to brainstorming. The team must confirm and disclose the authorized exception for assessed submissions. This is an **independent student project**; it does not claim official university endorsement, experimental performance certification, validated construction safety or third-party intellectual property rights. No general source reuse license has yet been granted.
 
-## Technical validity
-
-Theoretical storage capacity differs from **usable thermal delivery**. The 0-D model approximates mean temperature, heat losses and fixed-output operation; the 1-D finite-volume LTE model is a **different, direct-contact topology**, not a calibrated commercial pipe-in-sand exchanger. CSP irradiance and PV/wind capacity factors are scenario inputs, not hourly weather or guaranteed electricity generation. No validated construction, capital-cost or electricity-reconversion claim is made.
-
-For governing equations, explicit scope limits and source conflicts, see [Advanced Research v2](docs/ADVANCED_RESEARCH_V2.md). For the original thermal core see [Source Register](docs/SOURCE_REGISTER.md), [Model Validation](docs/MODEL_VALIDATION.md), [Roadmap](docs/ROADMAP.md), and [Changelog](CHANGELOG.md). Primary sources include [Bošnjaković & Santa (2026)](https://doi.org/10.3390/cleantechnol8050165), [Polar Night Energy — Kankaanpää (200 kW, 8 MWh)](https://polarnightenergy.com/reference/worlds-first-sand-battery/), [Pornainen (1 MW, 100 MWh)](https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/), and [NREL (2024)](https://www.nrel.gov/news/features/2024/solution-to-energy-storage-may-be-beneath-your-feet.html). The app includes an expanded bibliography and claim boundaries.
-
-## Quality checks (Python 3.13)
-
-```powershell
-py -3.13 -m pip install -r requirements-dev.txt
-py -3.13 -m pytest -q
-py -3.13 -m compileall -q streamlit_app.py project_info.py visuals.py engine
-```
-
-The v2 GitHub Actions pipeline passed **42 automated tests** on Python 3.13, including Streamlit page smoke tests. Tests verify code execution and numerical consistency, not physical experimental accuracy. GitHub Actions runs on pushes and pull requests.
-
-## Team and disclosure
-
-The project team contains three ESE101 Group 8 students. Lead developer: **Yağız Topaç** ([@bysquizy](https://github.com/bysquizy)). Other contributor names will be added when explicitly provided. The team reports verbal faculty approval for AI-assisted coding; the general written course handout restricts AI to brainstorming. Confirm the exception's scope and disclose authorized use in any assessed submission. No general open-source license is currently granted. See [Security Policy](.github/SECURITY.md) and [Contributing](CONTRIBUTING.md).
-
-## Release status
-
-**v2.0 Beta**: feature-complete for the current research demonstrations, with source-aware warnings and CI checks. Not production- or experiment-certified; user-side visual QA and independent field data validation remain open. See [Release Notes](docs/RELEASE_NOTES_V2.md) and [Roadmap](docs/ROADMAP.md).
+See [Security policy](.github/SECURITY.md), [Contributing](CONTRIBUTING.md), [Changelog](CHANGELOG.md) and [v2 release notes](docs/RELEASE_NOTES_V2.md).
