@@ -1,6 +1,6 @@
 # Model Specification, Numerical Verification and Validation Gaps
 
-**Status: 1.0-alpha numerical test prototype · 24 October 2026**
+**Status: v1.0 academic web research release · 24 October 2026; NOT experimentally validated**
 
 ## Model domains
 
