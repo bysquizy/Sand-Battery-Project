@@ -1,4 +1,4 @@
-name: Python 3.13 quality checks
+name: Python 3.13 research QA
 
 on:
   push:
@@ -9,21 +9,28 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
-    name: Numerical tests and syntax
+  verify:
+    name: Numerical models and Streamlit page startup
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - name: Check out project
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Set up Python 3.13
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
           cache: pip
-      - name: Install dependencies
+      - name: Install runtime and test dependencies
         run: python -m pip install -r requirements-dev.txt
-      - name: Compile application and engine
-        run: python -m compileall -q streamlit_app.py visuals.py engine
-      - name: Run engineering tests
+      - name: Compile all web pages and models
+        run: python -m compileall -q streamlit_app.py home_app.py project_info.py visuals.py pages engine
+      - name: Numerical and web-entry tests
         run: python -m pytest -q
