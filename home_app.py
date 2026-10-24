@@ -30,22 +30,35 @@ def _cached_cycle(d,m):
     """Reuse a valid scenario instead of re-solving on every UI rerun."""
     return simulate_cycle(d,m)
 
+DEMO_PRESETS = {
+    "Industrial thermal store": dict(volume=1000., modules=1, max_temperature=550.,
+                                   standby_days=2., thermal_output=2., charging_power=5., source_index=0),
+    "Compact research study": dict(volume=250., modules=1, max_temperature=450.,
+                                  standby_days=0.5, thermal_output=1., charging_power=2., source_index=0),
+    "CSP-assisted thermal storage": dict(volume=1500., modules=2, max_temperature=500.,
+                                        standby_days=1.5, thermal_output=3., charging_power=5., source_index=1),
+}
+
 with st.sidebar:
+    preset_name = st.selectbox("Illustrative presentation scenario", tuple(DEMO_PRESETS), key="demo_preset")
+    preset = DEMO_PRESETS[preset_name]
+    st.caption("Example configurations only — not measured Finnish plants.")
+    st.divider()
     st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
     <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
     <div class="small">ESE101 · GROUP 08 · v2.1 web</div>''',unsafe_allow_html=True)
     st.divider()
     with st.expander('01  STORAGE GEOMETRY',expanded=True):
-        vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=1000.,step=25.)
-        modules=st.number_input('Identical modules',min_value=1,max_value=20,value=1)
+        vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=preset['volume'],step=25.)
+        modules=st.number_input('Identical modules',min_value=1,max_value=20,value=preset['modules'])
         ratio=st.slider('Height / inner radius',.8,6.,3.,.1)
         insulation=st.slider('Insulation thickness · m',.1,2.,.5,.05)
     with st.expander('02  THERMAL CONDITIONS',expanded=True):
         tmin=st.number_input('Minimum useful temperature · °C',min_value=20.,max_value=250.,value=50.,step=10.)
-        tmax=st.number_input('Maximum medium temperature · °C',min_value=180.,max_value=800.,value=550.,step=10.)
+        tmax=st.number_input('Maximum medium temperature · °C',min_value=180.,max_value=800.,value=preset['max_temperature'],step=10.)
         tamb=st.number_input('Ambient temperature · °C',min_value=-30.,max_value=45.,value=15.)
-        standby=st.slider('Standby time · days',0.,30.,2.,.5)
-        output=st.number_input('Useful heat output · MW',min_value=.1,max_value=40.,value=2.,step=.5)
+        standby=st.slider('Standby time · days',0.,30.,preset['standby_days'],.5)
+        output=st.number_input('Useful heat output · MW',min_value=.1,max_value=40.,value=preset['thermal_output'],step=.5)
     with st.expander('03  STORAGE MATERIAL',expanded=True):
         choice=st.selectbox('Storage material',list(MATERIALS))
         material=MATERIALS[choice]
@@ -54,10 +67,10 @@ with st.sidebar:
             pct=st.slider('First material volume fraction · %',0,100,60,5)
             material=blend(material,MATERIALS[other],pct/100,basis='volume')
     with st.expander('04  CHARGING SOURCE',expanded=True):
-        method=st.selectbox('Scenario',('Electric heater','CSP — Fresnel / heliostat','PV + wind — average power'))
+        method=st.selectbox('Scenario',('Electric heater','CSP — Fresnel / heliostat','PV + wind — average power'),index=preset['source_index'])
         eta=.99
         if method=='Electric heater':
-            power=st.number_input('Electrical input power · MW',.2,100.,5.,.2)
+            power=st.number_input('Electrical input power · MW',.2,100.,preset['charging_power'],.2)
         elif method.startswith('CSP'):
             area=st.number_input('Collector aperture · m²',100.,150000.,10000.,500.)
             dni=st.slider('Assumed constant DNI · W/m²',100,1400,850,25)
