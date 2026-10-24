@@ -104,6 +104,8 @@ with st.sidebar:
     st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
 
 st.markdown('''<div class="info-line"><b>v2.0 Research Laboratory:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
+st.markdown('<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · V2.1</div>',unsafe_allow_html=True)
+st.caption("Simulation assumptions and uncertainty are disclosed in the Evidence Library. New calculations are illustrative and not equipment design certifications.")
 st.markdown('''<div class="hero"><div class="eyebrow">IZTECH · ESE101 · GROUP 8 <span class="pill">● RESEARCH PLATFORM</span></div>
 <h1>Design the next era of thermal storage.</h1>
 <p>Explore industrial-scale sand batteries through physics-based simulation, high-temperature materials, thermal dynamics and constraint-driven design screening. Built for clarity, not complexity.</p></div>''',unsafe_allow_html=True)
@@ -256,7 +258,7 @@ with science:
         "Reference URL":site["url"],
     } for site in FIELD_REFERENCES]
     st.dataframe(pd.DataFrame(rows),hide_index=True,use_container_width=True)
-    st.info('Reference correction: Kankaanpää = 200 kW and 8 MWh according to its current manufacturer project page; older 100 kW notes are not confirmed.')
+    st.info('Kankaanpää source discrepancy: Polar Night Energy lists 200 kW / 8 MWh; operator Vatajankoski lists 100 kW / 8 MWh. Different rating definitions may apply; the discrepancy is unresolved. Neither figure calibrates our model.')
     st.markdown('<div class="sect">Evidence Library · APA references</div>',unsafe_allow_html=True)
     st.caption('Primary sources, peer-reviewed work, manufacturer statements and software documentation are categorized separately.')
     for category in dict.fromkeys(r["group"] for r in REFERENCES):
@@ -288,14 +290,15 @@ with team:
     st.markdown('<div class="sect">Course milestones</div>',unsafe_allow_html=True)
     st.dataframe(pd.DataFrame(COURSE_MILESTONES,columns=['Date','Tentative ESE101 milestone']),hide_index=True,use_container_width=True)
     st.caption('Dates from the uploaded tentative course calendar; Teams updates may supersede them.')
+    st.link_button('Open the live web application ↗',PROJECT['public_app'])
     st.markdown('**Project objective:** Analyze sensible-heat storage, losses, thermal delivery and constrained geometrical capacity optimization with transparent input assumptions.')
     st.markdown('**Academic integrity:** The team reports verbal permission for AI-assisted coding. The written course sheet generally limits AI to brainstorming; clarify and disclose the authorized exception before academic submission.')
     st.link_button('Visit the project on GitHub ↗','https://github.com/bysquizy/Sand-Battery-Project')
 
-payload={'version':'1.0','design':asdict(design),'material':asdict(material),
+payload={'version':'2.1-web','design':asdict(design),'material':asdict(material),
          'results':{k:float(v) for k,v in result.items() if isinstance(v,(int,float,np.floating))},
-         'status':'research-preview; not experimentally validated'}
+         'status':'numerical-research-preview; not experimentally validated'}
 st.download_button('↓  Export current simulation · JSON',json.dumps(payload,indent=2),
                    file_name='sand_battery_scenario.json',mime='application/json')
 st.download_button('↓ Export engineering summary · Markdown',scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
-st.markdown('<div class="foot">SAND BATTERY STUDIO v1.0 · IZTECH / DEPARTMENT OF ENERGY SYSTEMS ENGINEERING · ESE101 GROUP 8<br>Maintainer: Yağız Topaç (@bysquizy) · Independent research demonstration · Not experimentally validated or university endorsed.</div>',unsafe_allow_html=True)
+st.markdown('<div class="foot">SAND BATTERY STUDIO v2.1 · IZTECH / DEPARTMENT OF ENERGY SYSTEMS ENGINEERING · ESE101 GROUP 8<br>Maintainer: Yağız Topaç (@bysquizy) · Independent research demonstration · Not experimentally validated or university endorsed.</div>',unsafe_allow_html=True)
