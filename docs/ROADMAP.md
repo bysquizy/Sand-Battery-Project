@@ -1,43 +1,54 @@
-# Sand Battery Project — Release and Research Roadmap
+# Sand Battery Project — Engineering Development Roadmap
 
-**Current release: v1.0 academic web research simulator (24 October 2026).**
+**Current release:** Sand Battery Studio **v2.0 Beta**, 24 October 2026.  
+**Project:** IZTECH, Department of Energy Systems Engineering · ESE101 Group 8 · Maintainer: Yağız Topaç (@bysquizy).
 
-## v1.0 — Delivered software
+## Delivered in v1.0
 
-- English Python 3.13 / Streamlit interface, responsive dark theme, Plotly graphics and animated silo.
-- 0-D sensible-heat charge/standby/discharge solver with an audited energy ledger.
-- Optional exploratory direct-contact 1-D LTE model (**not** a pipe-in-sand model calibration).
-- Ideal material blends, source scenarios, constrained capacity screening and deterministic scenario export.
-- ESE101 Group 8 identity, source-linked research, manufacturer reference installations and APA bibliography.
-- GitHub Actions engineering tests plus headless Streamlit AppTest.
+- Responsive, English-language Python 3.13 / Streamlit web application.
+- Transient 0-D sensible-heat charge/hold/discharge; auditable input, loss and useful-output ledger.
+- Exploratory direct-contact 1-D LTE, animated 3D silo, materials comparison and constrained geometry screening.
+- University identification, source links, APA-style evidence catalogue and technical exports.
 
-**Status:** Research release; not experimentally validated, physically certified or university-endorsed.
+## Delivered in v2.0 Beta
 
-## v1.1 — Model verification
+- Exergy upper bound, temperature-dependent enthalpy inversion and hypothetical source/heat-demand dispatch.
+- Exploratory 1-D **LTNE** separated gas/solid temperature model, not calibrated for the closed-loop pipe architecture.
+- Packed-bed Ergun pressure loss, ideal ε–NTU exchanger, input uncertainty and scenario LCOH tools.
+- Material Atlas: 18 total medium scenarios, including 13 clearly hypothetical comparison entries.
+- Virtual experiments: mesh sensitivity, velocity/pressure analysis, standby/insulation thermal-loss screening.
+- Three new multipage Streamlit workspaces and **42/42 successful Python 3.13 GitHub automated tests**, including page-start smoke tests.
 
-1. Collect traceable temperature-dependent medium properties and uncertainty bands.
-2. Run independent 1-D conservation, time-step and mesh-convergence audits.
-3. Add realistic exchanger outlet-temperature and pinch limitations.
-4. Expand parametric sensitivity and uncertainty presentation.
+**Scientific status:** models are numerically exercised but not experimentally validated, a structural safety evaluation, a guaranteed performance prediction, or investment guidance.
 
-## v1.2 — Better physical architecture
+## v2.1 — Scientific strengthening (not yet implemented)
 
-1. Add separate fluid/solid temperatures (LTNE) with defensible correlations.
-2. Clearly separate pipe-in-sand closed-loop technology from direct-contact packed-bed concepts.
-3. Use sourced time-series CSP/PV/wind data with correct kW, kWh and time-zone conventions.
-4. Explore operational scheduling rather than assuming average renewable power is firm capacity.
+1. Add experimentally measured, source-cited temperature-dependent cp, effective conductivity and sample packing densities (with operating ranges).
+2. Include enthalpy changes across the α–β quartz inversion when modeling quartz near 573 °C.
+3. Expand conservation, mesh/time-step refinement and uncertainty analysis for 0-D, LTE and LTNE models.
+4. Add realistic useful-outlet temperature, pressure-flow coupling and heat-exchanger pinch constraints.
+5. Add measurement comparison from accessible, compatible laboratory datasets; report fit error and validation limitations.
 
-## v1.3 — Industrial techno-economics
+## v2.2 — Industrial system model (not yet implemented)
 
-1. Add transparent cost-year and price-range scenarios.
-2. Compare heat grade, capacity, power, insulation losses, land/geometry constraints and cost.
-3. Document tradeoffs and multi-objective design screening.
-4. Seek measured dataset for experimental comparison; label any absence honestly.
+1. Differentiate *closed pipe heat transfer in static sand* and *direct-contact packed-bed flow* in both physics and the interface.
+2. Evaluate time-stamped real CSP/PV/wind resource data and representative thermal load profiles.
+3. Add realistic charge scheduling, parasitic electric consumption, mechanical/insulation safety and material compatibility checks.
+4. Extend multi-objective Pareto analyses for thermal delivery, cost, heat loss and industrial footprints.
 
-## ESE101 tentative milestones
+## Academic deadlines (tentative course calendar)
 
-- 17 November 2026 — Interim project report.
-- 5 January 2027 — Project poster presentation in English.
-- 12 January 2027 — Final project report, APA references, max ten pages excluding cover and references.
+- **17 November 2026:** Interim Project Report.
+- **5 January 2027:** English project poster presentation.
+- **12 January 2027:** Final Project Report, APA references and ten-page body limit, excluding cover/references.
 
-**Academic integrity:** The standard course sheet limits AI to brainstorming; the team reports verbal permission to use AI for code. Clarify the instructor exception in writing and disclose permitted AI usage for assessed deliverables.
+The ESE101 course information sheet generally permits AI only for brainstorming. The team reports verbal faculty approval for coding assistance; confirm the exact exception and disclose approved use in assessed submissions.
+
+## Release checklist
+
+- [x] GitHub v2 code merged into main.
+- [x] Python 3.13 GitHub automated tests and multipage startup tests passing.
+- [x] Source-specific claims and model assumptions documented.
+- [ ] Public Streamlit URL supplied and live browser behavior checked by the team.
+- [ ] Experimental calibration and independently verified input-property datasets.
+- [ ] Remaining two team-member names and faculty advisor details confirmed.
