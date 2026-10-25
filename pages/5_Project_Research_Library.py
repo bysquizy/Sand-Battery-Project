@@ -121,7 +121,7 @@ with case_studies:
         st.write("NREL report 84728 discusses a particular high-purity silica particle sample, and gives material-specific measurements rather than universal numbers for all sand or crushed aggregates.")
         st.warning("Do not treat NREL modeled retention, or a different packed-bed prototype, as measured thermal efficiency of our Streamlit simulator.")
         st.link_button("NREL report 84728", "https://www.nrel.gov/docs/fy23osti/84728.pdf")
-    st.caption("Each external statement is tagged as laboratory research, manufacturer specification or operator report. Commercial capacity and rated power alone cannot validate thermal transients.")
+    st.caption("Each external statement is tagged by source type. Commercial capacity and rated power are not a calibration dataset and cannot validate thermal transients.")
 
 with sources:
     st.markdown("### Your research material, organized")
