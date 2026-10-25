@@ -9,7 +9,7 @@ from engine.research_v2 import exergy_mwh
 st.set_page_config(page_title='Material Atlas | Sand Battery Studio',page_icon='🧱',layout='wide')
 from ui_theme import inject
 inject()
-st.caption('IZTECH / ESE101 GROUP 8 · SAND BATTERY MATERIAL ATLAS')
+st.caption('SAND BATTERY STUDIO · MATERIAL ATLAS')
 st.title('Materials, Density & Capacity')
 st.warning("Additional granular media are hypothetical screening inputs. Do not use material curves or maximum temperatures for engineering specification without testing.")
 all_materials={**MATERIALS,**SCENARIOS}
