@@ -35,7 +35,7 @@ def test_grouped_web_navigation_and_onboarding():
     router = (ROOT / "streamlit_app.py").read_text(encoding="utf-8")
     assert 'st.navigation(pages, position="sidebar"' in router
     assert "Advanced Research" in router
-    assert "Project & Evidence" in router
+    assert "Research & Sources" in router
     assert "Getting started" in router
     assert PROJECT["public_app"] in router
 
