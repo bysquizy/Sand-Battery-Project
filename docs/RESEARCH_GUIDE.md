@@ -39,7 +39,7 @@ These expressions describe different quantities. A heat store's first-law heat r
 
 The submitted *Enhanced Source Check and Research Audit* uses **P1/P2/S1/S2/U** to describe evidence provenance; use **MATCH / QUALIFY / MISATTRIBUTED / CONTRADICTED / NOT LOCATED / UNRESOLVED** to describe how a particular claim relates to a particular source. A manufacturer statement graded P2 is still a company statement, not an independently measured validation.
 
-**Source-disagreement example:** The Kankaanpää utility-operator description presents **100 kW / 8 MWh** while Polar Night Energy presents **200 kW / 8 MWh**. The mismatch must be retained with both original links until definitions are reconciled:
+**Source-disagreement example:** The Kankaanpää utility operator **Vatajankoski** describes **100 kW / 8 MWh** while system developer **Polar Night Energy** presents **200 kW / 8 MWh**. The mismatch must be retained with both original links until definitions are reconciled:
 - https://www.vatajankoski.fi/en/projects/sand-battery/
 - https://polarnightenergy.com/reference/worlds-first-sand-battery/
 
