@@ -30,4 +30,4 @@ def test_model_source_docs_present():
     assert (ROOT/"docs/ADVANCED_RESEARCH_V2.md").exists()
     assert (ROOT/"docs/RELEASE_NOTES_V2.md").exists()
     assert "hypothetical" in (ROOT/"README.md").read_text().lower()
-    assert "operator" in (ROOT/"home_app.py").read_text().lower()
+    assert "operator" in (ROOT/"pages/5_Project_Research_Library.py").read_text().lower()
