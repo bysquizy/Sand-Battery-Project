@@ -10,7 +10,7 @@ from engine.research_v2 import LTNE,ltne,ergun
 st.set_page_config(page_title='Virtual Experiments | Sand Battery Studio',page_icon='🧪',layout='wide')
 from ui_theme import inject
 inject()
-st.caption('IZTECH · ESE101 · GROUP 8 / NUMERICAL EXPERIMENT WORKBENCH')
+st.caption('SAND BATTERY STUDIO · NUMERICAL EXPERIMENTS')
 st.title('Virtual Experiments & Model Verification')
 st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
 air,grid,loss=st.tabs(['💨 Ergun & Fan','🧮 Grid Refinement','♨ Insulation vs Standby'])
