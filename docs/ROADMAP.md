@@ -1,6 +1,6 @@
 # Sand Battery Project — Engineering Development Roadmap
 
-**Current release:** Sand Battery Studio **v1.1 Research Update**, 24 October 2026.  
+**Current release:** Sand Battery Studio **v1.2 Research Hub Update**, 24 October 2026.  
 **Project:** IZTECH, Department of Energy Systems Engineering · ESE101 Group 8 · Maintainer: Yağız Topaç (@bysquizy).
 
 ## Delivered in v1.0
@@ -83,3 +83,12 @@ Historic v2.0–v2.2 beta iterations below describe the development sequence; th
 - [ ] Legacy multi-configuration JSON import and comparison requires separate schema security review.
 - [ ] Independently inspect the original and new live site visually; the site URLs were not readable through available automated web inspection.
 - [ ] Obtain measured material cp(T) and geometry data for meaningful experimental validation.
+
+## v1.2 — Research Hub and simplified group profile
+
+- [x] Show only Group 8 and Yağız Topaç, Semih Cenk, Fatma Ovacık on the public team page.
+- [x] Remove unnecessary academic calendar, repeated identity and source material from the Dashboard.
+- [x] Present structured source-grounded research briefs, model boundaries and searchable APA links.
+- [x] Expose canonical GitHub source URL via explicit application buttons.
+- [ ] If the native Streamlit toolbar GitHub icon points to another repository, update the Cloud deployment source (platform control, not app code).
+- [ ] Acquire measured material/plant data before asserting experimental physical validation.
