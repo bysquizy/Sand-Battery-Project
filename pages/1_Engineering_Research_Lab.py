@@ -15,7 +15,7 @@ st.set_page_config(page_title="Engineering Research Lab | Sand Battery Studio",p
 from ui_theme import inject
 inject()
 
-st.caption("IZTECH · ESE101 / GROUP 8 · SAND BATTERY STUDIO / EXPERIMENTAL RESEARCH")
+st.caption("SAND BATTERY STUDIO · ADVANCED RESEARCH")
 st.title("Advanced Engineering Laboratory")
 st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
 st.warning("The 1-D gas/solid packed-bed model is not a calibrated closed-loop pipe-in-sand design. Material properties are approximate and require independent verification.")
