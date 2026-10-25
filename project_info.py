@@ -6,6 +6,8 @@ PROJECT={
 "course":"ESE 101 — Introduction to Energy Systems Engineering",
 "academic_year":"Fall 2026/27","group":"Group 8","team_size":3,
 "lead_github":"@bysquizy","lead_name":"Yağız Topaç",
+"members":("Yağız Topaç", "Semih Cenk", "Fatma Ovacık"),
+"repository":"https://github.com/bysquizy/Sand-Battery-Project",
 "public_app":"https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/","advisor":"Not specified — confirmation pending",
 "affiliation_notice":"Independent student research project for an IZTECH course. Not an official university service or endorsed industrial design.",
 }
