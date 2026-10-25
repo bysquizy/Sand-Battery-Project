@@ -19,7 +19,7 @@ from ui_theme import inject
 
 st.set_page_config(page_title="Thermal Design Studio | Sand Battery", layout="wide", page_icon="📐")
 inject()
-st.caption("IZTECH  /  ESE101 GROUP 8   •   ENGINEERING TOOLKIT")
+st.caption("SAND BATTERY STUDIO  /  THERMAL DESIGN")
 st.title("Thermal Design Studio")
 st.write("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.")
 st.info("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.")

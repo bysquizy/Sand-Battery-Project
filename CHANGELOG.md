@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.0 — 25 October 2026 (Research Hub and team information)
+
+- Added the Group 8 contributor names: Yağız Topaç, Semih Cenk and Fatma Ovacık.
+- Rebuilt the Research Hub as eight concise review-grounded topics, method/evidence maps, manufacturer vs operator system context and searchable APA sources.
+- Removed duplicated academic identity, timeline and bibliography tabs from the Engineering Dashboard; kept it focused on numerical results.
+- Reorganized sidebar navigation, added a prominent canonical GitHub link and published the Streamlit native-repository-link limitation.
+- Condensed README and created `docs/RESEARCH_GUIDE.md` and pure `research_notes.py` scientific summaries.
+- No new runtime libraries and no modifications to existing physical equations; model limitations remain explicit.
+
+
 ## v1.1.0 — 24 October 2026 (research and layout update)
 
 - Added a pure-physics `design_lab` module implementing temperature-dependent passive cooling, module-count tradeoffs, simplified insulation shell volume, radial sidewall thermal profile, reverse MWh sizing and bounded geometry studies.
