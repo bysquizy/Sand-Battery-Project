@@ -1,6 +1,5 @@
 """Stage 3: independent physics, model-domain and regression checks."""
 from dataclasses import replace
-import math
 from pathlib import Path
 
 import numpy as np
