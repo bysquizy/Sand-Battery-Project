@@ -120,7 +120,7 @@ def simulate_closed_pipe(
     if loop is None:
         loop = PipeLoop(
             useful_outlet_c=design.minimum_c,
-            return_inlet_c=max(design.ambient_c, design.minimum_c - 20),
+            return_inlet_c=design.minimum_c - 20,
             hot_inlet_c=design.maximum_c + 100,
         )
     info = pipe_transfer(loop, design)
