@@ -62,10 +62,10 @@ if study == 'Exergy':
     fig=go.Figure()
     fig.add_trace(go.Scatter(x=ts,y=capacity,mode='lines',name='Stored thermal energy',line=dict(color='#e8a670',width=4)))
     fig.add_trace(go.Scatter(x=ts,y=ex,mode='lines',name='Exergy upper bound',line=dict(color='#67dcc9',width=4)))
-    fig.update_layout(template='plotly_dark',height=380,xaxis_title=tr(tr("Maximum temperature (°C)","Maksimum sıcaklık (°C)"),"Maksimum sıcaklık (°C)"),yaxis_title='MWh')
+    fig.update_layout(template='plotly_dark',height=380,xaxis_title=tr("Maximum temperature (°C)","Maksimum sıcaklık (°C)"),yaxis_title='MWh')
     st.plotly_chart(fig,width='stretch',key="research_exergy_fig")
-    st.latex(r'Q=m\int_{T_\min}^{T_\max}c_p(T)\,dT')
-    st.latex(r'X=m\int_{T_\min}^{T_\max}c_p(T)\left(1-\frac{T_0}{T}\right)dT')
+    st.latex(r'Q=m\int_{T_{\mathrm{min}}}^{T_{\mathrm{max}}}c_p(T)\,dT')
+    st.latex(r'X=m\int_{T_{\mathrm{min}}}^{T_{\mathrm{max}}}c_p(T)\left(1-\frac{T_0}{T}\right)dT')
     st.caption("Exergy uses Kelvin absolute temperatures and represents reversible availability, NOT electricity delivered.")
 
 elif study == 'Renewable Dispatch':
