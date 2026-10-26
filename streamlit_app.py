@@ -4,7 +4,7 @@ from localization import t, tr
 from scenario_state import sidebar_editor, active
 
 with st.sidebar:
-    st.selectbox("Dil / Language", ["English", "Türkçe"], index=1 if st.session_state.get("sb_language")=="tr" else 0,
+    st.selectbox("Dil / Language", ["English", "Türkçe"], placeholder=None, index=1 if st.session_state.get("sb_language")=="tr" else 0,
                  key="sb_language_select", on_change=lambda: st.session_state.update(
                      sb_language="tr" if st.session_state["sb_language_select"]=="Türkçe" else "en"))
     st.session_state["sb_language"] = "tr" if st.session_state["sb_language_select"] == "Türkçe" else "en"
