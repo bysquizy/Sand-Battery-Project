@@ -16,7 +16,7 @@ st.link_button("View this project's GitHub repository",PROJECT["repository"],typ
 st.caption(tr("Literature-based educational summaries; no laboratory calibration.","Bilimsel kaynaklara dayalı eğitim özeti; laboratuvar kalibrasyonu yapılmadı."))
 
 guide,methods,case_studies,sources,group=st.tabs([
-    tr(tr("Research guide","Araştırma rehberi"),"Araştırma rehberi"),tr(tr("Methods & evidence","Yöntemler ve kanıtlar"),"Yöntemler ve kanıtlar"),tr("Real-world systems","Gerçek sistemler"),tr("Sources & references","Kaynakça"),tr("Group 8","Grup 8")
+    tr("Research guide","Araştırma rehberi"),tr("Methods & evidence","Yöntemler ve kanıtlar"),tr("Real-world systems","Gerçek sistemler"),tr("Sources & references","Kaynakça"),tr("Group 8","Grup 8")
 ])
 
 with guide:
@@ -27,7 +27,7 @@ with guide:
     b.metric(tr("Research themes","Araştırma başlıkları"),str(len(TOPICS)))
     c.metric(tr("Source categories","Kaynak türleri"),str(len({r["group"] for r in REFERENCES})))
     st.markdown(tr("#### The thermal-energy pathway","#### Termal enerjinin izlediği yol"))
-    phase=st.radio(tr("Explore one phase","Bir aşama seçin"),[tr("Charging","Şarj"),tr("Standby","Bekleme"),tr("Thermal delivery","Isı çıkışı")],format_func=lambda x: {tr("Charging","Şarj"):tr(tr("Charging","Şarj"),"Şarj"),tr("Standby","Bekleme"):tr(tr("Standby","Bekleme"),"Bekleme"),tr("Thermal delivery","Isı çıkışı"):tr(tr("Thermal delivery","Isı çıkışı"),"Isı çıkışı")}[x],horizontal=True,key="hub_phase")
+    phase=st.radio(tr("Explore one phase","Bir aşama seçin"),["Charging","Standby","Thermal delivery"],format_func=lambda x: {"Charging":tr("Charging","Şarj"),"Standby":tr("Standby","Bekleme"),"Thermal delivery":tr("Thermal delivery","Isı çıkışı")}[x],horizontal=True,key="hub_phase")
     details={
         tr("Charging","Şarj"):("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
         tr("Standby","Bekleme"):("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
