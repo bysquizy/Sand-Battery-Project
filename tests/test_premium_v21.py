@@ -51,9 +51,6 @@ def test_csv_preserves_numeric_model_data_and_safe_strings():
 
 
 def test_ribbon_html_escapes_scenario_names():
-    from unittest.mock import patch
-    import scenario_state
-    import streamlit as st
     from html import escape
     name="<img src=x onerror=alert(1)>"
     text=(ROOT/"scenario_state.py").read_text(encoding="utf-8")
