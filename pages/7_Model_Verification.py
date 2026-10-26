@@ -29,7 +29,7 @@ m = MATERIALS[s.material_name]
 st.warning("Research-grade numerical approximations, NOT experimentally calibrated "
            "equipment, design certification or published plant performance.")
 compare_tab, pipe_tab, material_tab, insulation_tab, convergence_tab = st.tabs([
-    "0-D vs 1-D", "Closed-Pipe Heat Transfer", "cp(T) Data Integrity",
+    tr("0-D vs 1-D","0B ve 1B karşılaştırması"), tr("Closed-Pipe Heat Transfer","Kapalı boruda ısı transferi"), "cp(T) Data Integrity",
     "Layered Insulation", "Verification Benchmarks",
 ])
 
@@ -194,7 +194,7 @@ with pipe_tab:
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Loop charge duration", f"{out['charge_hours']:.1f} h")
         c2.metric("Useful heat", f"{out['useful_heat_mwhth']:.1f} MWhth")
-        c3.metric("Thermal delivery", f"{out['discharge_hours']:.1f} h")
+        c3.metric(tr("Thermal delivery","Isı çıkışı"), f"{out['discharge_hours']:.1f} h")
         c4.metric("Energy residual", f"{out['energy_balance_residual_mwhth']:.2e} MWh")
         flow = pd.DataFrame([
             {"Energy flow": "Hot-loop heat added", "MWhth": out["loop_input_mwhth"]},
