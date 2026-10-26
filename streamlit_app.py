@@ -40,7 +40,6 @@ with st.sidebar:
             "Panel: depolama ve ısı kayıpları. Tasarım: yalıtım ve geometri. Senaryolar: ayarları karşılaştırın. Doğrulama: sayısal varsayımlar. Görseller: grafik ve raporlar. Araştırma: kaynaklar ve yöntemler."
         ))
     st.link_button("⌘ " + t("github"), "https://github.com/bysquizy/Sand-Battery-Project", width="stretch")
-    st.link_button(t("live"), "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/", width="stretch")
     st.caption(tr("Project team: Yağız Topaç · Semih Cenk · Fatma Ovacık","Proje ekibi: Yağız Topaç · Semih Cenk · Fatma Ovacık"))
     st.caption(tr("Website & application development: Yağız Topaç (@bysquizy)","Web sitesi ve uygulama geliştirme: Yağız Topaç (@bysquizy)"))
 current.run()
