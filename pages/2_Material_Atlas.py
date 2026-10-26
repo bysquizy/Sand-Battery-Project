@@ -19,9 +19,9 @@ st.caption('Local screening overrides below do not modify the shared scenario.')
 st.warning("Additional granular media are hypothetical screening inputs. Do not use material curves or maximum temperatures for engineering specification without testing.")
 all_materials={**MATERIALS,**SCENARIOS}
 a,b,c=st.columns(3)
-with a:vol=st.number_input('Packed bulk volume (m³)',50.,20000.,float(shared.volume_m3),step=100.,key='atlas_volume')
-with b:low=st.number_input('Minimum temperature (°C)',20.,250.,float(shared.minimum_c),step=10.,key='atlas_low')
-with c:high=st.number_input('Maximum temperature (°C)',250.,850.,float(shared.maximum_c),step=10.,key='atlas_high')
+with a:vol=st.number_input(tr(tr("Packed bulk volume (m³)","Yığın hacmi (m³)"),"Yığın hacmi (m³)"),50.,20000.,float(shared.volume_m3),step=100.,key='atlas_volume')
+with b:low=st.number_input(tr(tr("Minimum temperature (°C)","Minimum sıcaklık (°C)"),"Minimum sıcaklık (°C)"),20.,250.,float(shared.minimum_c),step=10.,key='atlas_low')
+with c:high=st.number_input(tr(tr("Maximum temperature (°C)","Maksimum sıcaklık (°C)"),"Maksimum sıcaklık (°C)"),250.,850.,float(shared.maximum_c),step=10.,key='atlas_high')
 if high <= low:
     st.error('Maximum temperature must be above the minimum temperature.')
     st.stop()
