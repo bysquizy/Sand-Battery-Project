@@ -107,3 +107,18 @@ def test_full_multipage_startup_with_current_theme():
     for page in PAGES[1:]:
         app.switch_page(page).run(timeout=75)
         assert not app.exception, f"{page}: {[str(x.message) for x in app.exception]}"
+
+def test_offline_html_report_matches_brand_and_respects_accessibility():
+    from engine.materials import MATERIALS
+    from engine.physics import simulate_cycle
+    from engine.report_exports import html_report
+    scenario=Scenario()
+    output=simulate_cycle(scenario.make_design(), MATERIALS[scenario.material_name])
+    html=html_report(scenario,output).decode("utf-8")
+    assert "prefers-reduced-motion" in html
+    assert "@media print" in html
+    assert "sb-chart-reveal" in html
+    assert "sb-trace" in html
+    assert "<script" not in html
+    assert "fonts.googleapis.com" not in html
+    assert "Group 8" in html
