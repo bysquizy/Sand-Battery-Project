@@ -1,12 +1,14 @@
 """Optional v2 advanced research module — English-only multipage interface."""
+from dataclasses import replace
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 from engine.materials import MATERIALS
-from engine.physics import Design,summarize,simulate_cycle
+from engine.physics import summarize,simulate_cycle
 from engine.input_validation import parse_hourly_dispatch_csv
+from scenario_state import active, scenario_banner
 from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
    Exchanger,exchanger,ergun,uncertainty,levelized_heat,LTNE,ltne)
 
@@ -16,20 +18,23 @@ inject()
 
 st.caption("SAND BATTERY STUDIO · ADVANCED RESEARCH")
 st.title("Advanced Engineering Laboratory")
+shared = active()
+scenario_banner()
 st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
 st.warning("The 1-D gas/solid packed-bed model is not a calibrated closed-loop pipe-in-sand design. Material properties are approximate and require independent verification.")
 
 with st.sidebar:
-    st.subheader("Advanced lab configuration")
-    name=st.selectbox("Base medium",list(MATERIALS),key="research_medium")
+    st.subheader("Local research variations")
+    st.caption("Starts from the shared design. Edits here are exploratory and do not change Active Scenario.")
+    name=st.selectbox("Base medium",list(MATERIALS),index=list(MATERIALS).index(shared.material_name),key="research_medium")
     m=MATERIALS[name]
-    volume=st.number_input("Packed material volume (m³)",100.,10000.,1000.,step=100.,key="research_vol")
-    minimum=st.number_input("Minimum solid temperature (°C)",25.,250.,60.,step=10.,key="research_low")
-    maximum=st.number_input("Maximum solid temperature (°C)",250.,850.,550.,step=10.,key="research_high")
-    inputmw=st.number_input("Charging power (MW)",.5,50.,6.,step=.5,key="research_power")
-    heatmw=st.number_input("Thermal discharge rating (MW)",.2,50.,2.,step=.5,key="research_load")
+    volume=st.number_input("Packed material volume (m³)",50.,20000.,float(shared.volume_m3),step=100.,key="research_vol")
+    minimum=st.number_input("Minimum solid temperature (°C)",20.,200.,float(shared.minimum_c),step=10.,key="research_low")
+    maximum=st.number_input("Maximum solid temperature (°C)",250.,850.,float(shared.maximum_c),step=10.,key="research_high")
+    inputmw=st.number_input("Charging power (MW)",.2,100.,float(shared.charge_power_mw()),step=.5,key="research_power")
+    heatmw=st.number_input("Thermal discharge rating (MW)",.1,40.,float(shared.thermal_output_mw),step=.5,key="research_load")
     st.caption(m.provenance)
-d=Design(volume_m3=volume,minimum_c=minimum,maximum_c=maximum,charge_mw=inputmw,thermal_output_mw=heatmw)
+d=replace(shared.make_design(), volume_m3=volume, minimum_c=minimum, maximum_c=maximum, charge_mw=inputmw, thermal_output_mw=heatmw)
 try:
     s = summarize(d, m)
 except ValueError as exc:
