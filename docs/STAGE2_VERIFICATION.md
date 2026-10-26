@@ -15,7 +15,7 @@ not changed. Model tests verify software behavior, not physical calibration.
 | Global design editor | Sidebar form with explicit Apply; material, storage geometry, operating temperatures, charging mode and demand |
 | Presets | Three original illustrative presets maintained in one module; no duplicated numerical defaults |
 | Dashboard | Duplicate base controls removed; preset application and low-power mode retained; only selected workspace calculates/renders heavy graphics |
-| Research Lab & Material Atlas | Initialize from the Active Scenario and label temporary local exploratory variations |
+| Research Lab & Material Atlas | Initialize from Active Scenario; label temporary local exploratory variations; Research Lab power control accommodates the maximum valid configured PV/wind source |
 | Thermal Design | Base medium/geometry sourced directly from the Active Scenario rather than duplicate form |
 | Virtual Experiments | Inherit material and operating assumptions for numerical studies; deliberate 400 m³ mesh benchmark documented |
 | Scenario Manager | Save/load/clear A/B/C slots; calculate thermal KPI comparison; export comparison CSV; import/export versioned scenario JSON |
@@ -28,7 +28,7 @@ not changed. Model tests verify software behavior, not physical calibration.
 
 - Pull-request QA workflow: https://github.com/bysquizy/Sand-Battery-Project/actions/runs/40321403507
 - Runtime: Python 3.13.
-- **133 tests passed**, including existing engine/physics conservation,
+- **134 tests passed**, including existing engine/physics conservation,
   page-start and navigation, CSV security, new A/B/C JSON boundaries and
   manager slot-save/navigation smoke tests.
 - Ruff F401/F821/F823 checks passed.
