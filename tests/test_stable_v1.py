@@ -44,5 +44,5 @@ def test_stable_label_and_live_website_are_documented():
 
     assert PROJECT["public_app"].startswith("https://")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert any(v in readme for v in ("v1.0 Stable", "v1.1 Research Update", "v1.2 Research Hub", "v1.3 Foundation", "v1.4 Shared Scenarios"))
+    assert any(v in readme for v in ("v1.0 Stable", "v1.1 Research Update", "v1.2 Research Hub", "v1.3 Foundation", "v1.4 Shared Scenarios", "v1.5 Scientific")
     assert PROJECT["public_app"] in readme
