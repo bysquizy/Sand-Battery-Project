@@ -10,8 +10,9 @@ from engine.input_validation import temperature_sweep
 from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Material Atlas | Sand Battery Studio',page_icon='🧱',layout='wide')
 from ui_theme import inject, hero, footer
+from localization import tr
 inject()
-hero("MATERIALS / EVIDENCE FIRST", "Material Atlas", "Explore storage media, thermal properties and screening scenarios with clear source and assumption labels.")
+hero(tr("MATERIALS / EVIDENCE FIRST","MALZEMELER / KAYNAKLAR"), tr("Material Atlas","Malzeme Atlası"), tr("Explore storage media, thermal properties and screening scenarios with clear source and assumption labels.","Depolama malzemelerini, termal özellikleri ve varsayımları karşılaştırın."))
 shared = active()
 scenario_banner()
 st.caption('Local screening overrides below do not modify the shared scenario.')
