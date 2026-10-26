@@ -34,7 +34,7 @@ with col2: temp=st.slider(tr("Hot temperature (°C)","Yüksek sıcaklık (°C)")
 with col3: low=st.slider(tr("Reference temperature (°C)","Referans sıcaklık (°C)"),20,min(temp-10,300),100,10)
 q=mass*830*(temp-low)/3_600_000_000
 st.metric(tr("Theoretical thermal energy (MWh)","Teorik ısı enerjisi (MWh)"),f"{q:.3f}")
-st.latex(r"Q=m c_p\\Delta T")
+st.latex(r"Q=m\,c_p\,\Delta T")
 st.caption(tr("Demonstration assumes a constant heat capacity of 830 J/(kg·K) and ignores heat loss. The application's engineering pages use additional assumptions and models.",
               "Bu örnekte özgül ısı 830 J/(kg·K) sabit kabul edilir ve ısı kaybı ihmal edilir. Uygulamanın mühendislik sayfalarında daha ayrıntılı modeller ve varsayımlar kullanılır."))
 
