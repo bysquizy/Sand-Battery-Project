@@ -1,4 +1,4 @@
-"""Optional v2 advanced research module — English-only multipage interface."""
+"""Advanced numerical research tools with on-demand, selected workspace rendering."""
 from dataclasses import replace
 import numpy as np
 import pandas as pd
@@ -40,10 +40,17 @@ try:
 except ValueError as exc:
     st.error(f"Check the thermal design: {exc}")
     st.stop()
-energy,renewable,transport,exchanger_tab,risk,cost=st.tabs(
-    ["⚡ Exergy","☀️ Renewable Dispatch","🌡 LTNE & Flow","♨ Exchanger","🎲 Uncertainty","€ Cost Lab"])
+# Streamlit tabs eagerly render all children. Select exactly one computation
+# to avoid repeating Monte Carlo, dispatch and thermal-cycle work every rerun.
+study = st.radio(
+    "Select research method",
+    ["Exergy", "Renewable Dispatch", "LTNE & Flow", "Exchanger",
+     "Uncertainty", "Cost Lab"],
+    horizontal=True, key="research_workspace",
+    label_visibility="collapsed",
+)
 
-with energy:
+if study == 'Exergy':
     st.subheader("Thermal storage vs reversible work potential")
     x=exergy_mwh(m,volume,minimum,maximum,d.ambient_c)
     a,b=st.columns(2)
@@ -61,7 +68,7 @@ with energy:
     st.latex(r'X=m\int_{T_\min}^{T_\max}c_p(T)\left(1-\frac{T_0}{T}\right)dT')
     st.caption("Exergy uses Kelvin absolute temperatures and represents reversible availability, NOT electricity delivered.")
 
-with renewable:
+elif study == 'Renewable Dispatch':
     st.subheader("Hourly renewable energy and heat-demand matching")
     a,b,c=st.columns(3)
     with a:days=st.slider("Scenario days",1,14,7,key="research_days")
@@ -100,7 +107,7 @@ with renewable:
     except (ValueError, KeyError, TypeError) as exc:
         st.error(f"Invalid hourly scenario: {exc}")
 
-with transport:
+elif study == 'LTNE & Flow':
     st.subheader("Direct-contact packed-bed fluid–solid model")
     c1,c2,c3=st.columns(3)
     with c1:cells=st.slider("Axial cells",8,40,20,4,key="research_cells")
@@ -135,7 +142,7 @@ with transport:
     p3.metric("Particle Reynolds number",f"{z['particle_re']:.0f}")
     st.caption("Direct-contact Ergun equation, not a commercial closed-pipe fan calculation. Liu et al. 2024 tested 16 mm glass beads, Re 58–252.")
 
-with exchanger_tab:
+elif study == 'Exchanger':
     st.subheader("Effectiveness–NTU heat exchanger")
     u1,u2,u3=st.columns(3)
     with u1:th=st.number_input("Hot inlet °C",100.,800.,500.,key="research_th")
@@ -158,7 +165,7 @@ with exchanger_tab:
     st.latex(r'Q=\epsilon C_{\min}(T_{h,in}-T_{c,in}),\;\;NTU=UA/C_{\min}')
     st.caption("Steady exchanger experiment only, not thermally coupled to the dynamic bed.")
 
-with risk:
+elif study == 'Uncertainty':
     st.subheader("Assumption-based uncertainty propagation")
     sd=st.slider("Assumed input standard deviation (%)",0,30,10,key="research_sigma")/100
     r=uncertainty(d,m,400,sd,seed=23)
@@ -169,7 +176,7 @@ with risk:
     st.plotly_chart(fig,width="stretch",key="research_uncertainty_fig")
     st.warning("Input distributions are assumptions, not empirically estimated uncertainty bounds.")
 
-with cost:
+elif study == 'Cost Lab':
     st.subheader("Transparent financial scenario — LCOH")
     a,b,c=st.columns(3)
     with a:capex=st.number_input("Hypothetical CAPEX (€)",0.,100_000_000.,2_000_000.,100_000.,key="research_capex")
