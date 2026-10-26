@@ -163,3 +163,35 @@ def test_stage_1_2_research_is_lazily_rendered():
     assert 'study = st.radio(' in text
     assert "elif study == 'Cost Lab':" in text
     assert 'energy,renewable,transport,exchanger_tab,risk,cost=st.tabs' not in text
+
+def test_single_layer_insulation_reduces_to_original_geometry_ua():
+    from engine.insulation_layers import InsulationLayer, layered_cylinder
+    from engine.physics import geometry, thermal_ua
+    r,h=geometry(D.volume_m3/D.modules,D.height_over_radius)
+    layer=(InsulationLayer(D.insulation_m,D.conductivity_w_mk),)
+    result=layered_cylinder(r,h,layer,D.external_convection_w_m2k,
+                            D.maximum_c,D.ambient_c)
+    expect=thermal_ua(r,h,D.insulation_m,D.conductivity_w_mk,
+                      D.external_convection_w_m2k)
+    assert result["ua_total_w_k"] == pytest.approx(expect,rel=1e-12)
+    assert D.ambient_c < result["outer_surface_c"] < D.maximum_c
+
+
+def test_better_two_layer_insulation_reduces_ua_and_heat_loss():
+    from engine.insulation_layers import InsulationLayer, layered_cylinder
+    baseline=layered_cylinder(3.0,12.0,
+        (InsulationLayer(.25,.09),InsulationLayer(.25,.10)),10,500,20)
+    better=layered_cylinder(3.0,12.0,
+        (InsulationLayer(.25,.09),InsulationLayer(.25,.04)),10,500,20)
+    assert better["ua_total_w_k"] < baseline["ua_total_w_k"]
+    assert better["total_loss_w"] < baseline["total_loss_w"]
+
+
+def test_layered_insulation_rejects_invalid_specifications():
+    from engine.insulation_layers import InsulationLayer,layered_cylinder
+    with pytest.raises(ValueError):
+        layered_cylinder(3,12,(InsulationLayer(0,.05),),10,500,20)
+    with pytest.raises(ValueError):
+        layered_cylinder(3,12,(),10,500,20)
+    with pytest.raises(ValueError):
+        layered_cylinder(3,12,(InsulationLayer(.1,.05),),10,20,500)
