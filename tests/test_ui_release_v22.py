@@ -34,10 +34,10 @@ def test_model_evidence_register():
 def test_grouped_web_navigation_and_onboarding():
     router = (ROOT / "streamlit_app.py").read_text(encoding="utf-8")
     assert 'st.navigation(pages, position="sidebar"' in router
-    assert "Advanced Research" in router
-    assert "Research & Sources" in router
-    assert "Getting started" in router
-    assert PROJECT["public_app"] in router
+    assert 't("advanced")' in router
+    assert 't("research")' in router
+    assert 't("pages")' in router
+    assert PROJECT["public_app"] not in router
 
 
 def test_presentation_presets_are_illustrative():
