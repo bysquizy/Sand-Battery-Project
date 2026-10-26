@@ -23,7 +23,7 @@ from scenario_state import active, set_active, scenario_banner
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
 
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 inject()
 
 
@@ -53,14 +53,21 @@ with st.sidebar:
 current_scenario = active()
 scenario_banner()
 
-st.markdown(f'''<div class="info-line"><b>{APP_VERSION_LABEL} Engineering Workspace:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
-st.markdown(f'<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · {APP_VERSION_LABEL}</div>',unsafe_allow_html=True)
-st.caption("These numerical results are illustrative; source summaries and uncertainty explanations are located in Research Hub.")
-st.link_button("View project source on GitHub ↗",PROJECT["repository"],type="primary")
-st.caption("Research summaries, scientific evidence and Group 8 member names are in Research Hub.")
-st.markdown('''<div class="hero"><div class="eyebrow">GROUP 8 <span class="pill">● RESEARCH PLATFORM</span></div>
-<h1>Design the next era of thermal storage.</h1>
-<p>Explore industrial-scale sand batteries through physics-based simulation, high-temperature materials, thermal dynamics and constraint-driven design screening. Built for clarity, not complexity.</p></div>''',unsafe_allow_html=True)
+hero(
+    "GROUP 8  /  THERMAL STORAGE INTELLIGENCE",
+    "Engineering insight, built on thermal science.",
+    "Explore industrial-scale sensible heat storage with transparent "
+    "model assumptions, coupled design scenarios, computed visualizations "
+    "and reproducible engineering reports.",
+)
+st.caption(
+    f"RESEARCH PLATFORM  ·  {APP_VERSION_LABEL}  ·  "
+    "SIMULATION ONLY / NOT FIELD VALIDATED"
+)
+st.link_button("Explore the project source on GitHub",
+               PROJECT["repository"], type="primary")
+st.caption("Open Research Hub for source attribution and methods. "
+           "Visual Story Studio provides model-driven animations and downloadable reports.")
 
 try:
     design = current_scenario.make_design()
@@ -213,3 +220,5 @@ st.download_button(
 )
 st.download_button('↓ Export engineering summary · Markdown',scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
 st.markdown('<div class="foot">SAND BATTERY STUDIO · GROUP 8 · EDUCATIONAL NUMERICAL SIMULATION<br>Research and source references are available in the dedicated Research Hub.</div>',unsafe_allow_html=True)
+
+footer()
