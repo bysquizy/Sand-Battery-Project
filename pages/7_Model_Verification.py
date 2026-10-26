@@ -16,11 +16,12 @@ from engine.insulation_layers import InsulationLayer, layered_cylinder
 from engine.thermocline import simulate_thermocline
 from scenario_state import active, scenario_banner
 from ui_theme import inject, hero, footer
+from localization import tr
 
 st.set_page_config(page_title="Model Verification | Sand Battery Studio",
                    page_icon="📏", layout="wide")
 inject()
-hero("METHODS / VERIFICATION", "Model Verification", "Compare physical topologies, inspect numerical conservation and explore the limits of simplified exchanger models.")
+hero(tr("METHODS / VERIFICATION","YÖNTEMLER / DOĞRULAMA"), tr("Model Verification","Model Doğrulama"), tr("Compare physical topologies, inspect numerical conservation and explore the limits of simplified exchanger models.","Fiziksel modelleri, enerji korunumunu ve basitleştirilmiş ısı değiştiricilerinin sınırlarını karşılaştırın."))
 s = active()
 scenario_banner()
 d = s.make_design()
