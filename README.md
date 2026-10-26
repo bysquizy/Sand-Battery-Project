@@ -53,7 +53,7 @@ Python 3.13 GitHub Actions checks numerical results, imports, page navigation, C
 
 - Model Verification is a separate on-demand study workspace comparing 0-D uniform solid and 1-D direct-contact LTE physics, including configurable cutoffs.
 - A **separate simplified closed-pipe model** uses convection, pipe-wall and effective-solid conduction resistances plus idealized thermal-loop effectiveness and an integrated energy ledger. This is **not CFD, commercial equipment validation, or measured plant performance**.
-- The tabulated cp(T) data interface exactly integrates piecewise-linear sensible heat within its declared range. The included demonstration knots are **hypothetical**, not measured NREL DSC data.
+- A separate two-layer insulation calculator explores assumed conductivity, thickness, outside film resistance, layer-interface temperatures and total heat leakage; it does not change the existing one-layer baseline physics.\n- The tabulated cp(T) data interface exactly integrates piecewise-linear sensible heat within its declared range. The included demonstration knots are **hypothetical**, not measured NREL DSC data.
 - Stage 1/2 refinements reject ambiguous duplicate JSON keys, avoid eager Research Lab calculations, and suppress stale Virtual Experiments results after scenario changes.
 - See [Stage 3 engineering methods](docs/STAGE3_METHODS.md) and [Stage 3 verification](docs/STAGE3_VERIFICATION.md).
 
