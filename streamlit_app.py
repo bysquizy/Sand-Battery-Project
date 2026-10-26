@@ -41,5 +41,6 @@ with st.sidebar:
         ))
     st.link_button("⌘ " + t("github"), "https://github.com/bysquizy/Sand-Battery-Project", width="stretch")
     st.link_button(t("live"), "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/", width="stretch")
-    st.caption(t("author"))
+    st.caption(tr("Project team: Yağız Topaç · Semih Cenk · Fatma Ovacık","Proje ekibi: Yağız Topaç · Semih Cenk · Fatma Ovacık"))
+    st.caption(tr("Website & application development: Yağız Topaç (@bysquizy)","Web sitesi ve uygulama geliştirme: Yağız Topaç (@bysquizy)"))
 current.run()
