@@ -9,10 +9,9 @@ from engine.research_v2 import exergy_mwh
 from engine.input_validation import temperature_sweep
 from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Material Atlas | Sand Battery Studio',page_icon='🧱',layout='wide')
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 inject()
-st.caption('SAND BATTERY STUDIO · MATERIAL ATLAS')
-st.title('Materials, Density & Capacity')
+hero("MATERIALS / EVIDENCE FIRST", "Material Atlas", "Explore storage media, thermal properties and screening scenarios with clear source and assumption labels.")
 shared = active()
 scenario_banner()
 st.caption('Local screening overrides below do not modify the shared scenario.')
@@ -75,3 +74,5 @@ st.metric('Ideal volume-average composite thermal capacity',f'{q:.1f} MWhth')
 st.caption(mix.provenance)
 st.info('Unknown packing, thermal expansion, quartz transition, chemical durability and recycled-material environmental safety can invalidate these illustrative comparisons.')
 st.markdown('Research basis: [Bošnjaković & Santa (2026)](https://doi.org/10.3390/cleantechnol8050165) and [NREL report 84728](https://www.nrel.gov/docs/fy23osti/84728.pdf). Cite actual tested material sources separately from assumed curves.')
+
+footer()
