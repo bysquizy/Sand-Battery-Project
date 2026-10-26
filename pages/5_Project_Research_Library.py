@@ -12,7 +12,7 @@ st.set_page_config(page_title="Research Hub | Sand Battery Studio",page_icon="�
 inject()
 hero(tr("KNOWLEDGE / SOURCES","BİLGİ / KAYNAKLAR"), t("research_hub"), tr("Explore research, equations and attributed real-world systems behind the simulations.","Simülasyonun dayandığı araştırmaları, denklemleri ve gerçek sistemlere ait kaynakları inceleyin."))
 st.write(tr("Understand the engineering concepts and limitations behind the simulations.","Simülasyonların mühendislik kavramlarını ve sınırlamalarını öğrenin."))
-st.link_button("View this project's GitHub repository",PROJECT["repository"],type="primary")
+st.link_button(tr("Project source code on GitHub","GitHub proje kaynak kodları"),PROJECT["repository"])
 st.caption(tr("Literature-based educational summaries; no laboratory calibration.","Bilimsel kaynaklara dayalı eğitim özeti; laboratuvar kalibrasyonu yapılmadı."))
 
 guide,methods,case_studies,sources,group=st.tabs([
@@ -29,13 +29,13 @@ with guide:
     st.markdown(tr("#### The thermal-energy pathway","#### Termal enerjinin izlediği yol"))
     phase=st.radio(tr("Explore one phase","Bir aşama seçin"),["Charging","Standby","Thermal delivery"],format_func=lambda x: {"Charging":tr("Charging","Şarj"),"Standby":tr("Standby","Bekleme"),"Thermal delivery":tr("Thermal delivery","Isı çıkışı")}[x],horizontal=True,key="hub_phase")
     details={
-        tr("Charging","Şarj"):("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
-        tr("Standby","Bekleme"):("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
-        tr("Thermal delivery","Isı çıkışı"):("Useful thermal energy is transferred to a consumer through the selected heat-transfer system; temperature grade and exchanger limitations matter.","The web model assumes simplified output constraints, not a certified delivery temperature."),
+        "Charging":("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
+        "Standby":("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
+        "Thermal delivery":("Useful thermal energy is transferred to a consumer through the selected heat-transfer system; temperature grade and exchanger limitations matter.","The web model assumes simplified output constraints, not a certified delivery temperature."),
     }
     with st.container(border=True):
         st.markdown(f"**{phase}**")
-        st.write(details[phase][0] if t("how")=="How It Works" else {tr("Charging","Şarj"):"Şebekeden veya yenilenebilir kaynaklardan gelen enerji ısı olarak depolanır.",tr("Standby","Bekleme"):"Depolanan enerji, yalıtım ve dış ortam koşullarına bağlı olarak ısı kaybeder.",tr("Thermal delivery","Isı çıkışı"):"Depolanan ısı, ısı transfer sistemi üzerinden kullanıcıya aktarılır."}[phase])
+        st.write(details[phase][0] if t("how")=="How It Works" else {"Charging":"Şebekeden veya yenilenebilir kaynaklardan gelen enerji ısı olarak depolanır.","Standby":"Depolanan enerji, yalıtım ve dış ortam koşullarına bağlı olarak ısı kaybeder.","Thermal delivery":"Depolanan ısı, ısı transfer sistemi üzerinden kullanıcıya aktarılır."}[phase])
         st.caption(details[phase][1] if t("how")=="How It Works" else "Bunlar sadeleştirilmiş sayısal modellerdir; fiziksel sistem ölçümü değildir.")
     # No decorative numeric Sankey: it could be mistaken for measured fractions.
     c1,c2,c3=st.columns(3)
