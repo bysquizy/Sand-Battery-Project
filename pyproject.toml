@@ -1,6 +1,6 @@
 [project]
 name = "sand-battery-studio"
-version = "1.3.0"
+version = "1.4.0"
 description = "Educational, physics-based sensible thermal storage simulator"
 requires-python = ">=3.13,<3.14"
 

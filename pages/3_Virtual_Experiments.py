@@ -4,14 +4,17 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from engine.physics import Design,simulate_cycle
+from engine.physics import simulate_cycle
 from engine.materials import MATERIALS
 from engine.research_v2 import LTNE,ltne,ergun
+from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Virtual Experiments | Sand Battery Studio',page_icon='🧪',layout='wide')
 from ui_theme import inject
 inject()
 st.caption('SAND BATTERY STUDIO · NUMERICAL EXPERIMENTS')
 st.title('Virtual Experiments & Model Verification')
+shared = active()
+scenario_banner()
 st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
 air,grid,loss=st.tabs(['💨 Ergun & Fan','🧮 Grid Refinement','♨ Insulation vs Standby'])
 with air:
@@ -41,9 +44,9 @@ with grid:
     if st.button('Run gas/solid simulations at 8, 16 and 32 cells',type='primary',key='exp_grid_run'):
         with st.spinner('Solving three finite-volume configurations'):
             rows=[]
-            d=Design(volume_m3=400,charge_mw=3,thermal_output_mw=1)
+            d=replace(shared.make_design(),volume_m3=400,charge_mw=3,thermal_output_mw=1)
             for n in [8,16,32]:
-                r=ltne(d,MATERIALS['Silica sand'],LTNE(cells=n,hours=2))
+                r=ltne(d,MATERIALS[shared.material_name],LTNE(cells=n,hours=2))
                 rows.append({'cells':n,'final_avg_solid_c':float(r['solid_c'][-1].mean()),
                              'energy_residual_mwh':r['residual_mwh']})
             st.session_state['v2_grid_results']=rows
@@ -54,18 +57,18 @@ with grid:
         fig.update_layout(template='plotly_dark',height=340,xaxis_title='Axial cells',yaxis_title='Mean final solid temperature °C')
         st.plotly_chart(fig,width='stretch',key='exp_grid_fig')
     else:st.caption('Compute results only on demand, avoiding unnecessary cloud CPU usage.')
-    st.caption('The comparison reveals mesh sensitivity; it is not a formal proof of convergence or validation on measured data.')
+    st.caption('This study fixes a 400 m³ reference volume while retaining the active material and temperatures. The comparison reveals mesh sensitivity; it is not a formal proof of convergence or validation on measured data.')
 with loss:
     st.subheader('Insulation / standby heat sensitivity')
     blankets=[.2,.4,.6,.8,1.]; days=[0,1,2,4,7]
     if st.button('Run 25 thermal simulations',type='primary',key='exp_loss_run'):
         with st.spinner('Comparing insulation and standby constraints'):
             data=[]
-            base=Design(volume_m3=1000.,charge_mw=6,thermal_output_mw=3)
+            base=shared.make_design()
             for thick in blankets:
                 row=[]
                 for day in days:
-                    out=simulate_cycle(replace(base,insulation_m=thick,hold_days=day),MATERIALS['Silica sand'],max_step_s=3600)
+                    out=simulate_cycle(replace(base,insulation_m=thick,hold_days=day),MATERIALS[shared.material_name],max_step_s=3600)
                     row.append(out['useful_heat_mwh'])
                 data.append(row)
             st.session_state['v2_loss_results']=data

@@ -42,9 +42,10 @@ def test_grouped_web_navigation_and_onboarding():
 
 def test_presentation_presets_are_illustrative():
     content = (ROOT / "home_app.py").read_text(encoding="utf-8")
-    assert "Industrial thermal store" in content
-    assert "Compact research study" in content
-    assert "CSP-assisted thermal storage" in content
+    presets = (ROOT / "engine/scenarios.py").read_text(encoding="utf-8")
+    assert "Industrial thermal store" in presets
+    assert "Compact research study" in presets
+    assert "CSP-assisted thermal storage" in presets
     assert "not measured Finnish plants" in content
     assert "low_power_mode" in content
 

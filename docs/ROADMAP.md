@@ -1,6 +1,6 @@
 # Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current target release:** 1.3.0, Stage 1 (Foundation & Security).
+**Current target release:** 1.4.0, Stage 2 (Shared Scenarios & UX).
 **Application:** independent Group 8 numerical research platform, not
 an experimentally validated or construction-certified thermal battery.
 
@@ -17,10 +17,17 @@ an experimentally validated or construction-certified thermal battery.
 **Stage 1 boundary:** do not rewrite thermodynamics, change material-property
 coefficients, add paid services or assert experimental calibration.
 
-## Stage 2 — User Experience & Scenario System
+## Stage 2 — User Experience & Scenario System (v1.4)
 
-Shared `Active Scenario` state; A/B/C save/load/compare, a calmer dashboard,
-clearer sidebar controls, mobile UX, local caching and lightweight navigation.
+- [x] Shared validated Active Scenario for every simulation workspace.
+- [x] One global sidebar editor; local research variations explicitly labelled.
+- [x] A/B/C saved scenarios and model-computed numerical comparison table.
+- [x] JSON v1 save/load with strict schema and resource limits; CSV comparison.
+- [x] Remove redundant Dashboard input controls and lazy-render its four views.
+- [x] Preserve historical release notes under `docs/archive` rather than deleting provenance.
+- [ ] Independent visual browser/mobile verification and usability review.
+- [ ] Shareable cloud-backed scenario links were deliberately **not** implemented
+      because this academic app has no identity service or persistent database.
 
 ## Stage 3 — Advanced Scientific Engineering
 
