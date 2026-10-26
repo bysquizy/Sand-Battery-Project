@@ -4,13 +4,13 @@ ESE101 Group 8. No AI service calls or heavy ML frameworks.
 The demo visualizations do not constitute product certification.
 """
 import json
-from dataclasses import asdict, replace
+from dataclasses import asdict
 import numpy as np
 import pandas as pd
 import streamlit as st
 
 from engine.materials import MATERIALS, blend
-from engine.physics import Design, summarize, simulate_cycle
+from engine.physics import Design, simulate_cycle
 from engine.solar import csp_thermal_mw, electrical_renewables_mw
 from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
