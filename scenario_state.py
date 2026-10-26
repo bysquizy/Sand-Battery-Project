@@ -7,6 +7,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from html import escape
 import streamlit as st
+from localization import tr
 
 from engine.materials import MATERIALS
 from engine.scenarios import PRESETS, SLOTS, SOURCES, Scenario, from_mapping
@@ -49,7 +50,7 @@ def scenario_banner() -> None:
         s.material_name,
         f"{s.volume_m3:,.0f} m³",
         f"{s.minimum_c:g}–{s.maximum_c:g} °C",
-        f"{s.charge_power_mw():,.2f} MW charge",
+        f"{s.charge_power_mw():,.2f} MW " + tr("charge","şarj"),
         s.source,
     ]
     content = "".join(
@@ -58,7 +59,7 @@ def scenario_banner() -> None:
     )
     st.html(
         '<div class="sb-context" role="note" aria-label="Active design details">'
-        '<span class="sb-context-label">ACTIVE DESIGN</span>'
+        tr('<span class="sb-context-label">ACTIVE DESIGN</span>','<span class="sb-context-label">AKTİF TASARIM</span>')
         '<strong style="font-size:.85rem;color:#fff">'
         + escape(s.name) + '</strong>' + content + '</div>'
     )
@@ -70,59 +71,59 @@ def sidebar_editor() -> None:
         st.markdown("**Active Scenario**")
         st.caption(f"{scenario.name} · {scenario.volume_m3:g} m³ · "
                    f"{scenario.material_name}")
-        with st.expander("Edit shared design", expanded=False):
+        with st.expander(tr("Edit shared design","Ortak tasarımı düzenle"), expanded=False):
             # Epoch changes only when a validated design/preset is committed;
             # the edit widgets are re-created with current scenario defaults.
             with st.form(f"scenario_editor_{st.session_state['scenario_epoch']}"):
-                name = st.text_input("Scenario name", value=scenario.name,
+                name = st.text_input(tr("Scenario name","Senaryo adı"), value=scenario.name,
                                      max_chars=48)
                 medium = st.selectbox(
-                    "Material", list(MATERIALS),
+                    tr("Material","Malzeme"), list(MATERIALS),
                     index=list(MATERIALS).index(scenario.material_name))
                 volume = st.number_input(
-                    "Packed volume · m³", 50.0, 20000.0,
+                    tr("Packed volume · m³","Dolu hacim · m³"), 50.0, 20000.0,
                     float(scenario.volume_m3), step=25.0)
                 minimum = st.number_input(
-                    "Minimum useful temperature · °C", 20.0, 200.0,
+                    tr("Minimum useful temperature · °C","Minimum kullanılabilir sıcaklık · °C"), 20.0, 200.0,
                     float(scenario.minimum_c), step=10.0)
                 maximum = st.number_input(
-                    "Maximum storage temperature · °C", 250.0, 800.0,
+                    tr("Maximum storage temperature · °C","Maksimum depolama sıcaklığı · °C"), 250.0, 800.0,
                     float(scenario.maximum_c), step=10.0)
-                source = st.selectbox("Charge source", SOURCES,
+                source = st.selectbox(tr("Charge source","Şarj kaynağı"), SOURCES,
                                       index=SOURCES.index(scenario.source))
                 output = st.number_input(
-                    "Thermal demand · MW", 0.1, 40.0,
+                    tr("Thermal demand · MW","Isı talebi · MW"), 0.1, 40.0,
                     float(scenario.thermal_output_mw), step=0.5)
                 st.markdown("**Advanced geometry & source parameters**")
                 with st.container(border=False):  # Group controls without nested expanders.
-                    modules = st.number_input("Identical silos", 1, 16,
+                    modules = st.number_input(tr("Identical silos","Özdeş depolar"), 1, 16,
                                               int(scenario.modules))
-                    ratio = st.slider("Height / inner radius", 1.0, 6.0,
+                    ratio = st.slider(tr("Height / inner radius","Yükseklik / iç yarıçap"), 1.0, 6.0,
                                       float(scenario.height_over_radius), 0.25)
-                    insulation = st.slider("Insulation thickness · m", 0.1, 1.5,
+                    insulation = st.slider(tr("Insulation thickness · m","Yalıtım kalınlığı · m"), 0.1, 1.5,
                                             float(scenario.insulation_m), 0.05)
                     ambient = st.number_input(
-                        "Ambient · °C", -25.0, 45.0, float(scenario.ambient_c))
-                    hold = st.slider("Standby · days", 0.0, 30.0,
+                        tr("Ambient · °C","Ortam · °C"), -25.0, 45.0, float(scenario.ambient_c))
+                    hold = st.slider(tr("Standby · days","Bekleme · gün"), 0.0, 30.0,
                                       float(scenario.hold_days), 0.5)
-                    electric = st.number_input("Electric charging · MW",
+                    electric = st.number_input(tr("Electric charging · MW","Elektrikle şarj · MW"),
                          0.2, 100.0, float(scenario.electric_mw), step=0.5)
-                    aperture = st.number_input("CSP aperture · m²",
+                    aperture = st.number_input(tr("CSP aperture · m²","Yoğunlaştırılmış güneş açıklığı · m²"),
                          100.0, 150000.0, float(scenario.csp_aperture_m2), step=100.0)
-                    dni = st.number_input("CSP DNI · W/m²", 100.0, 1400.0,
+                    dni = st.number_input(tr("CSP DNI · W/m²","Doğrudan güneş ışınımı · W/m²"), 100.0, 1400.0,
                          float(scenario.csp_dni_w_m2), step=25.0)
-                    opt = st.slider("CSP efficiency", 0.1, 0.95,
+                    opt = st.slider(tr("CSP efficiency","CSP verimi"), 0.1, 0.95,
                                      float(scenario.csp_efficiency), 0.05)
-                    pv = st.number_input("PV rated · MWp", 0.0, 200.0,
+                    pv = st.number_input(tr("PV rated · MWp","Güneş PV nominal gücü · MWp"), 0.0, 200.0,
                          float(scenario.pv_mwp), step=1.0)
-                    pvcf = st.slider("PV capacity factor", 0.0, 0.6,
+                    pvcf = st.slider(tr("PV capacity factor","PV kapasite faktörü"), 0.0, 0.6,
                                       float(scenario.pv_capacity_factor), 0.05)
-                    wind = st.number_input("Wind rated · MW", 0.0, 200.0,
+                    wind = st.number_input(tr("Wind rated · MW","Rüzgâr nominal gücü · MW"), 0.0, 200.0,
                          float(scenario.wind_mw), step=1.0)
-                    windcf = st.slider("Wind capacity factor", 0.0, 0.75,
+                    windcf = st.slider(tr("Wind capacity factor","Rüzgâr kapasite faktörü"), 0.0, 0.75,
                                         float(scenario.wind_capacity_factor), 0.05)
                 submitted = st.form_submit_button(
-                    "Apply to all pages", type="primary", width="stretch")
+                    tr("Apply to all pages","Tüm sayfalara uygula"), type="primary", width="stretch")
             if submitted:
                 data = asdict(scenario)
                 data.update(
