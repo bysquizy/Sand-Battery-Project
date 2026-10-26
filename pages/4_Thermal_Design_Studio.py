@@ -47,7 +47,7 @@ except ValueError as exc:
 x,y,z,w=st.columns(4)
 x.metric("Stored sensible heat",f"{base['capacity_mwh']:,.1f} MWh(th)")
 y.metric("Initial heat loss",f"{base['initial_loss_kw']:,.1f} kW")
-z.metric("Module height",f"{base['height_m']:.2f} m")
+z.metric(tr("Module height","Modül yüksekliği"),f"{base['height_m']:.2f} m")
 w.metric("Thermal conductance",f"{base['ua_w_k']:.1f} W/K")
 
 cooling,modules_tab,insulation_tab,sizing=st.tabs([
