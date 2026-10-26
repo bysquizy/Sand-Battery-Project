@@ -10,8 +10,9 @@ from engine.research_v2 import LTNE,ltne,ergun
 from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Virtual Experiments | Sand Battery Studio',page_icon='🧪',layout='wide')
 from ui_theme import inject, hero, footer
+from localization import tr
 inject()
-hero("EXPERIMENTS / NUMERICAL TESTBENCH", "Virtual Experiments", "Investigate flow resistance, solver grid sensitivity and thermal retention using reproducible virtual studies.")
+hero(tr("EXPERIMENTS / NUMERICAL TESTBENCH","DENEYLER / SAYISAL TESTLER"), tr("Virtual Experiments","Sanal Deneyler"), tr("Investigate flow resistance, solver grid sensitivity and thermal retention using reproducible virtual studies.","Akış direnci, ağ duyarlılığı ve ısı depolama davranışını sanal deneylerle inceleyin."))
 shared = active()
 scenario_banner()
 st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
