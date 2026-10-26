@@ -29,15 +29,15 @@ with st.sidebar:
     st.caption("Current design: " + active().name)
     with st.expander("Getting started", expanded=False):
         st.markdown(
-            "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\\n\\n"
-            "**02 · Design Studio:** Compare envelope insulation and module sizing.\\n\\n"
-            "**03 · Scenarios:** Save, compare and restore A/B/C designs.\\n\\n"
-            "**04 · Model Verification:** Inspect 0-D/1-D and idealized closed-pipe limits.\\n\\n"
-            "**05 · Visual Story:** Animate calculated axial states and export reports.\\n\\n"
-            "**06 · Advanced Research:** Explore LTNE, renewables, exergy and costs.\\n\\n"
-            "**07 · Material Atlas:** Compare material assumptions and heat capacity.\\n\\n"
-            "**08 · Virtual Experiments:** Run numerical grid/loss/Ergun checks.\\n\\n"
-            "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\\n\\n"
+            "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\n\n"
+            "**02 · Design Studio:** Compare envelope insulation and module sizing.\n\n"
+            "**03 · Scenarios:** Save, compare and restore A/B/C designs.\n\n"
+            "**04 · Model Verification:** Inspect 0-D/1-D and idealized closed-pipe limits.\n\n"
+            "**05 · Visual Story:** Animate calculated axial states and export reports.\n\n"
+            "**06 · Advanced Research:** Explore LTNE, renewables, exergy and costs.\n\n"
+            "**07 · Material Atlas:** Compare material assumptions and heat capacity.\n\n"
+            "**08 · Virtual Experiments:** Run numerical grid/loss/Ergun checks.\n\n"
+            "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\n\n"
             "**Important:** This is a simulation-only academic application, not measured equipment."
         )
     st.link_button("GitHub Repository ↗",
