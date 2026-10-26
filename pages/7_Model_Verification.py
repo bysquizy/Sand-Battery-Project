@@ -12,6 +12,7 @@ from engine.design_lab import cooling_profile
 from engine.materials import MATERIALS
 from engine.physics import simulate_cycle, summarize
 from engine.property_curves import TabulatedMaterial
+from engine.insulation_layers import InsulationLayer, layered_cylinder
 from engine.thermocline import simulate_thermocline
 from scenario_state import active, scenario_banner
 from ui_theme import inject
@@ -27,9 +28,9 @@ d = s.make_design()
 m = MATERIALS[s.material_name]
 st.warning("Research-grade numerical approximations, NOT experimentally calibrated "
            "equipment, design certification or published plant performance.")
-compare_tab, pipe_tab, material_tab, convergence_tab = st.tabs([
+compare_tab, pipe_tab, material_tab, insulation_tab, convergence_tab = st.tabs([
     "0-D vs 1-D", "Closed-Pipe Heat Transfer", "cp(T) Data Integrity",
-    "Verification Benchmarks",
+    "Layered Insulation", "Verification Benchmarks",
 ])
 
 
@@ -251,6 +252,48 @@ with material_tab:
             "enthalpy spike without its digitized, sourced dataset.")
     st.link_button("Review NREL source (report 84728)",
                    "https://www.nrel.gov/docs/fy23osti/84728.pdf")
+
+with insulation_tab:
+    st.subheader("Two-layer insulation thermal resistance study")
+    st.write("Explore independent inner/outer insulation assumptions. "
+             "The cylinder side is radial conduction; the two caps use "
+             "simplified plane conduction and outdoor convection.")
+    a,b,c=st.columns(3)
+    with a:
+        inner_t=st.slider("Inner layer thickness (m)",0.05,1.0,0.25,0.05,key="layer_t1")
+        inner_k=st.slider("Inner conductivity (W/mK)",0.02,0.3,0.09,0.01,key="layer_k1")
+    with b:
+        outer_t=st.slider("Outer layer thickness (m)",0.05,1.0,0.25,0.05,key="layer_t2")
+        outer_k=st.slider("Outer conductivity (W/mK)",0.02,0.3,0.05,0.01,key="layer_k2")
+    with c:
+        ext_h=st.slider("Exterior convection (W/m²K)",2.0,30.0,10.0,1.0,key="layer_h")
+        skin_t=st.slider("Assumed inner-face temperature (°C)",
+                         float(d.ambient_c),float(d.maximum_c),
+                         float(d.maximum_c),key="layer_inner")
+    try:
+        base=summarize(d,m)
+        data=layered_cylinder(
+            base["radius_m"],base["height_m"],
+            (InsulationLayer(inner_t,inner_k,"Inner assumed layer"),
+             InsulationLayer(outer_t,outer_k,"Outer assumed layer")),
+            ext_h,skin_t,d.ambient_c,
+        )
+        a,b,c=st.columns(3)
+        a.metric("Layered total UA",f"{d.modules*data['ua_total_w_k']:.1f} W/K")
+        b.metric("Outer-side temperature",f"{data['outer_surface_c']:.1f} °C")
+        c.metric("Total modeled heat leak",
+                 f"{d.modules*data['total_loss_w']/1000:.1f} kW")
+        ff=pd.DataFrame({
+            "Radius (m)":data["radial_positions_m"],
+            "Temperature (°C)":data["interface_temperatures_c"],
+        })
+        st.line_chart(ff.set_index("Radius (m)"),height=280)
+        st.caption(f"Existing one-layer baseline UA: {base['ua_w_k']:.1f} W/K. "
+                   "These models have different insulation properties and "
+                   "are not experimentally calibrated alternatives.")
+    except ValueError as exc:
+        st.error(str(exc))
+
 
 with convergence_tab:
     st.subheader("Analytic and numerical boundary checks")
