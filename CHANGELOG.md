@@ -3,6 +3,20 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## [1.4.0] — 2026-10-26 (Stage 2: Shared scenarios & user experience)
+- Added one validated `Active Scenario` for the dashboard, Material Atlas,
+  Research Lab, Virtual Experiments, and Thermal Design Studio.
+- Added a compact shared sidebar editor; page-specific exploratory controls
+  are labelled as local overrides and reset on applying a new active design.
+- Added Scenario Manager: independent A/B/C saved designs, calculated comparison
+  results, CSV output and strict 40 kB / schema v1 JSON import/export.
+- Changed Dashboard from eagerly evaluated tabs to selected-workspace rendering,
+  reducing unnecessary Plotly/3D and screening calculations.
+- Archived superseded alpha/beta release-note files under `docs/archive`; kept
+  all physics and materials Python modules because they remain used.
+- Preserved Stage 1 security validation, numerical equations and the original
+  five runtime dependencies.
+
 ## [1.3.0] — 2026-10-26 (Stage 1: Foundation & Security)
 - Hardened hourly CSV uploads: UTF-8, 1 MB maximum, 8,760 row limit, expected
   numeric columns, finite nonnegative values and bounded power inputs.
