@@ -5,6 +5,7 @@ change calculations until Apply is pressed. Session data are ephemeral.
 """
 from __future__ import annotations
 from dataclasses import asdict
+from html import escape
 import streamlit as st
 
 from engine.materials import MATERIALS
@@ -42,11 +43,24 @@ def set_active(scenario: Scenario) -> None:
 
 
 def scenario_banner() -> None:
+    """Shared compact scenario ribbon; labels are escaped before HTML use."""
     s = active()
-    st.caption(
-        f"ACTIVE DESIGN · {s.name} · {s.material_name} · "
-        f"{s.volume_m3:,.0f} m³ · {s.minimum_c:g}–{s.maximum_c:g} °C · "
-        f"{s.source} (illustrative)"
+    pills = [
+        s.material_name,
+        f"{s.volume_m3:,.0f} m³",
+        f"{s.minimum_c:g}–{s.maximum_c:g} °C",
+        f"{s.charge_power_mw():,.2f} MW charge",
+        s.source,
+    ]
+    content = "".join(
+        '<span class="sb-chip">' + escape(str(value)) + '</span>'
+        for value in pills
+    )
+    st.html(
+        '<div class="sb-context" role="note" aria-label="Active design details">'
+        '<span class="sb-context-label">ACTIVE DESIGN</span>'
+        '<strong style="font-size:.85rem;color:#fff">'
+        + escape(s.name) + '</strong>' + content + '</div>'
     )
 
 
@@ -108,7 +122,7 @@ def sidebar_editor() -> None:
                     windcf = st.slider("Wind capacity factor", 0.0, 0.75,
                                         float(scenario.wind_capacity_factor), 0.05)
                 submitted = st.form_submit_button(
-                    "Apply to all pages", type="primary", use_container_width=True)
+                    "Apply to all pages", type="primary", width="stretch")
             if submitted:
                 data = asdict(scenario)
                 data.update(

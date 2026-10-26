@@ -1,6 +1,6 @@
 # Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current software release:** 2.0.0 — stages 4 and 5 implemented; owner browser acceptance and later five-stage revisions pending.
+**Current software release:** 2.1.0 — five-stage software implementation plus a cross-stage premium UI/security audit. Real-browser acceptance and measured scientific validation remain open.
 **Application:** independent Group 8 numerical research platform, not
 an experimentally validated or construction-certified thermal battery.
 
@@ -34,7 +34,8 @@ coefficients, add paid services or assert experimental calibration.
 - [x] Distinguish 0-D uniform-body physics from 1-D axial direct-contact LTE calculations.
 - [x] Add adjustable charge/discharge cutoffs and 1-D phase energy ledger.
 - [x] Implement an independent simplified closed-pipe fluid/solid resistance and sensible-enthalpy model with outlet-grade constraints.
-- [x] Add source-labelled tabulated cp(T), strict measured-domain checking and numerical analytical tests.\n- [x] Add an optional 2-layer insulation screen; the old thermal_ua equation is unchanged.
+- [x] Add source-labelled tabulated cp(T), strict measured-domain checking and numerical analytical tests.
+- [x] Add an optional 2-layer insulation screen; the old thermal_ua equation is unchanged.
 - [x] Revise Stage 1/2 input security, wasted inactive calculations and stale simulation plots.
 - [ ] Full 2-D/3-D embedded-loop CFD and commercial piping calibration (unavailable geometry/measurements).
 - [ ] Sourced measured cp(T) data for each material, quartz inversion enthalpy and experimental transient validation.
@@ -64,6 +65,20 @@ coefficients, add paid services or assert experimental calibration.
 - [ ] GitHub About Website field and GitHub Release creation if authorized by maintainer/admin; connector permissions may limit these.
 - [ ] AI usage statement and open-source license review subject to group/course agreement.
 - [ ] Final all-stages post-release audit and user-requested edits (next revision cycle).
+
+## Cross-stage revision — Premium UX & Security (v2.1)
+
+- [x] Consistent nine-page premium visual system using native Streamlit
+      theme and trusted static CSS/HTML only, with no JavaScript.
+- [x] Shared contextual ribbon and Group 8 source-credit footer.
+- [x] Mobile and reduced-motion layout safeguards and improved contrast.
+- [x] Formula-safe CSV download for user-controlled scenario names.
+- [x] Preserve explicit Streamlit CORS and XSRF protections.
+- [x] Cross-page smoke/regression coverage, source limitations preserved.
+- [ ] True live Cloud browser screenshot, keyboard-only and physical-phone
+      acceptance: unavailable via the repository connector and text-only web crawl.
+- [ ] Full upstream dependency security audit and real-world calibration:
+      tests and CodeQL do not replace either.
 
 ## Quality gate for every stage
 

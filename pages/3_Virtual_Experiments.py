@@ -9,10 +9,9 @@ from engine.materials import MATERIALS
 from engine.research_v2 import LTNE,ltne,ergun
 from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Virtual Experiments | Sand Battery Studio',page_icon='🧪',layout='wide')
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 inject()
-st.caption('SAND BATTERY STUDIO · NUMERICAL EXPERIMENTS')
-st.title('Virtual Experiments & Model Verification')
+hero("EXPERIMENTS / NUMERICAL TESTBENCH", "Virtual Experiments", "Investigate flow resistance, solver grid sensitivity and thermal retention using reproducible virtual studies.")
 shared = active()
 scenario_banner()
 st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
@@ -81,3 +80,5 @@ with loss:
         st.plotly_chart(fig,width='stretch',key='exp_loss_fig')
         st.download_button('Export thermal design matrix (CSV)',pd.DataFrame(z,index=blankets,columns=days).to_csv(),file_name='loss_experiment.csv')
     st.caption('Model includes mean bulk temperature, geometry and UA only; no thermal bridging, exchanger outlet pinch or structural model.')
+
+footer()

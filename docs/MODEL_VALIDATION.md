@@ -1,6 +1,6 @@
 # Model Specification, Numerical Verification and Validation Gaps
 
-**Status: v2.0 Stage 4/5 visualization & publication review · 26 October 2026; NOT experimentally validated**
+**Status: v2.1 Premium UI and security revision · 26 October 2026; NOT experimentally validated**
 
 ## Model domains
 

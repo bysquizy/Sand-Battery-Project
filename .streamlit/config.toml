@@ -1,10 +1,20 @@
+# Native theme tokens first; optional static CSS refines the brand only.
+# No browser JavaScript injection, external fonts or remote assets.
 [theme]
 base = "dark"
-primaryColor = "#e3a86c"
-backgroundColor = "#08111d"
-secondaryBackgroundColor = "#101f2d"
-textColor = "#ecf2f8"
+primaryColor = "#68E5CF"
+backgroundColor = "#07121D"
+secondaryBackgroundColor = "#112636"
+textColor = "#EEF6FA"
 font = "sans serif"
+
+[theme.sidebar]
+primaryColor = "#F0C18D"
+backgroundColor = "#0C1D2A"
+secondaryBackgroundColor = "#173243"
+textColor = "#E2EDF3"
 
 [server]
 headless = true
+enableCORS = true
+enableXsrfProtection = true

@@ -15,13 +15,12 @@ from engine.property_curves import TabulatedMaterial
 from engine.insulation_layers import InsulationLayer, layered_cylinder
 from engine.thermocline import simulate_thermocline
 from scenario_state import active, scenario_banner
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 
 st.set_page_config(page_title="Model Verification | Sand Battery Studio",
                    page_icon="📏", layout="wide")
 inject()
-st.caption("SAND BATTERY STUDIO  /  SCIENTIFIC METHODS")
-st.title("Model Verification & Closed-Pipe Research")
+hero("METHODS / VERIFICATION", "Model Verification", "Compare physical topologies, inspect numerical conservation and explore the limits of simplified exchanger models.")
 s = active()
 scenario_banner()
 d = s.make_design()
@@ -337,3 +336,5 @@ with convergence_tab:
                "DOI 10.3390/cleantechnol8050165; NREL 84728. "
                "Wakao et al. (1979) packed-bed correlations apply to different "
                "direct-contact regimes and are not assigned to this closed-pipe model.")
+
+footer()

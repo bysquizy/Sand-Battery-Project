@@ -1,4 +1,12 @@
-# Sand Battery Studio — v2.0 Visualization & Research Publication
+# Sand Battery Studio · v2.1 Premium Research Interface
+
+[![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://github.com/bysquizy/Sand-Battery-Project/actions)
+[![Test & quality](https://github.com/bysquizy/Sand-Battery-Project/actions/workflows/quality.yml/badge.svg)](https://github.com/bysquizy/Sand-Battery-Project/actions/workflows/quality.yml)
+![Status](https://img.shields.io/badge/Scientific%20status-Uncalibrated%20simulation-627d8d)
+
+![Simulation architecture](assets/architecture.svg)
+
+**Web-first thermal engineering research — no installation, external account or sensor hardware required.**
 
 [**Open the live web application**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [**GitHub repository**](https://github.com/bysquizy/Sand-Battery-Project) · [**Scientific methods**](docs/ADVANCED_RESEARCH_V2.md)
 
@@ -8,13 +16,31 @@ A lightweight, English-language, browser-based engineering simulation of **sensi
 
 > **Software research tool, not an experimentally validated industrial sand battery.** All energy, economic and material scenario results must be interpreted within their stated assumptions. A validated energy balance does not certify actual operating performance.
 
+## Premium v2.1 experience
+
+The entire nine-page interface now shares one accessible deep-navy/teal/copper
+visual language, a source-aware footer, an escaped Active Scenario ribbon,
+responsive spacing and consolidated onboarding. UI motion is short and respects
+reduced-motion preferences. Native Streamlit controls remain accessible and
+functional; static HTML/CSS is restricted to trusted layout and branding.
+
+**Security refinements:** uploaded JSON/CSV inputs remain strictly validated;
+any user-controlled scenario labels in downloadable comparison CSV are
+escaped against spreadsheet-formula execution. Explicit Streamlit CORS/XSRF
+protections are enabled. No JavaScript, CDN fonts or new runtime libraries.
+
+See [UI and security audit](docs/PREMIUM_UX_AUDIT.md) and
+[Equation-to-code traceability](docs/EQUATION_TRACEABILITY.md).
+
 ## Explore the site
 
 | Workspace | What you can explore |
 | --- | --- |
 | **Engineering Dashboard** | 0-D charge/hold/discharge, useful heat, energy losses, Sankey balance, annotated temperature timelines, illustrative animated 3D silo and bounded material screening |
-| **Visual Story Studio** | 1-D data-grounded 3D thermal animation, computed heatmaps, sensitivity/tornado and design-tradeoff figures, offline HTML/PDF/JSON scenario reports |\n| **Model Verification** | 0-D vs 1-D model comparison, simplified closed-pipe heat transfer, cp(T) data integrity and numerical benchmarks | 
-| **Scenario Manager** | Three A/B/C design snapshots, numerical KPI comparisons, versioned JSON import/export and CSV tables (browser session only) |\n| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
+| **Visual Story Studio** | 1-D data-grounded 3D thermal animation, computed heatmaps, sensitivity/tornado and design-tradeoff figures, offline HTML/PDF/JSON scenario reports |
+| **Model Verification** | 0-D vs 1-D model comparison, simplified closed-pipe heat transfer, cp(T) data integrity and numerical benchmarks | 
+| **Scenario Manager** | Three A/B/C design snapshots, numerical KPI comparisons, versioned JSON import/export and CSV tables (browser session only) |
+| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
 | **Advanced Research Lab** | Exergy, synthetic PV/wind dispatch, direct-contact LTNE, Ergun pressure loss, ideal ε–NTU exchanger, illustrative uncertainty and LCOH |
 | **Material Atlas** | 18 sourced-or-assumption-labeled materials, cp(T) curves, temperature/capacity comparison, theoretical ideal mixtures |
 | **Virtual Experiments** | Mesh-sensitivity comparison, air-flow/pressure resistance and insulation/standby case studies |

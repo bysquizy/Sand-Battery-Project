@@ -14,13 +14,12 @@ from engine.design_lab import (
     volume_for_target_mwh, cooling_profile, module_comparison,
     radial_insulation_profile, bounded_geometry_candidates,
 )
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 from scenario_state import active, scenario_banner
 
 st.set_page_config(page_title="Thermal Design Studio | Sand Battery", layout="wide", page_icon="📐")
 inject()
-st.caption("SAND BATTERY STUDIO  /  THERMAL DESIGN")
-st.title("Thermal Design Studio")
+hero("DESIGN / THERMAL ENGINEERING", "Thermal Design Studio", "Examine insulation, passive cooling, modular tank geometry and target thermal capacity.")
 st.write("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.")
 st.info("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.")
 
@@ -195,3 +194,5 @@ with sizing:
 st.divider()
 st.markdown("**Method references:** Bošnjaković & Santa (2026), DOI 10.3390/cleantechnol8050165; original team legacy calculation archive (engineering workflow), not a measured dataset.")
 st.caption("All figures are mathematical visualization of numerical assumptions; no real prototype, instrumentation, CFD, structural qualification or cost validation is included.")
+
+footer()
