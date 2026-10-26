@@ -58,8 +58,8 @@ def scenario_banner() -> None:
         for value in pills
     )
     st.html(
-        '<div class="sb-context" role="note" aria-label="Active design details">'
-        tr('<span class="sb-context-label">ACTIVE DESIGN</span>','<span class="sb-context-label">AKTİF TASARIM</span>')
+        '<div class="sb-context" role="note" aria-label="Active design details">' +
+        tr('<span class="sb-context-label">ACTIVE DESIGN</span>','<span class="sb-context-label">AKTİF TASARIM</span>') +
         '<strong style="font-size:.85rem;color:#fff">'
         + escape(s.name) + '</strong>' + content + '</div>'
     )
@@ -68,7 +68,7 @@ def scenario_banner() -> None:
 def sidebar_editor() -> None:
     scenario = active()
     with st.sidebar:
-        st.markdown("**Active Scenario**")
+        st.markdown(tr("**Active Scenario**","**Aktif senaryo**"))
         st.caption(f"{scenario.name} · {scenario.volume_m3:g} m³ · "
                    f"{scenario.material_name}")
         with st.expander(tr("Edit shared design","Ortak tasarımı düzenle"), expanded=False):
