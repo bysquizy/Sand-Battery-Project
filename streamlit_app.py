@@ -1,60 +1,45 @@
-"""Sand Battery Studio — research-oriented, compact multipage navigation.
-
-File-based pages are registered explicitly to work reliably on Streamlit Cloud.
-"""
+"""Sand Battery student project navigation with bilingual controls."""
 import streamlit as st
+from localization import t, tr
 from scenario_state import sidebar_editor, active
 
+with st.sidebar:
+    st.selectbox("Dil / Language", ["English", "Türkçe"], index=1 if st.session_state.get("sb_language")=="tr" else 0,
+                 key="sb_language_select", on_change=lambda: st.session_state.update(
+                     sb_language="tr" if st.session_state["sb_language_select"]=="Türkçe" else "en"))
+    st.session_state["sb_language"] = "tr" if st.session_state["sb_language_select"] == "Türkçe" else "en"
+
 pages = {
-    "Simulation": [
-        st.Page("home_app.py", title="Engineering Dashboard", icon="🏠", default=True),
-        st.Page("pages/4_Thermal_Design_Studio.py", title="Thermal Design Studio", icon="📐"),
-        st.Page("pages/6_Scenario_Manager.py", title="Scenario Manager", icon="🗂️"),
-        st.Page("pages/7_Model_Verification.py", title="Model Verification", icon="📏"),
-        st.Page("pages/8_Visual_Story_Studio.py", title="Visual Story Studio", icon="🎬"),
+    t("simulation"): [
+        st.Page("home_app.py", title=t("dashboard"), icon="🏠", default=True),
+        st.Page("pages/9_How_It_Works.py", title=t("how"), icon="❔"),
+        st.Page("pages/4_Thermal_Design_Studio.py", title=t("design"), icon="📐"),
+        st.Page("pages/6_Scenario_Manager.py", title=t("scenarios"), icon="🗂️"),
+        st.Page("pages/7_Model_Verification.py", title=t("verification"), icon="📏"),
+        st.Page("pages/8_Visual_Story_Studio.py", title=t("visuals"), icon="🎬"),
     ],
-    "Advanced Research": [
-        st.Page("pages/1_Engineering_Research_Lab.py", title="Advanced Research Lab", icon="🔬"),
-        st.Page("pages/2_Material_Atlas.py", title="Material Atlas", icon="🧱"),
-        st.Page("pages/3_Virtual_Experiments.py", title="Virtual Experiments", icon="🧪"),
+    t("advanced"): [
+        st.Page("pages/1_Engineering_Research_Lab.py", title=t("laboratory"), icon="🔬"),
+        st.Page("pages/2_Material_Atlas.py", title=t("materials"), icon="🧱"),
+        st.Page("pages/3_Virtual_Experiments.py", title=t("experiments"), icon="🧪"),
     ],
-    "Research & Sources": [
-        st.Page("pages/5_Project_Research_Library.py", title="Research Hub", icon="📚"),
+    t("research"): [
+        st.Page("pages/5_Project_Research_Library.py", title=t("research_hub"), icon="📚"),
     ],
 }
 current = st.navigation(pages, position="sidebar", expanded=True)
 with st.sidebar:
-    st.html(
-        '<div style="padding:14px 13px 12px;border-radius:15px;'
-        'border:1px solid #385e69;background:linear-gradient(125deg,#193d44,#102431);'
-        'margin:4px 0 15px">'
-        '<div style="color:#72e9d1;letter-spacing:.18em;font-size:.67rem;'
-        'font-weight:800">GROUP 8 · STUDENT PROJECT</div>'
-        '<div style="color:#f4fafc;font-size:1.19rem;font-weight:800;'
-        'letter-spacing:-.03em;margin-top:5px">Sand Battery Studio</div>'
-        '<div style="color:#c5d7df;font-size:.75rem;margin-top:4px">'
-        'Thermal energy storage simulation</div></div>'
-    )
+    st.markdown("### Sand Battery Project")
+    st.caption(t("intro"))
 sidebar_editor()
 with st.sidebar:
-    st.caption("Active model: " + active().name)
-    with st.expander("Pages and functions", expanded=False):
-        st.markdown(
-            "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\n\n"
-            "**02 · Design Studio:** Compare envelope insulation and module sizing.\n\n"
-            "**03 · Scenarios:** Save, compare and restore A/B/C designs.\n\n"
-            "**04 · Model Verification:** Inspect 0-D/1-D and idealized closed-pipe limits.\n\n"
-            "**05 · Visual Story:** Animate calculated axial states and export reports.\n\n"
-            "**06 · Advanced Research:** Explore LTNE, renewables, exergy and costs.\n\n"
-            "**07 · Material Atlas:** Compare material assumptions and heat capacity.\n\n"
-            "**08 · Virtual Experiments:** Run numerical grid/loss/Ergun checks.\n\n"
-            "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\n\n"
-            "**Important:** This is a simulation-only academic application, not measured equipment."
-        )
-    st.link_button("GitHub project repository",
-                   "https://github.com/bysquizy/Sand-Battery-Project",
-                   width="stretch")
-    st.link_button("Open the simulation",
-                   "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/",
-                   width="stretch")
+    st.caption(t("active") + ": " + active().name)
+    with st.expander(t("pages"), expanded=False):
+        st.markdown(tr(
+            "Dashboard: heat storage and losses. Design: insulation and geometry. Scenarios: compare settings. Verification: numerical assumptions. Visuals: graphs and exports. Research: sources and methods.",
+            "Panel: depolama ve ısı kayıpları. Tasarım: yalıtım ve geometri. Senaryolar: ayarları karşılaştırın. Doğrulama: sayısal varsayımlar. Görseller: grafik ve raporlar. Araştırma: kaynaklar ve yöntemler."
+        ))
+    st.link_button("⌘ " + t("github"), "https://github.com/bysquizy/Sand-Battery-Project", width="stretch")
+    st.link_button(t("live"), "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/", width="stretch")
+    st.caption(t("author"))
 current.run()
