@@ -17,6 +17,8 @@ from visuals import timeline, ledger, plant_3d, material_comparison, thermocline
 from engine.reporting import scenario_markdown
 from project_info import PROJECT
 from project_version import APP_VERSION, APP_VERSION_LABEL
+from engine.scenarios import PRESETS, SLOTS, to_json
+from scenario_state import active, set_active, scenario_banner
 
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
@@ -30,23 +32,13 @@ def _cached_cycle(d,m):
     """Reuse a valid scenario instead of re-solving on every UI rerun."""
     return simulate_cycle(d,m)
 
-DEMO_PRESETS = {
-    "Industrial thermal store": dict(volume=1000., modules=1, max_temperature=550.,
-                                   standby_days=2., thermal_output=2., charging_power=5., source_index=0),
-    "Compact research study": dict(volume=250., modules=1, max_temperature=450.,
-                                  standby_days=0.5, thermal_output=1., charging_power=2., source_index=0),
-    "CSP-assisted thermal storage": dict(volume=1500., modules=2, max_temperature=500.,
-                                        standby_days=1.5, thermal_output=3., charging_power=5., source_index=1),
-}
+DEMO_PRESETS = tuple(PRESETS)
 
 # All numerical pages now consume the same committed, validated design.
 # The global editor lives in streamlit_app.py's sidebar.
-from scenario_state import active, set_active, scenario_banner
-from engine.scenarios import PRESETS
-
 with st.sidebar:
     preset_name = st.selectbox(
-        "Illustrative presentation scenario",tuple(DEMO_PRESETS),key="demo_preset")
+        "Illustrative presentation scenario",DEMO_PRESETS,key="demo_preset")
     st.caption("Example configurations only — not measured Finnish plants.")
     if st.button("Use selected preset", key="home_apply_preset",
                  use_container_width=True):
@@ -211,7 +203,13 @@ elif view == 'Materials & Optimization':
 payload={'version':APP_VERSION,'design':asdict(design),'material':asdict(material),
          'results':{k:float(v) for k,v in result.items() if isinstance(v,(int,float,np.floating))},
          'status':'numerical-research-preview; not experimentally validated'}
-st.download_button('↓  Export current simulation · JSON',json.dumps(payload,indent=2),
+st.download_button('↓ Export numerical results · JSON',json.dumps(payload,indent=2),
                    file_name='sand_battery_scenario.json',mime='application/json')
+st.download_button(
+    "↓ Save active scenario · JSON (Scenario Manager)",
+    to_json(current_scenario, {slot: None for slot in SLOTS}),
+    file_name="sand_battery_active_scenario.json",
+    mime="application/json", key="home_scenario_export",
+)
 st.download_button('↓ Export engineering summary · Markdown',scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
 st.markdown('<div class="foot">SAND BATTERY STUDIO · GROUP 8 · EDUCATIONAL NUMERICAL SIMULATION<br>Research and source references are available in the dedicated Research Hub.</div>',unsafe_allow_html=True)
