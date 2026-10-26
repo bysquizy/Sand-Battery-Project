@@ -14,9 +14,10 @@ from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
 
 st.set_page_config(page_title="Engineering Research Lab | Sand Battery Studio",page_icon="🔬",layout="wide")
 from ui_theme import inject, hero, footer
+from localization import tr
 inject()
 
-hero("RESEARCH / ADVANCED PHYSICS", "Engineering Research Lab", "Compare second-law bounds, renewable dispatch, packed-bed heat transfer, heat exchangers, uncertainty and research-grade economics.")
+hero(tr("RESEARCH / ADVANCED PHYSICS","İLERİ FİZİK ARAŞTIRMASI"), tr("Engineering Research Lab","Mühendislik Araştırma Laboratuvarı"), tr("Compare second-law bounds, renewable dispatch, packed-bed heat transfer, heat exchangers, uncertainty and research-grade economics.","Termodinamiğin ikinci yasasını, yenilenebilir enerji kullanımını, ısı transferini, belirsizlikleri ve maliyetleri inceleyin."))
 shared = active()
 scenario_banner()
 st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
