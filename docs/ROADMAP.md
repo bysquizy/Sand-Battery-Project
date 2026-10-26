@@ -7,7 +7,7 @@ an experimentally validated or construction-certified thermal battery.
 ## Stage 1 — Code Foundation, Security & Cleanup (v1.3)
 
 - [x] Review Python 3.13, documentation and safety-related development settings.
-- [x] Restore default Codespaces/Streamlit CORS and XSRF protections.
+- [x] Keep Streamlit CORS and XSRF protections enabled; remove optional desktop-oriented development container configuration.
 - [x] Add bounded CSV import validation and guard the Material Atlas heatmap.
 - [x] Consolidate active software-version strings and archive obsolete release notes.
 - [x] Expand numerical/upload/UI regression tests and focused import linting.
