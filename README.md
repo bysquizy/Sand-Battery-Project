@@ -2,7 +2,7 @@
 
 **Sand-based thermal energy storage — numerical simulation and research project**
 
-**Group 8:** Yağız Topaç · Semih Cenk · Fatma Ovacık
+**Group 8:** Yağız Topaç · Semih Cenk · Fatma Ovacık\n\n**Web application development:** Yağız Topaç ([@bysquizy](https://github.com/bysquizy))
 
 [Run the simulation](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [Source code](https://github.com/bysquizy/Sand-Battery-Project)
 
@@ -14,7 +14,7 @@ The project is **software-only**. Charts are illustrative numerical results. Res
 
 ## What the application does
 
-- **Engineering Dashboard:** explores charging, stored heat, useful thermal output and heat losses.
+- **Engineering Dashboard:** explores charging, stored heat, useful thermal output and heat losses.\n- **How It Works / Nasıl Çalışır?:** explains the simulation and its assumptions.
 - **Thermal Design Studio:** compares insulation and tank-design choices.
 - **Scenario Manager:** saves and compares design configurations.
 - **Model Verification:** inspects calculation and energy-balance assumptions.
@@ -22,7 +22,7 @@ The project is **software-only**. Charts are illustrative numerical results. Res
 - **Advanced Research Lab, Material Atlas and Virtual Experiments:** explores materials, sensitivities and additional simplified engineering models.
 - **Research Hub:** documents the project background, sources and limitations.
 
-All pages use a shared active scenario. Adjustable waiting periods, including a two-day example value, are **simulation inputs**, not project deadlines.
+All engineering pages use a shared active scenario. Storage time is an adjustable model input, not a project deadline.
 
 ## How it works
 
