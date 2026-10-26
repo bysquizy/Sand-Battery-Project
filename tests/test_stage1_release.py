@@ -14,7 +14,7 @@ def test_project_version_metadata_agree():
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert project["project"]["version"] == APP_VERSION
     assert project["project"]["requires-python"] == ">=3.13,<3.14"
-    assert APP_VERSION_LABEL == "v1.3.0"
+    assert APP_VERSION_LABEL == "v1.4.0"
     assert APP_VERSION_LABEL.split(".")[0] in (ROOT / "README.md").read_text(encoding="utf-8")
     assert f'version: "{APP_VERSION}"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
