@@ -6,6 +6,7 @@ import streamlit as st
 from engine.materials import MATERIALS,blend
 from engine.material_scenarios_v2 import SCENARIOS
 from engine.research_v2 import exergy_mwh
+from engine.input_validation import temperature_sweep
 st.set_page_config(page_title='Material Atlas | Sand Battery Studio',page_icon='🧱',layout='wide')
 from ui_theme import inject
 inject()
@@ -52,7 +53,8 @@ st.subheader('Capacity response to maximum temperature')
 st.caption('A temperature-sweep of the same illustrative property models; it does not imply safe operation at those temperatures.')
 heat_options=st.multiselect('Choose materials for the heatmap',list(all_materials),default=['Silica sand','Crushed basalt','Crushed refractory brick'],max_selections=8,key='atlas_heatmap_mats')
 if heat_options:
-    tgrid=np.linspace(max(low+1,300),min(850,max(400,high)),8)
+    # Every heatmap temperature must remain inside the selected range.
+    tgrid = temperature_sweep(low, high, n=8)
     z=[[all_materials[label].bulk_density*vol*(all_materials[label].enthalpy(t)-all_materials[label].enthalpy(low))/3.6e9 for t in tgrid] for label in heat_options]
     fg=go.Figure(go.Heatmap(z=z,x=[round(t) for t in tgrid],y=heat_options,colorscale='YlOrRd',colorbar=dict(title='MWhth'),hovertemplate='%{y}<br>Maximum: %{x} °C<br>Storage: %{z:.1f} MWhth<extra>Scenario</extra>'))
     fg.update_layout(template='plotly_dark',height=max(260,64*len(heat_options)+110),xaxis_title='Maximum storage temperature (°C)',margin=dict(l=10,r=10,t=15,b=55))
