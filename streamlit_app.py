@@ -38,7 +38,7 @@ with st.sidebar:
 sidebar_editor()
 with st.sidebar:
     st.caption("Active model: " + active().name)
-    with st.expander("Explore the platform", expanded=False):
+    with st.expander("Getting started · platform guide", expanded=False):
         st.markdown(
             "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\n\n"
             "**02 · Design Studio:** Compare envelope insulation and module sizing.\n\n"
@@ -51,7 +51,7 @@ with st.sidebar:
             "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\n\n"
             "**Important:** This is a simulation-only academic application, not measured equipment."
         )
-    st.link_button("Open the GitHub repository",
+    st.link_button("GitHub Repository · Source & Methods",
                    "https://github.com/bysquizy/Sand-Battery-Project",
                    width="stretch")
     st.link_button("Open the live platform",
