@@ -3,6 +3,22 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## [2.0.0] — 2026-10-26 (Stages 4/5: Visual Engineering & Publication)
+- Added independent Visual Story Studio: computed 1-D axial temperature
+  snapshots mapped onto an interactive Plotly 3D cylinder and synchronized
+  temporal heatmap, both clearly labeled as axial model representations.
+- Added bounded volume/insulation tradeoff and deterministic ±10%
+  input-sensitivity plots, computed only when requested.
+- Added self-contained illustrated HTML and compact native PDF reports,
+  plus CSV and reproducible JSON exports with no additional dependencies.
+- Extended Research Hub source matrix and published true source-attributed
+  Kankaanpää/Pornainen rating comparison; removed arbitrary flow percentages
+  used for the decorative conceptual Sankey.
+- Added accessible repository architecture illustration, equation/source/code
+  traceability register, release QA checklist, standardized version and links.
+- Preserved unvalidated simulation disclosures; no measured sensor feeds,
+  arbitrary quartz phase enthalpy or manufacturer calibration inferred.
+
 ## [1.5.0] — 2026-10-26 (Stage 3: Scientific Verification)
 - Added a separate lumped-solid closed-pipe heat-transfer research model with fluid, pipe-wall and surrounding-solid thermal resistances, outlet-grade constraints and a phase-integrated energy ledger.
 - Added a 0-D/1-D comparison interface with explicit divergent physical assumptions and user-adjustable direct-contact model cutoffs.
