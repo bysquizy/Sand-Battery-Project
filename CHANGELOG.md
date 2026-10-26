@@ -4,7 +4,7 @@ Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
 ## [1.4.0] — 2026-10-26 (Stage 2: Shared scenarios & user experience)
-- Added one validated `Active Scenario` for the dashboard, Material Atlas,
+- Aligned Research Lab charging-power control with the full valid shared PV/wind source range.\n- Added one validated `Active Scenario` for the dashboard, Material Atlas,
   Research Lab, Virtual Experiments, and Thermal Design Studio.
 - Added a compact shared sidebar editor; page-specific exploratory controls
   are labelled as local overrides and reset on applying a new active design.
