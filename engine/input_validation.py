@@ -31,19 +31,25 @@ def parse_hourly_dispatch_csv(blob: bytes) -> tuple[np.ndarray, np.ndarray]:
         raise ValueError("CSV must not exceed 1 MB.")
     try:
         decoded = blob.decode("utf-8-sig")
-        columns = next(csv.reader(io.StringIO(decoded)))
-        columns = [name.strip() for name in columns]
+        if "\x00" in decoded:
+            raise ValueError("CSV must not contain NUL bytes.")
+        reader = csv.reader(io.StringIO(decoded), strict=True)
+        columns = [name.strip() for name in next(reader)]
         if len(columns) != len(set(columns)):
             raise ValueError("Duplicate CSV column names are not permitted.")
         if not columns or len(columns) > MAX_CSV_COLUMNS:
             raise ValueError("CSV has an invalid number of columns.")
         if any(column not in columns for column in HOURLY_COLUMNS):
             raise ValueError("CSV requires available_mw and demand_mw columns.")
-        data = pd.read_csv(
-            io.StringIO(decoded),
-            usecols=list(HOURLY_COLUMNS),
-            on_bad_lines="error",
-        )
+        rows = 0
+        for row in reader:
+            rows += 1
+            if rows > MAX_HOURLY_ROWS:
+                raise ValueError("CSV must not exceed 8,760 hourly rows.")
+            if len(row) != len(columns):
+                raise ValueError("Every CSV row must match the header width.")
+        data = pd.read_csv(io.StringIO(decoded), on_bad_lines="error")
+        data.columns = [str(name).strip() for name in data.columns]
     except (UnicodeError, csv.Error, pd.errors.ParserError, StopIteration) as exc:
         raise ValueError("CSV must contain UTF-8 text and valid rows.") from exc
 
