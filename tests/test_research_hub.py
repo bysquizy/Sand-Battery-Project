@@ -22,7 +22,7 @@ def test_research_notes_have_attributions_and_boundaries():
 def test_project_page_has_only_requested_member_profile():
     source=(ROOT/"pages/5_Project_Research_Library.py").read_text(encoding="utf-8")
     team_block=source.split("with group:",1)[1].split("st.divider()",1)[0]
-    assert 'st.markdown("## Group 8")' in team_block
+    assert 'st.markdown(tr("## Group 8","## Grup 8"))' in team_block
     assert 'PROJECT["members"]' in team_block
     for removed in ("COURSE_MILESTONES","academic_year","instructor","ESE101","advisor"):
         assert removed not in team_block
@@ -32,14 +32,14 @@ def test_no_duplicated_research_and_team_tabs_on_dashboard():
     source=(ROOT/"home_app.py").read_text(encoding="utf-8")
     assert "with science:" not in source
     assert "with team:" not in source
-    assert 'PROJECT["repository"]' in source
+    assert 'https://github.com/bysquizy/Sand-Battery-Project' in source
     assert "Research Hub" in source
 
 def test_repository_link_and_research_navigation_present():
     router=(ROOT/"streamlit_app.py").read_text(encoding="utf-8")
-    assert "GitHub Repository" in router
-    assert 'title="Research Hub"' in router
-    assert "Research & Sources" in router
+    assert 't("github")' in router
+    assert 'title=t("research_hub")' in router
+    assert 't("research")' in router
 
 def test_research_hub_opens_and_can_change_topic():
     from streamlit.testing.v1 import AppTest
