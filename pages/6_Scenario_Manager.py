@@ -13,12 +13,13 @@ from engine.physics import simulate_cycle
 from engine.scenarios import SLOTS, MAX_IMPORT_BYTES, from_json, to_json
 from scenario_state import active, ensure_session, set_active, scenario_banner
 from ui_theme import inject, hero, footer
+from localization import tr
 
 st.set_page_config(page_title="Scenario Manager | Sand Battery Studio",
                    page_icon="🗂️",layout="wide")
 inject()
 ensure_session()
-hero("SCENARIOS / DESIGN COMPARISON", "Scenario Manager", "Save three designs, compare simulated performance and export portable, validated scenarios.")
+hero(tr("SCENARIOS / DESIGN COMPARISON","SENARYOLAR / TASARIM KARŞILAŞTIRMASI"), tr("Scenario Manager","Senaryo Yöneticisi"), tr("Save three designs, compare simulated performance and export portable, validated scenarios.","Üç tasarımı kaydedin, simülasyon sonuçlarını karşılaştırın ve senaryoları dışa aktarın."))
 scenario_banner()
 st.write("Save up to three versions of your design, compare like-for-like "
          "model results, or export a versioned JSON bundle.")
