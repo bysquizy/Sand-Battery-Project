@@ -1,4 +1,4 @@
-# Sand Battery Studio — v1.4 Shared Scenarios
+# Sand Battery Studio — v1.5 Scientific Verification
 
 [**Open the live web application**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [**GitHub repository**](https://github.com/bysquizy/Sand-Battery-Project) · [**Scientific methods**](docs/ADVANCED_RESEARCH_V2.md)
 
@@ -13,6 +13,7 @@ A lightweight, English-language, browser-based engineering simulation of **sensi
 | Workspace | What you can explore |
 | --- | --- |
 | **Engineering Dashboard** | 0-D charge/hold/discharge, useful heat, energy losses, Sankey balance, annotated temperature timelines, illustrative animated 3D silo and bounded material screening |
+| **Model Verification** | 0-D vs 1-D model comparison, simplified closed-pipe heat transfer, cp(T) data integrity and numerical benchmarks | 
 | **Scenario Manager** | Three A/B/C design snapshots, numerical KPI comparisons, versioned JSON import/export and CSV tables (browser session only) |\n| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
 | **Advanced Research Lab** | Exergy, synthetic PV/wind dispatch, direct-contact LTNE, Ergun pressure loss, ideal ε–NTU exchanger, illustrative uncertainty and LCOH |
 | **Material Atlas** | 18 sourced-or-assumption-labeled materials, cp(T) curves, temperature/capacity comparison, theoretical ideal mixtures |
@@ -47,6 +48,14 @@ The submitted team sources include the *Polar Night Energy research summary* (ma
 - **Animated temperatures:** numerical illustration, not measured thermocouple points or CFD.
 
 Python 3.13 GitHub Actions checks numerical results, imports, page navigation, CSV safety constraints, bounded plots and focused static analysis. Runtime dependencies are in `requirements.txt`; test-only tools are in `requirements-dev.txt`. Tests do **not** substitute for measurements. Team members should disclose permitted AI assistance according to their actual course/institution rules.
+
+## Stage 3: scientific model verification
+
+- Model Verification is a separate on-demand study workspace comparing 0-D uniform solid and 1-D direct-contact LTE physics, including configurable cutoffs.
+- A **separate simplified closed-pipe model** uses convection, pipe-wall and effective-solid conduction resistances plus idealized thermal-loop effectiveness and an integrated energy ledger. This is **not CFD, commercial equipment validation, or measured plant performance**.
+- The tabulated cp(T) data interface exactly integrates piecewise-linear sensible heat within its declared range. The included demonstration knots are **hypothetical**, not measured NREL DSC data.
+- Stage 1/2 refinements reject ambiguous duplicate JSON keys, avoid eager Research Lab calculations, and suppress stale Virtual Experiments results after scenario changes.
+- See [Stage 3 engineering methods](docs/STAGE3_METHODS.md) and [Stage 3 verification](docs/STAGE3_VERIFICATION.md).
 
 ## Stage 2: shared design and faster navigation
 
