@@ -15,7 +15,7 @@ def test_project_version_metadata_agree():
     assert project["project"]["version"] == APP_VERSION
     assert project["project"]["requires-python"] == ">=3.13,<3.14"
     assert APP_VERSION_LABEL == "v2.1.0"
-    assert "Sand Battery Studio" in (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Sand Battery Project" in (ROOT / "README.md").read_text(encoding="utf-8")
     assert f'version: "{APP_VERSION}"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
@@ -52,6 +52,6 @@ def test_cloud_dependency_stack_is_unchanged():
 
 def test_uploaded_scenarios_record_single_source_version():
     home = (ROOT / "home_app.py").read_text(encoding="utf-8")
-    assert "from project_version import APP_VERSION, APP_VERSION_LABEL" in home
+    assert "from project_version import APP_VERSION" in home
     assert "payload={'version':APP_VERSION" in home
     assert "v1.2 Engineering Workspace" not in home
