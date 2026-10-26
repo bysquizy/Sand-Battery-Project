@@ -1,4 +1,4 @@
-# Sand Battery Studio — v1.2 Research Hub
+# Sand Battery Studio — v1.3 Foundation & Security
 
 [**Open the live web application**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [**GitHub repository**](https://github.com/bysquizy/Sand-Battery-Project) · [**Scientific methods**](docs/ADVANCED_RESEARCH_V2.md)
 
@@ -46,6 +46,16 @@ The submitted team sources include the *Polar Night Energy research summary* (ma
 - **Costs:** hypothetical scenario inputs, not verified installed quotes.
 - **Animated temperatures:** numerical illustration, not measured thermocouple points or CFD.
 
-Python 3.13 GitHub Actions checks numerical results, imports, page navigation and static analysis. Runtime dependencies are in `requirements.txt`; test-only tools are in `requirements-dev.txt`. Tests do **not** substitute for measurements. Team members should disclose permitted AI assistance according to their actual course/institution rules.
+Python 3.13 GitHub Actions checks numerical results, imports, page navigation, CSV safety constraints, bounded plots and focused static analysis. Runtime dependencies are in `requirements.txt`; test-only tools are in `requirements-dev.txt`. Tests do **not** substitute for measurements. Team members should disclose permitted AI assistance according to their actual course/institution rules.
+
+## Stage 1 release: quality and security
+
+- Hardened `available_mw,demand_mw` CSV import (1 MB and 8,760 hourly rows maximum; finite numeric range checks).
+- Fixed Material Atlas temperature sweep so it never exceeds the selected maximum.
+- Updated the Codespaces configuration to Python 3.13 without disabling web security protections.
+- Centralized the version visible in the dashboard/JSON export, archived obsolete release chronology and revised the security and verification documents.
+- **No changes** to source thermodynamic equations, physical parameter assumptions, or installed runtime dependencies.
+
+[Stage 1 roadmap](docs/ROADMAP.md) · [Model limitations](docs/MODEL_VALIDATION.md) · [Current changelog](CHANGELOG.md)
 
 There is **no general open-source license** pending contributor agreement. See [security](.github/SECURITY.md), [contributing](CONTRIBUTING.md), [changelog](CHANGELOG.md) and [software citation](CITATION.cff).
