@@ -21,13 +21,12 @@ from visuals_advanced import (
     axial_cylinder_animation, axial_history_heatmap, design_frontier_chart,
     sensitivity_tornado,
 )
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 
 st.set_page_config(page_title="Visual Story Studio | Sand Battery Studio",
                    page_icon="🎬", layout="wide")
 inject()
-st.caption("SAND BATTERY STUDIO  /  VISUAL EXPLORATION")
-st.title("Visual Story Studio")
+hero("VISUALS / THERMAL INSIGHT", "Visual Story Studio", "Watch computed thermal fronts, compare design options and publish a reproducible engineering snapshot.")
 scenario = active()
 scenario_banner()
 d = scenario.make_design()
@@ -249,3 +248,5 @@ elif workspace == "Engineering report":
                    "offline basic-font print version and may transliterate "
                    "non-ASCII characters. HTML can also be printed to PDF "
                    "with full browser typography. All results are model-generated.")
+
+footer()
