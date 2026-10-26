@@ -7,17 +7,21 @@ from engine.materials import MATERIALS,blend
 from engine.material_scenarios_v2 import SCENARIOS
 from engine.research_v2 import exergy_mwh
 from engine.input_validation import temperature_sweep
+from scenario_state import active, scenario_banner
 st.set_page_config(page_title='Material Atlas | Sand Battery Studio',page_icon='🧱',layout='wide')
 from ui_theme import inject
 inject()
 st.caption('SAND BATTERY STUDIO · MATERIAL ATLAS')
 st.title('Materials, Density & Capacity')
+shared = active()
+scenario_banner()
+st.caption('Local screening overrides below do not modify the shared scenario.')
 st.warning("Additional granular media are hypothetical screening inputs. Do not use material curves or maximum temperatures for engineering specification without testing.")
 all_materials={**MATERIALS,**SCENARIOS}
 a,b,c=st.columns(3)
-with a:vol=st.number_input('Packed bulk volume (m³)',100.,10000.,1000.,step=100.,key='atlas_volume')
-with b:low=st.number_input('Minimum temperature (°C)',20.,250.,60.,step=10.,key='atlas_low')
-with c:high=st.number_input('Maximum temperature (°C)',250.,850.,550.,step=10.,key='atlas_high')
+with a:vol=st.number_input('Packed bulk volume (m³)',50.,20000.,float(shared.volume_m3),step=100.,key='atlas_volume')
+with b:low=st.number_input('Minimum temperature (°C)',20.,250.,float(shared.minimum_c),step=10.,key='atlas_low')
+with c:high=st.number_input('Maximum temperature (°C)',250.,850.,float(shared.maximum_c),step=10.,key='atlas_high')
 if high <= low:
     st.error('Maximum temperature must be above the minimum temperature.')
     st.stop()
