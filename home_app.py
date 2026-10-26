@@ -24,7 +24,7 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
-from localization import tr, t, tr
+from localization import tr, t
 inject()
 
 
@@ -81,10 +81,10 @@ if tmax>570 and 'silica' in material.name.lower():
     st.warning('Quartz transforms near 573 °C. The illustrative linear specific-heat model does not represent this phase transition. Validate material data before using this temperature regime.')
 
 c1,c2,c3,c4=st.columns(4)
-c1.metric(tr(tr("THEORETICAL HEAT CAPACITY","TEORİK ISI KAPASİTESİ"),"TEORİK ISI KAPASİTESİ"),f"{result['capacity_mwh']:,.1f} MWh")
-c2.metric(tr(tr("DELIVERED USEFUL HEAT","KULLANILABİLİR ISI ÇIKIŞI"),"KULLANILABİLİR ISI ÇIKIŞI"),f"{result['useful_heat_mwh']:,.1f} MWh")
-c3.metric(tr(tr("SOURCE → USEFUL HEAT","KAYNAKTAN YARARLI ISIYA"),"KAYNAKTAN YARARLI ISIYA"),f"{result['source_to_useful_heat_pct']:.1f}%")
-c4.metric(tr(tr("INITIAL THERMAL LOSS","BAŞLANGIÇ ISI KAYBI"),"BAŞLANGIÇ ISI KAYBI"),f"{result['initial_loss_kw']:.1f} kW")
+c1.metric(tr("THEORETICAL HEAT CAPACITY","TEORİK ISI KAPASİTESİ"),f"{result['capacity_mwh']:,.1f} MWh")
+c2.metric(tr("DELIVERED USEFUL HEAT","KULLANILABİLİR ISI ÇIKIŞI"),f"{result['useful_heat_mwh']:,.1f} MWh")
+c3.metric(tr("SOURCE → USEFUL HEAT","KAYNAKTAN YARARLI ISIYA"),f"{result['source_to_useful_heat_pct']:.1f}%")
+c4.metric(tr("INITIAL THERMAL LOSS","BAŞLANGIÇ ISI KAYBI"),f"{result['initial_loss_kw']:.1f} kW")
 
 # Render only the selected workspace so costly 3D figures and thermal
 # screening calculations are not reconstructed on every widget interaction.
@@ -93,7 +93,7 @@ view = st.radio(
     (tr("Overview","Genel bakış"), tr("Thermal Dynamics","Isıl dinamikler"), tr("3D Plant Explorer","3B tesis görünümü"), tr("Materials & Optimization","Malzemeler ve optimizasyon")),
     key="home_workspace", horizontal=True, label_visibility="collapsed",
 )
-if view == tr(tr("Overview","Genel bakış"),"Genel bakış"):
+if view == tr("Overview","Genel bakış"):
     a,b=st.columns([1.45,1],gap='large')
     with a:
         st.markdown(tr('<div class="sect">Operating temperature profile</div>','<div class="sect">Çalışma sıcaklığı profili</div>'),unsafe_allow_html=True)
@@ -106,10 +106,10 @@ if view == tr(tr("Overview","Genel bakış"),"Genel bakış"):
         else:
             st.info('Standby cooled below the minimum useful temperature. A nonnegative Sankey cannot represent this reference state; use the ledger below.')
     c1,c2,c3,c4=st.columns(4)
-    c1.metric(tr(tr("Charge time","Şarj süresi"),"Şarj süresi"),f"{result['charge_hours']:,.1f} h")
-    c2.metric(tr(tr("Autonomy at rated output","Nominal çıkışta çalışma süresi"),"Nominal çıkışta çalışma süresi"),f"{result['discharge_hours']:,.1f} h")
-    c3.metric(tr(tr("Mass of storage medium","Depolama malzemesi kütlesi"),"Depolama malzemesi kütlesi"),f"{result['mass_t']:,.0f} t")
-    c4.metric(tr(tr("Energy-balance residual","Enerji dengesi kalanı"),"Enerji dengesi kalanı"),f"{result['energy_balance_residual_mwh']:.2e} MWh")
+    c1.metric(tr("Charge time","Şarj süresi"),f"{result['charge_hours']:,.1f} h")
+    c2.metric(tr("Autonomy at rated output","Nominal çıkışta çalışma süresi"),f"{result['discharge_hours']:,.1f} h")
+    c3.metric(tr("Mass of storage medium","Depolama malzemesi kütlesi"),f"{result['mass_t']:,.0f} t")
+    c4.metric(tr("Energy-balance residual","Enerji dengesi kalanı"),f"{result['energy_balance_residual_mwh']:.2e} MWh")
     with st.expander('ENERGY ACCOUNTING — see all flows'):
         df=pd.DataFrame([{'Term':'Modeled source energy supplied (MWh)','Energy':result['source_input_mwh']},
             {'Term':'Charging conversion loss (MWh)','Energy':result['heater_loss_mwh']},
@@ -122,13 +122,13 @@ if view == tr(tr("Overview","Genel bakış"),"Genel bakış"):
     st.caption('Energy Sankey and time series represent simulated flows. Reported conservation residual checks numerical accounting, not agreement with measured hardware.')
     st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
 
-elif view == tr(tr("Thermal Dynamics","Isıl dinamikler"),"Isıl dinamikler"):
+elif view == tr("Thermal Dynamics","Isıl dinamikler"):
     st.markdown(tr('<div class="sect">Transient response · 0-D energy balance</div>','<div class="sect">Geçici rejim · 0B enerji dengesi</div>'),unsafe_allow_html=True)
     st.plotly_chart(timeline(result),width='stretch',key='chart_thermal_timeline')
     st.markdown(tr('<div class="sect">1-D thermocline · exploratory comparison</div>','<div class="sect">1B termoklin · karşılaştırma</div>'),unsafe_allow_html=True)
     st.caption('Finite-volume direct-contact/local-thermal-equilibrium model. This is NOT a validated simulation of Polar Night Energy’s closed-loop air pipes.')
-    cells=st.slider(tr(tr("Axial resolution · cells","Eksenel çözünürlük · hücre"),"Eksenel çözünürlük · hücre"),16,80,32,8)
-    if st.button(tr(tr("Run 1-D temperature-field simulation","1B sıcaklık simülasyonunu çalıştır"),"1B sıcaklık simülasyonunu çalıştır"),type='primary'):
+    cells=st.slider(tr("Axial resolution · cells","Eksenel çözünürlük · hücre"),16,80,32,8)
+    if st.button(tr("Run 1-D temperature-field simulation","1B sıcaklık simülasyonunu çalıştır"),type='primary'):
         with st.spinner('Solving the axial finite-volume model…'):
             try:
                 tc=simulate_thermocline(design,material,n_cells=cells)
@@ -139,15 +139,15 @@ elif view == tr(tr("Thermal Dynamics","Isıl dinamikler"),"Isıl dinamikler"):
     if st.session_state.get('tc_config')==(design,material,cells):
         tc=st.session_state['tc_result']
         k1,k2,k3=st.columns(3)
-        k1.metric(tr(tr("1-D delivered heat","1B ısı çıkışı"),"1B ısı çıkışı"),f"{tc['useful_heat_mwh']:.1f} MWh")
-        k2.metric(tr(tr("1-D charge duration","1B şarj süresi"),"1B şarj süresi"),f"{tc['charge_h']:.1f} h")
-        k3.metric(tr(tr("1-D discharge duration","1B deşarj süresi"),"1B deşarj süresi"),f"{tc['discharge_h']:.1f} h")
+        k1.metric(tr("1-D delivered heat","1B ısı çıkışı"),f"{tc['useful_heat_mwh']:.1f} MWh")
+        k2.metric(tr("1-D charge duration","1B şarj süresi"),f"{tc['charge_h']:.1f} h")
+        k3.metric(tr("1-D discharge duration","1B deşarj süresi"),f"{tc['discharge_h']:.1f} h")
         st.plotly_chart(thermocline_plot(tc,design),width='stretch',key='chart_1d_profile')
         st.caption('This surrogate uses axial through-bed advection and its boundary power varies with outlet temperature. Comparing its absolute outputs directly with the fixed-power 0-D system requires care.')
     else:
         st.info('Run the 1-D model to view vertical temperature profiles and source-specific differences.')
 
-elif view == tr(tr("3D Plant Explorer","3B tesis görünümü"),"3B tesis görünümü"):
+elif view == tr("3D Plant Explorer","3B tesis görünümü"):
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown(tr('<div class="sect">Animated thermal storage module</div>','<div class="sect">Animasyonlu ısıl depolama modülü</div>'),unsafe_allow_html=True)
@@ -157,18 +157,18 @@ elif view == tr(tr("3D Plant Explorer","3B tesis görünümü"),"3B tesis görü
             st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
     with right:
         st.markdown(tr('<div class="sect">Plant geometry</div>','<div class="sect">Tesis geometrisi</div>'),unsafe_allow_html=True)
-        st.metric(tr(tr("Internal silo radius","Depo iç yarıçapı"),"Depo iç yarıçapı"),f"{result['radius_m']:.2f} m")
-        st.metric(tr(tr("Module height","Modül yüksekliği"),"Modül yüksekliği"),f"{result['height_m']:.2f} m")
-        st.metric(tr(tr("Outer silo diameter","Dış depo çapı"),"Dış depo çapı"),f"{result['outer_diameter_m']:.2f} m")
-        st.metric(tr(tr("Identical modules","Özdeş modüller"),"Özdeş modüller"),str(design.modules))
+        st.metric(tr("Internal silo radius","Depo iç yarıçapı"),f"{result['radius_m']:.2f} m")
+        st.metric(tr("Module height","Modül yüksekliği"),f"{result['height_m']:.2f} m")
+        st.metric(tr("Outer silo diameter","Dış depo çapı"),f"{result['outer_diameter_m']:.2f} m")
+        st.metric(tr("Identical modules","Özdeş modüller"),str(design.modules))
         st.markdown('<div class="info-line">The 3D animation communicates the <b>average temperature state</b> across operational phases. It is a design visualization, not a CFD simulation, structural model, or a radial thermal measurement.</div>',unsafe_allow_html=True)
 
-elif view == tr(tr("Materials & Optimization","Malzemeler ve optimizasyon"),"Malzemeler ve optimizasyon"):
+elif view == tr("Materials & Optimization","Malzemeler ve optimizasyon"):
     st.markdown(tr('<div class="sect">Material screening and source transparency</div>','<div class="sect">Malzeme karşılaştırması ve kaynaklar</div>'),unsafe_allow_html=True)
     rows=[]
     for m in MATERIALS.values():
         q=(design.volume_m3*m.bulk_density*(m.enthalpy(tmax)-m.enthalpy(tmin))/3.6e9)
-        rows.append({tr(tr("Material","Malzeme"),"Malzeme"):m.name,'Theoretical MWh':q,
+        rows.append({'Material':m.name,'Theoretical MWh':q,
                      'Bulk density (kg/m³)':m.bulk_density,'cp at 25°C (J/kg K)':m.cp_25,
                      'Evidence status':m.provenance})
     compare=pd.DataFrame(rows).sort_values('Theoretical MWh',ascending=False)
@@ -180,10 +180,10 @@ elif view == tr(tr("Materials & Optimization","Malzemeler ve optimizasyon"),"Mal
     st.markdown(tr('<div class="sect">Maximum usable heat · constrained design screening</div>','<div class="sect">En yüksek kullanılabilir ısı · tasarım taraması</div>'),unsafe_allow_html=True)
     st.caption('Discrete parametric screening, not a globally convergent numerical optimizer. Larger feasible volumes will usually increase capacity; enter a realistic site limit.')
     b1,b2,b3=st.columns(3)
-    with b1:mv=st.number_input(tr(tr("Site volume limit · m³","Alan hacmi sınırı · m³"),"Alan hacmi sınırı · m³"),min_value=100.,max_value=20000.,value=2000.,step=100.)
-    with b2:mh=st.number_input(tr(tr("Max module height · m","En fazla modül yüksekliği · m"),"En fazla modül yüksekliği · m"),min_value=5.,max_value=70.,value=25.,step=1.)
-    with b3:md=st.number_input(tr(tr("Max outer diameter · m","En fazla dış çap · m"),"En fazla dış çap · m"),min_value=4.,max_value=60.,value=20.,step=1.)
-    if st.button(tr(tr("Explore feasible designs","Uygun tasarımları incele"),"Uygun tasarımları incele"),type='primary'):
+    with b1:mv=st.number_input(tr("Site volume limit · m³","Alan hacmi sınırı · m³"),min_value=100.,max_value=20000.,value=2000.,step=100.)
+    with b2:mh=st.number_input(tr("Max module height · m","En fazla modül yüksekliği · m"),min_value=5.,max_value=70.,value=25.,step=1.)
+    with b3:md=st.number_input(tr("Max outer diameter · m","En fazla dış çap · m"),min_value=4.,max_value=60.,value=20.,step=1.)
+    if st.button(tr("Explore feasible designs","Uygun tasarımları incele"),type='primary'):
         with st.spinner('Checking feasible geometry and heat-delivery results…'):
             try:
                 candidates=screen_designs(design,material,
