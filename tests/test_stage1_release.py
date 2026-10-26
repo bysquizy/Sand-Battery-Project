@@ -31,7 +31,7 @@ def test_devcontainer_never_disables_browser_security():
 def test_current_security_and_verification_docs_are_not_alpha():
     security = (ROOT / ".github/SECURITY.md").read_text(encoding="utf-8")
     validation = (ROOT / "docs/MODEL_VALIDATION.md").read_text(encoding="utf-8")
-    assert "1.3.x" in security
+    assert "1.4.x" in security
     assert "1.0 alpha" not in security
     assert "23 tests passed" not in validation
     assert "Numerical consistency is not experimental validation" in validation
