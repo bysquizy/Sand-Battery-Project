@@ -80,7 +80,7 @@ def _inline_trace_svg(result: dict) -> str:
         if indices[-1] != len(x)-1:
             indices.append(len(x)-1)
         xy=[f"{54+float(x[i])/xmax*650:.1f},{242-(float(y[i])-ymin)/h*202:.1f}" for i in indices]
-        paths.append(f'<polyline points="{escape(" ".join(xy))}" fill="none" stroke="{color}" stroke-width="3" />')
+        paths.append(f'<polyline class="sb-trace" points="{escape(" ".join(xy))}" fill="none" stroke="{color}" stroke-width="3" />')
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 270" '
             'role="img" aria-label="Computed charging standby and discharging '
             'temperature versus time"><rect width="760" height="270" '
@@ -109,17 +109,69 @@ def html_report(scenario, result: dict) -> bytes:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sand Battery Studio — {escape(scenario.name)}</title>
 <style>
-:root{{font-family:Arial,Helvetica,sans-serif;color:#142939;background:#f2f5f7}}
-body{{max-width:960px;margin:32px auto;padding:34px;background:white;border-radius:14px}}
-h1{{margin:7px 0 3px;font-size:28px}}h2{{margin:30px 0 12px;color:#176078}}
-.eyebrow{{letter-spacing:.12em;color:#217e7b;font-weight:700;font-size:12px}}
-.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
-table{{width:100%;border-collapse:collapse;font-size:12px}}
-td,th{{padding:8px;text-align:left;border-bottom:1px solid #dce3e8}}
-th{{width:59%;font-weight:600}}.warn{{padding:14px;background:#fff4e8;border-left:4px solid #c7803d}}
-a{{color:#12658c}}svg{{max-width:100%;height:auto}}
-small,.muted{{color:#526476}}@media(max-width:600px){{.grid{{grid-template-columns:1fr}}body{{padding:15px;margin:0}}}}
-@media print{{body{{max-width:none;margin:0;padding:8mm;border-radius:0}}h2{{break-after:avoid}}.grid{{break-inside:avoid}}a{{color:#142939}}}}
+:root{{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color:#e9f4f8;background:#081522;font-size:14px}}
+*{{box-sizing:border-box}}
+body{{max-width:1080px;margin:36px auto;padding:45px;
+  background:radial-gradient(circle at 92% 3%,rgba(68,175,178,.15),transparent 30%),
+             linear-gradient(150deg,#10283a,#0c1b2a 65%,#0a1725);
+  border:1px solid #355667;border-radius:24px;
+  box-shadow:0 35px 85px -50px #000;line-height:1.72}}
+h1{{color:white;margin:8px 0 10px;letter-spacing:-.045em;
+  font-size:clamp(29px,4.2vw,47px);line-height:1.13}}
+h2{{font-size:19px;margin:27px 0 12px;letter-spacing:-.025em;
+  color:#d6f7f1;break-after:avoid}}
+p{{color:#d1e2eb;margin:10px 0 15px}}
+.eyebrow{{letter-spacing:.17em;color:#75ebd5;font-weight:800;font-size:11px}}
+.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}}
+section{{background:rgba(17,39,55,.86);border:1px solid #3b5b6d;
+  border-radius:16px;padding:19px 22px;min-width:0}}
+section h2{{margin-top:0}}
+table{{width:100%;border-collapse:collapse;font-size:12.5px}}
+td,th{{padding:10px 7px;text-align:left;border-bottom:1px solid #294758;vertical-align:top}}
+th{{width:59%;font-weight:680;color:#cfe0e8}}
+td{{color:#f5f8fb;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}}
+tr:last-child td,tr:last-child th{{border-bottom:0}}
+.warn{{padding:15px 20px;background:rgba(126,90,44,.19);
+  border-left:4px solid #efc18f;border-radius:0 11px 11px 0;
+  color:#f6e1c6;font-weight:660}}
+a{{color:#84e4d2;text-decoration-color:#528f8a;overflow-wrap:anywhere}}
+a:hover{{color:#fff}}
+svg{{display:block;width:100%;max-width:100%;height:auto;
+  border:1px solid #3a5869;border-radius:15px;margin:25px auto}}
+ol{{padding-left:22px}}li{{color:#c9dce6;margin:0 0 12px}}
+strong{{color:#f0f9fc}}
+small,.muted{{color:#bacfdc}}
+.sb-trace{{stroke-dasharray:1400;stroke-dashoffset:1400;
+  animation:sb-chart-reveal 1.7s ease-out both}}
+@keyframes sb-chart-reveal{{to{{stroke-dashoffset:0}}}}
+@media(max-width:690px){{
+  body{{margin:0;border-radius:0;padding:19px}}
+  .grid{{grid-template-columns:1fr;gap:14px}}
+  section{{padding:15px}}
+  h1{{font-size:30px}}
+}}
+@media(prefers-reduced-motion:reduce){{
+  .sb-trace{{animation:none;stroke-dashoffset:0}}
+}}
+@media print{{
+  :root{{color:#142d3a;background:white;font-size:11px}}
+  body{{max-width:none;margin:0;padding:6mm;background:white;
+    color:#142d3a;border:0;border-radius:0;box-shadow:none}}
+  h1,h2,strong{{color:#173f4b}}
+  h1{{font-size:26px}}
+  p,li,td,th,small,.muted{{color:#1d3c4c}}
+  .eyebrow{{color:#186c69}}
+  .grid{{gap:11px}}
+  section{{background:white;border:1px solid #ccdce2;padding:13px;break-inside:avoid}}
+  section h2{{color:#195d64}}
+  td,th{{border-color:#d3dfe5;padding:6px}}
+  .warn{{background:#fff7ec;color:#6b471c;border-color:#ba7830}}
+  .sb-trace{{animation:none;stroke-dashoffset:0}}
+  a{{color:#126070}}
+  svg{{break-inside:avoid}}
+  @page{{size:A4;margin:12mm}}
+}}
 </style></head><body>
 <div class="eyebrow">GROUP 8 · ENGINEERING SCENARIO · SOFTWARE v{APP_VERSION}</div>
 <h1>Sand Battery Studio — Scenario Report</h1>
