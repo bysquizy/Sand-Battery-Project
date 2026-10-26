@@ -3,6 +3,22 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## [2.1.0] — 2026-10-26 (Premium Interface & Security Revision)
+- Unified all nine Streamlit workspaces with source-only, dependency-free
+  native theming and safe static HTML/CSS: accessible headers, product identity,
+  consistent KPI cards, navigation, context ribbon and project footer.
+- Designed mobile spacing, more readable technical annotations, keyboard
+  focus, high-contrast source labels and reduced-motion behavior.
+- Replaced legacy continuously animated decoration with bounded entrance
+  motion and preserved existing calculated Plotly animations.
+- Escaped user-supplied scenario names before rendering the context ribbon.
+- Neutralized spreadsheet formula prefixes in imported scenario-name
+  cells when exporting A/B/C comparison CSV; original numeric data stays intact.
+- Enabled CORS/XSRF protections explicitly; retained five lightweight
+  dependencies and all physics engines.
+- Added cross-page QA for premium layout, security, native configuration,
+  user metadata and CSV export; real browser acceptance remains manual.
+
 ## [2.0.0] — 2026-10-26 (Stages 4/5: Visual Engineering & Publication)
 - Added independent Visual Story Studio: computed 1-D axial temperature
   snapshots mapped onto an interactive Plotly 3D cylinder and synchronized
