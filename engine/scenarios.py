@@ -159,11 +159,22 @@ def to_json(active: Scenario, saved: dict[str, Scenario | None]) -> str:
     )
 
 
+def _no_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject ambiguous JSON objects instead of silently keeping last fields."""
+    data: dict[str, object] = {}
+    for key, value in pairs:
+        if key in data:
+            raise ValueError(f"Duplicate JSON field: {key}")
+        data[key] = value
+    return data
+
+
 def from_json(blob: bytes) -> tuple[Scenario, dict[str, Scenario | None]]:
     if not isinstance(blob, bytes) or not 0 < len(blob) <= MAX_IMPORT_BYTES:
         raise ValueError("Scenario JSON must be nonempty and no larger than 40 kB.")
     try:
         data = json.loads(blob.decode("utf-8-sig"),
+                          object_pairs_hook=_no_duplicate_keys,
                           parse_constant=lambda x: (_ for _ in ()).throw(
                               ValueError(f"Non-finite JSON constant: {x}")))
     except (UnicodeError, json.JSONDecodeError, ValueError) as exc:
