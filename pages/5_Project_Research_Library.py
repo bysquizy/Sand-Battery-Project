@@ -6,27 +6,28 @@ import streamlit as st
 from project_info import PROJECT, REFERENCES, MODEL_EVIDENCE, bibliography_text
 from research_notes import TOPICS, REVIEW, AUDIT, SOURCE_NOTES
 from ui_theme import inject, hero, footer
+from localization import t, tr
 
 st.set_page_config(page_title="Research Hub | Sand Battery Studio",page_icon="📚",layout="wide")
 inject()
-hero("KNOWLEDGE / SOURCE TRANSPARENCY", "Research Hub", "Explore the methods, research themes, engineering equations and source-attributed field installations behind the simulations.")
-st.write("Understand the engineering concepts behind the simulations, review their limitations and inspect the original sources.")
+hero(tr("KNOWLEDGE / SOURCES","BİLGİ / KAYNAKLAR"), t("research_hub"), tr("Explore research, equations and attributed real-world systems behind the simulations.","Simülasyonun dayandığı araştırmaları, denklemleri ve gerçek sistemlere ait kaynakları inceleyin."))
+st.write(tr("Understand the engineering concepts and limitations behind the simulations.","Simülasyonların mühendislik kavramlarını ve sınırlamalarını öğrenin."))
 st.link_button("View this project's GitHub repository",PROJECT["repository"],type="primary")
-st.caption("Educational research summaries based on the supplied technical review, manufacturer notes and source-quality audit. No laboratory calibration has been performed.")
+st.caption(tr("Literature-based educational summaries; no laboratory calibration.","Bilimsel kaynaklara dayalı eğitim özeti; laboratuvar kalibrasyonu yapılmadı."))
 
 guide,methods,case_studies,sources,group=st.tabs([
-    "Research guide","Methods & evidence","Real-world systems","Sources & references","Group 8"
+    tr("Research guide","Araştırma rehberi"),tr("Methods & evidence","Yöntemler ve kanıtlar"),tr("Real-world systems","Gerçek sistemler"),tr("Sources & references","Kaynakça"),tr("Group 8","Grup 8")
 ])
 
 with guide:
-    st.markdown("### Start with the science")
-    st.write("The technical review organizes sand thermal energy storage around how energy is charged, stored and discharged, how heat moves, and what makes a design practical.")
+    st.markdown(tr("### Start with the science","### Temel prensipler"))
+    st.write(tr("The technical review examines charging, storage, discharge and practical design.","Teknik inceleme şarj, depolama, deşarj ve uygulanabilir tasarım kavramlarını ele alır."))
     a,b,c=st.columns(3)
-    a.metric("Operating phases","3")
-    b.metric("Research themes",str(len(TOPICS)))
-    c.metric("Source categories",str(len({r["group"] for r in REFERENCES})))
-    st.markdown("#### The thermal-energy pathway")
-    phase=st.radio("Explore one phase",["Charging","Standby","Thermal delivery"],horizontal=True,key="hub_phase")
+    a.metric(tr("Operating phases","Çalışma aşamaları"),"3")
+    b.metric(tr("Research themes","Araştırma başlıkları"),str(len(TOPICS)))
+    c.metric(tr("Source categories","Kaynak türleri"),str(len({r["group"] for r in REFERENCES})))
+    st.markdown(tr("#### The thermal-energy pathway","#### Termal enerjinin izlediği yol"))
+    phase=st.radio(tr("Explore one phase","Bir aşama seçin"),["Charging","Standby","Thermal delivery"],format_func=lambda x: {"Charging":tr("Charging","Şarj"),"Standby":tr("Standby","Bekleme"),"Thermal delivery":tr("Thermal delivery","Isı çıkışı")}[x],horizontal=True,key="hub_phase")
     details={
         "Charging":("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
         "Standby":("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
@@ -34,22 +35,22 @@ with guide:
     }
     with st.container(border=True):
         st.markdown(f"**{phase}**")
-        st.write(details[phase][0])
-        st.caption(details[phase][1])
+        st.write(details[phase][0] if t("how")=="How It Works" else {"Charging":"Şebekeden veya yenilenebilir kaynaklardan gelen enerji ısı olarak depolanır.","Standby":"Depolanan enerji, yalıtım ve dış ortam koşullarına bağlı olarak ısı kaybeder.","Thermal delivery":"Depolanan ısı, ısı transfer sistemi üzerinden kullanıcıya aktarılır."}[phase])
+        st.caption(details[phase][1] if t("how")=="How It Works" else "Bunlar sadeleştirilmiş sayısal modellerdir; fiziksel sistem ölçümü değildir.")
     # No decorative numeric Sankey: it could be mistaken for measured fractions.
     c1,c2,c3=st.columns(3)
     with c1:
-        st.info("**1 · CHARGE**  Electric resistance or defined solar thermal input")
+        st.info(tr("**1 · CHARGE** Electric or solar thermal input","**1 · ŞARJ** Elektrik veya güneş kaynaklı ısı girişi"))
     with c2:
-        st.info("**2 · STORE**  Material enthalpy and ambient heat losses")
+        st.info(tr("**2 · STORE** Material energy and heat losses","**2 · DEPOLA** Malzeme enerjisi ve ısı kayıpları"))
     with c3:
-        st.info("**3 · DELIVER**  Useful heat above the chosen temperature grade")
+        st.info(tr("**3 · DELIVER** Useful heat delivery","**3 · KULLAN** Kullanılabilir ısı çıkışı"))
     st.caption("This process map is deliberately not assigned fabricated energy "
                "percentages. Dashboard shows calculated numerical energy flows.")
 
-    st.markdown("### Explore research themes")
+    st.markdown(tr("### Explore research themes","### Araştırma konuları"))
     lookup={t["label"]:t for t in TOPICS}
-    choose=st.selectbox("Choose a topic",list(lookup),key="hub_topic")
+    choose=st.selectbox(tr("Choose a topic","Bir konu seçin"),list(lookup),key="hub_topic")
     t=lookup[choose]
     with st.container(border=True):
         st.caption(f"Reading location: {t['section']} · Bošnjaković & Santa (2026)")
@@ -194,10 +195,10 @@ with sources:
                        mime="text/plain",key="hub_bibliography_export")
 
 with group:
-    st.markdown("## Group 8")
+    st.markdown(tr("## Group 8","## Grup 8"))
     for member in PROJECT["members"]:
         with st.container(border=True):
-            st.markdown(f"**{member}**")
+            st.markdown(f"**{member}**" + (" · @bysquizy · GitHub: https://github.com/bysquizy" if member == "Yağız Topaç" else ""))
 
 st.divider()
 st.caption("Research summaries are source-grounded interpretations. The site presents a numerical study, not a physical test report.")
