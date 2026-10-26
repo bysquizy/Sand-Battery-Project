@@ -9,9 +9,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-from engine.materials import MATERIALS, blend
-from engine.physics import Design, simulate_cycle
-from engine.solar import csp_thermal_mw, electrical_renewables_mw
+from engine.materials import MATERIALS
+from engine.physics import simulate_cycle
 from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
@@ -40,54 +39,27 @@ DEMO_PRESETS = {
                                         standby_days=1.5, thermal_output=3., charging_power=5., source_index=1),
 }
 
+# All numerical pages now consume the same committed, validated design.
+# The global editor lives in streamlit_app.py's sidebar.
+from scenario_state import active, set_active, scenario_banner
+from engine.scenarios import PRESETS
+
 with st.sidebar:
-    preset_name = st.selectbox("Illustrative presentation scenario", tuple(DEMO_PRESETS), key="demo_preset")
-    preset = DEMO_PRESETS[preset_name]
+    preset_name = st.selectbox(
+        "Illustrative presentation scenario",tuple(DEMO_PRESETS),key="demo_preset")
     st.caption("Example configurations only — not measured Finnish plants.")
-    st.divider()
-    st.markdown('''<div class="eyebrow">ENGINEERING PLATFORM</div>
-    <h2 style="font-family:Manrope;margin:5px 0 4px;font-size:1.37rem">◉ Sand Battery Studio</h2>
-    <div class="small">GROUP 8</div>''',unsafe_allow_html=True)
-    lightweight = st.toggle("Light mode (skip 3D animation)",value=False,key="low_power_mode",
-                            help="Useful for mobile devices or slower connections.")
-    st.divider()
-    with st.expander('01  STORAGE GEOMETRY',expanded=True):
-        vol=st.number_input('Total storage volume · m³',min_value=25.,max_value=20000.,value=preset['volume'],step=25.)
-        modules=st.number_input('Identical modules',min_value=1,max_value=20,value=preset['modules'])
-        ratio=st.slider('Height / inner radius',.8,6.,3.,.1)
-        insulation=st.slider('Insulation thickness · m',.1,2.,.5,.05)
-    with st.expander('02  THERMAL CONDITIONS',expanded=True):
-        tmin=st.number_input('Minimum useful temperature · °C',min_value=20.,max_value=250.,value=50.,step=10.)
-        tmax=st.number_input('Maximum medium temperature · °C',min_value=180.,max_value=800.,value=preset['max_temperature'],step=10.)
-        tamb=st.number_input('Ambient temperature · °C',min_value=-30.,max_value=45.,value=15.)
-        standby=st.slider('Standby time · days',0.,30.,preset['standby_days'],.5)
-        output=st.number_input('Useful heat output · MW',min_value=.1,max_value=40.,value=preset['thermal_output'],step=.5)
-    with st.expander('03  STORAGE MATERIAL',expanded=True):
-        choice=st.selectbox('Storage material',list(MATERIALS))
-        material=MATERIALS[choice]
-        if st.toggle('Ideal composite blend',value=False):
-            other=st.selectbox('Second material',[k for k in MATERIALS if k!=choice])
-            pct=st.slider('First material volume fraction · %',0,100,60,5)
-            material=blend(material,MATERIALS[other],pct/100,basis='volume')
-    with st.expander('04  CHARGING SOURCE',expanded=True):
-        method=st.selectbox('Scenario',('Electric heater','CSP — Fresnel / heliostat','PV + wind — average power'),index=preset['source_index'])
-        eta=.99
-        if method=='Electric heater':
-            power=st.number_input('Electrical input power · MW',.2,100.,preset['charging_power'],.2)
-        elif method.startswith('CSP'):
-            area=st.number_input('Collector aperture · m²',100.,150000.,10000.,500.)
-            dni=st.slider('Assumed constant DNI · W/m²',100,1400,850,25)
-            optical=st.slider('Optical-to-thermal efficiency · %',10,95,70,5)
-            power=csp_thermal_mw(area,dni,optical/100)
-            eta=1.0
-        else:
-            pv=st.number_input('PV rated peak · MWp',0.,200.,10.)
-            pvcf=st.slider('Assumed average PV capacity factor · %',0,60,20)
-            wind=st.number_input('Wind rated power · MW',0.,200.,8.)
-            windcf=st.slider('Assumed average wind capacity factor · %',0,75,35)
-            power=electrical_renewables_mw(pv,pvcf/100,wind,windcf/100)
-        st.caption(f'Modeled source power: {power:.2f} MW')
-    st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
+    if st.button("Use selected preset", key="home_apply_preset",
+                 use_container_width=True):
+        set_active(PRESETS[preset_name])
+        st.rerun()
+    lightweight = st.toggle(
+        "Light mode (skip 3D animation)", value=False, key="low_power_mode",
+        help="Useful for mobile or lower-power devices.")
+    st.caption("Edit volume, temperatures, modules and charging inputs in "
+               "the shared Active Scenario editor above.")
+
+current_scenario = active()
+scenario_banner()
 
 st.markdown(f'''<div class="info-line"><b>{APP_VERSION_LABEL} Engineering Workspace:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
 st.markdown(f'<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · {APP_VERSION_LABEL}</div>',unsafe_allow_html=True)
@@ -99,14 +71,15 @@ st.markdown('''<div class="hero"><div class="eyebrow">GROUP 8 <span class="pill"
 <p>Explore industrial-scale sand batteries through physics-based simulation, high-temperature materials, thermal dynamics and constraint-driven design screening. Built for clarity, not complexity.</p></div>''',unsafe_allow_html=True)
 
 try:
-    design=Design(volume_m3=vol,modules=int(modules),height_over_radius=ratio,insulation_m=insulation,
-        source_kind=("solar_thermal" if method.startswith("CSP") else "electricity"),
-        minimum_c=tmin,maximum_c=tmax,ambient_c=tamb,hold_days=standby,
-        thermal_output_mw=output,charge_mw=power,charge_efficiency=eta)
-    result=_cached_cycle(design,material)
-except (ValueError,RuntimeError,OverflowError,ZeroDivisionError) as exc:
-    st.error(f'This configuration cannot be simulated: {exc}')
-    st.info('Adjust temperature limits, available charging power or heat-loss parameters in the sidebar.')
+    design = current_scenario.make_design()
+    material = MATERIALS[current_scenario.material_name]
+    tmin = current_scenario.minimum_c
+    tmax = current_scenario.maximum_c
+    result = _cached_cycle(design, material)
+except (ValueError, RuntimeError, OverflowError, ZeroDivisionError) as exc:
+    st.error(f"This configuration cannot be simulated: {exc}")
+    st.info("Adjust the active design, source power or temperature limits "
+            "in the shared sidebar editor.")
     st.stop()
 
 if tmax>570 and 'silica' in material.name.lower():
