@@ -15,6 +15,7 @@ from engine.design_lab import (
     radial_insulation_profile, bounded_geometry_candidates,
 )
 from ui_theme import inject
+from scenario_state import active, scenario_banner
 
 st.set_page_config(page_title="Thermal Design Studio | Sand Battery", layout="wide", page_icon="📐")
 inject()
@@ -23,26 +24,20 @@ st.title("Thermal Design Studio")
 st.write("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.")
 st.info("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.")
 
-with st.form("design_lab_parameters", border=True):
-    st.markdown("#### Design inputs")
-    a,b,c,d=st.columns(4)
-    with a:
-        material_name=st.selectbox("Storage medium",list(MATERIALS),key="dl_mat")
-        volume=st.number_input("Total packed volume · m³",50.,20000.,1000.,step=50.,key="dl_vol")
-    with b:
-        tmin=st.number_input("Minimum useful temperature · °C",20.,200.,50.,step=10.,key="dl_tmin")
-        tmax=st.number_input("Maximum temperature · °C",200.,850.,550.,step=10.,key="dl_tmax")
-    with c:
-        modules=st.number_input("Tank modules",1,16,2,key="dl_modules")
-        aspect=st.slider("Height / radius",1.,6.,3.,.25,key="dl_aspect")
-    with d:
-        insulation=st.slider("Insulation thickness · m",.1,1.5,.5,.05,key="dl_insul")
-        ambient=st.number_input("Ambient · °C",-25.,45.,15.,key="dl_ambient")
-    submitted=st.form_submit_button("Update engineering study",type="primary",use_container_width=True)
+# All baseline geometry and material inputs come from the shared scenario.
+# The detailed study controls below remain local exploratory settings.
+shared = active()
+scenario_banner()
+st.caption("To edit the baseline design, use Active Scenario in the navigation sidebar.")
+material_name = shared.material_name
+m = MATERIALS[material_name]
+d = shared.make_design()
+volume = d.volume_m3
+modules = d.modules
+tmin = d.minimum_c
+tmax = d.maximum_c
+ambient = d.ambient_c
 
-m=MATERIALS[material_name]
-d=Design(volume_m3=volume,modules=int(modules),height_over_radius=aspect,
-         insulation_m=insulation,ambient_c=ambient,minimum_c=tmin,maximum_c=tmax)
 try:
     base=summarize(d,m)
 except ValueError as exc:
