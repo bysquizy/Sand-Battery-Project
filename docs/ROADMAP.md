@@ -1,6 +1,6 @@
 # Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current target release:** 1.4.0, Stage 2 (Shared Scenarios & UX).
+**Current target release:** 1.5.0, Stage 3 (Scientific Verification).
 **Application:** independent Group 8 numerical research platform, not
 an experimentally validated or construction-certified thermal battery.
 
@@ -29,11 +29,16 @@ coefficients, add paid services or assert experimental calibration.
 - [ ] Shareable cloud-backed scenario links were deliberately **not** implemented
       because this academic app has no identity service or persistent database.
 
-## Stage 3 — Advanced Scientific Engineering
+## Stage 3 — Advanced Scientific Engineering (v1.5)
 
-Explain 0-D vs 1-D outputs; evidence-labeled material properties, simplified
-closed-pipe heat transfer, outlet temperature and insulation limits, solver
-convergence and independent validation where real data are available.
+- [x] Distinguish 0-D uniform-body physics from 1-D axial direct-contact LTE calculations.
+- [x] Add adjustable charge/discharge cutoffs and 1-D phase energy ledger.
+- [x] Implement an independent simplified closed-pipe fluid/solid resistance and sensible-enthalpy model with outlet-grade constraints.
+- [x] Add source-labelled tabulated cp(T), strict measured-domain checking and numerical analytical tests.
+- [x] Revise Stage 1/2 input security, wasted inactive calculations and stale simulation plots.
+- [ ] Full 2-D/3-D embedded-loop CFD and commercial piping calibration (unavailable geometry/measurements).
+- [ ] Sourced measured cp(T) data for each material, quartz inversion enthalpy and experimental transient validation.
+- [ ] Formal grid-and-time-step asymptotic convergence analysis (initial grid sensitivity only).
 
 ## Stage 4 — Visualization, Animation & Reporting
 
