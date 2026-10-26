@@ -3,7 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from project_info import PROJECT, FIELD_REFERENCES, REFERENCES, MODEL_EVIDENCE, bibliography_text
+from project_info import PROJECT, REFERENCES, MODEL_EVIDENCE, bibliography_text
 from research_notes import TOPICS, REVIEW, AUDIT, SOURCE_NOTES
 from ui_theme import inject
 

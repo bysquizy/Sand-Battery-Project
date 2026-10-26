@@ -4,19 +4,20 @@ ESE101 Group 8. No AI service calls or heavy ML frameworks.
 The demo visualizations do not constitute product certification.
 """
 import json
-from dataclasses import asdict, replace
+from dataclasses import asdict
 import numpy as np
 import pandas as pd
 import streamlit as st
 
 from engine.materials import MATERIALS, blend
-from engine.physics import Design, summarize, simulate_cycle
+from engine.physics import Design, simulate_cycle
 from engine.solar import csp_thermal_mw, electrical_renewables_mw
 from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
 from engine.reporting import scenario_markdown
 from project_info import PROJECT
+from project_version import APP_VERSION, APP_VERSION_LABEL
 
 st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page_icon='🌡️',
                    layout='wide',initial_sidebar_state='expanded')
@@ -88,8 +89,8 @@ with st.sidebar:
         st.caption(f'Modeled source power: {power:.2f} MW')
     st.markdown('<div class="small">No live weather feed. CSP/PV/wind inputs are steady illustrative power scenarios.</div>',unsafe_allow_html=True)
 
-st.markdown('''<div class="info-line"><b>v1.2 Engineering Workspace:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
-st.markdown('<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · V1.2</div>',unsafe_allow_html=True)
+st.markdown(f'''<div class="info-line"><b>{APP_VERSION_LABEL} Engineering Workspace:</b> Additional physics-based studies and numerical experiments are available using the built-in Streamlit page navigation.</div>''',unsafe_allow_html=True)
+st.markdown(f'<div class="small">WEB-FIRST RESEARCH PLATFORM · NO LOCAL INSTALLATION REQUIRED · {APP_VERSION_LABEL}</div>',unsafe_allow_html=True)
 st.caption("These numerical results are illustrative; source summaries and uncertainty explanations are located in Research Hub.")
 st.link_button("View project source on GitHub ↗",PROJECT["repository"],type="primary")
 st.caption("Research summaries, scientific evidence and Group 8 member names are in Research Hub.")
@@ -229,7 +230,7 @@ with material_tab:
         else:st.info('No candidate satisfies the current height/diameter limits.')
 
 
-payload={'version':'1.2','design':asdict(design),'material':asdict(material),
+payload={'version':APP_VERSION,'design':asdict(design),'material':asdict(material),
          'results':{k:float(v) for k,v in result.items() if isinstance(v,(int,float,np.floating))},
          'status':'numerical-research-preview; not experimentally validated'}
 st.download_button('↓  Export current simulation · JSON',json.dumps(payload,indent=2),

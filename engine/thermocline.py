@@ -9,7 +9,7 @@ from dataclasses import replace
 import numpy as np
 
 from .materials import Material
-from .physics import Design, J_PER_MWH, geometry, thermal_ua
+from .physics import Design, J_PER_MWH, geometry
 
 
 def _setup(d: Design, m: Material, n):

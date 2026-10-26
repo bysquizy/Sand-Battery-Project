@@ -10,7 +10,7 @@ import math
 import numpy as np
 from scipy.integrate import solve_ivp
 from .materials import Material
-from .physics import Design, J_PER_MWH, geometry, summarize, thermal_ua
+from .physics import Design, J_PER_MWH, geometry, summarize
 
 
 def volume_for_target_mwh(material: Material, tmin_c: float, tmax_c: float,

@@ -1,6 +1,6 @@
 # Model Specification, Numerical Verification and Validation Gaps
 
-**Status: v1.0 academic web research release · 24 October 2026; NOT experimentally validated**
+**Status: v1.3 Stage 1 software quality review · 26 October 2026; NOT experimentally validated**
 
 ## Model domains
 
@@ -28,7 +28,7 @@ An analytically reconstructed residual checks internal numerical consistency. **
 
 ### 1-D thermocline surrogate
 
-Finite-volume, direct-contact, local-thermal-equilibrium axial transport with effective conduction. **Not calibrated or structurally representative of an electrically heated closed-loop pipe-in-sand silo.** Air/solid thermal non-equilibrium, separate heater piping and airflow pressure losses are future-work topics.
+Finite-volume, direct-contact, local-thermal-equilibrium axial transport with effective conduction. **Not calibrated or structurally representative of an electrically heated closed-loop pipe-in-sand silo.** An additional **exploratory 1-D LTNE direct-contact gas/solid** solver and a standalone Ergun packed-bed flow calculator are now available; neither represents a validated embedded-pipe commercial silo. Closed-loop pipe physics remains future work.
 
 ### Charging power
 
@@ -40,11 +40,15 @@ Finite-volume, direct-contact, local-thermal-equilibrium axial transport with ef
 
 A discrete grid of volumes, ratios and insulation thicknesses is filtered against max module diameter/height and ranked by calculated useful heat; **not** structural/cost/safety certification or a continuous global optimizer.
 
-## Test coverage
+## Current software verification scope
 
-The test suite verifies geometry volumes, temperature enthalpy differentiation, ideal mixing heat conservation, module/insulation monotonicity, temperature and source validation, zero-loss limit, energy-balance identity, charging failure, standby behavior, 1-D sanity, screening constraints and Plotly chart frame construction.
+GitHub Actions installs the runtime packages on **Python 3.13**, compiles the Streamlit entry point and all page/model modules, runs focused Ruff name/import checks and executes the full Pytest suite. See the latest [CI runs](https://github.com/bysquizy/Sand-Battery-Project/actions) for the **actual run-specific pass count**; do not treat an old snapshot as the current test count.
 
-Local test run: Python 3.13.5 with numpy 2.3.5, scipy 1.17.0, pandas 2.2.3, plotly 6.5.2, pytest 9.0.2. **23 tests passed**. Streamlit was unavailable in this isolated build container and pip installation could not reach a package index: the full web UI has not yet been visually smoke-tested. CI and the user's Python 3.13.17 environment should perform this additional test.
+Current checks include 0-D energy conservation, thermodynamic limits, simplified thermocline/LTNE test cases, design-lab analytical bounds, material scenario provenance, reproducible synthetic dispatch, Streamlit page startup and router navigation. The Stage 1 safety tests reject malformed CSVs, oversize rows, NaN/Inf, negative/out-of-range power values and user-selected heatmap temperatures outside the interval.
+
+**Numerical consistency is not experimental validation.** The new CSV boundaries and corrected heatmap sampling do not alter heat-capacity properties, solver dynamics or manufacturer-performance claims.
+
+Performance, mesh/time-step convergence, full device-temperature validation, mobile-browser QA, pressure-boundary safety and a physical rig comparison remain incomplete.
 
 ## External validation requirements
 
@@ -52,7 +56,7 @@ Local test run: Python 3.13.5 with numpy 2.3.5, scipy 1.17.0, pandas 2.2.3, plot
 2. Publish material-specific density, temperature-dependent cp(T) and thermal conductivity data with uncertainty.
 3. Compare discharge cutoff, actual usable MWh, measured skin/ground loss, fan/heater losses and transient temperature profiles.
 4. Perform grid convergence (n=20,40,80,160), solver step/tolerance sensitivity and net input/output enthalpy audit on the 1-D model.
-5. Add separate fluid-solid LTNE physics after validated heat-transfer coefficients and geometric details are available.
+5. Calibrate the existing exploratory fluid/solid LTNE solver using experimentally suitable heat-transfer coefficients and geometry before claiming a validated predictive model.
 6. Confirm structural integrity and code compliance with a qualified engineering analysis before physical fabrication.
 
 ## Original v4 regression context

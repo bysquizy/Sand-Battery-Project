@@ -1,0 +1,19 @@
+[project]
+name = "sand-battery-studio"
+version = "1.3.0"
+description = "Educational, physics-based sensible thermal storage simulator"
+requires-python = ">=3.13,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [".venv", "docs/archive"]
+
+[tool.ruff.lint]
+# Stage 1 baseline: fail on unused imports and undefined/mis-scoped names.
+# Formatting the large legacy UI files requires a separate audited follow-up.
+select = ["F401", "F821", "F823"]

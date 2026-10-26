@@ -3,8 +3,7 @@ from dataclasses import dataclass
 import math
 import numpy as np
 from scipy.integrate import solve_ivp
-from .physics import Design,summarize,J_PER_MWH,geometry
-from .materials import Material
+from .physics import summarize,J_PER_MWH,geometry
 
 def exergy_mwh(m,volume,tmin,tmax,ambient):
     if not (-273.15 < ambient <= tmin < tmax): raise ValueError("Invalid exergy temperatures")
