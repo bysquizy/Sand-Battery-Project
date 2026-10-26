@@ -2,7 +2,9 @@
 
 **Sand-based thermal energy storage — numerical simulation and research project**
 
-**Group 8:** Yağız Topaç · Semih Cenk · Fatma Ovacık\n\n**Web application development:** Yağız Topaç ([@bysquizy](https://github.com/bysquizy))
+**Group 8:** Yağız Topaç · Semih Cenk · Fatma Ovacık
+
+**Web application development:** Yağız Topaç ([@bysquizy](https://github.com/bysquizy))
 
 [Run the simulation](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [Source code](https://github.com/bysquizy/Sand-Battery-Project)
 
@@ -14,7 +16,8 @@ The project is **software-only**. Charts are illustrative numerical results. Res
 
 ## What the application does
 
-- **Engineering Dashboard:** explores charging, stored heat, useful thermal output and heat losses.\n- **How It Works / Nasıl Çalışır?:** explains the simulation and its assumptions.
+- **Engineering Dashboard:** explores charging, stored heat, useful thermal output and heat losses.
+- **How It Works / Nasıl Çalışır?:** explains the simulation and its assumptions.
 - **Thermal Design Studio:** compares insulation and tank-design choices.
 - **Scenario Manager:** saves and compares design configurations.
 - **Model Verification:** inspects calculation and energy-balance assumptions.
@@ -34,21 +37,9 @@ Q = m × cp × ΔT
 
 Actual predictions depend on the chosen heat capacity, temperature range, geometry, insulation, power inputs and model assumptions. The application includes simplified 0-D and 1-D approaches, which do not describe identical physics.
 
-## Installation
+## Access
 
-Python 3.13 is recommended.
-
-```bash
-python -m pip install -r requirements.txt
-streamlit run streamlit_app.py
-```
-
-Tests:
-
-```bash
-python -m pip install -r requirements-dev.txt
-python -m pytest -q
-```
+Use the [live web application](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) directly in your browser. No desktop application or local installation is required.
 
 ## Sources and limitations
 
