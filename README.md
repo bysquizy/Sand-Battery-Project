@@ -1,4 +1,4 @@
-# Sand Battery Studio — v1.3 Foundation & Security
+# Sand Battery Studio — v1.4 Shared Scenarios
 
 [**Open the live web application**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [**GitHub repository**](https://github.com/bysquizy/Sand-Battery-Project) · [**Scientific methods**](docs/ADVANCED_RESEARCH_V2.md)
 
@@ -13,7 +13,7 @@ A lightweight, English-language, browser-based engineering simulation of **sensi
 | Workspace | What you can explore |
 | --- | --- |
 | **Engineering Dashboard** | 0-D charge/hold/discharge, useful heat, energy losses, Sankey balance, annotated temperature timelines, illustrative animated 3D silo and bounded material screening |
-| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
+| **Scenario Manager** | Three A/B/C design snapshots, numerical KPI comparisons, versioned JSON import/export and CSV tables (browser session only) |\n| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
 | **Advanced Research Lab** | Exergy, synthetic PV/wind dispatch, direct-contact LTNE, Ergun pressure loss, ideal ε–NTU exchanger, illustrative uncertainty and LCOH |
 | **Material Atlas** | 18 sourced-or-assumption-labeled materials, cp(T) curves, temperature/capacity comparison, theoretical ideal mixtures |
 | **Virtual Experiments** | Mesh-sensitivity comparison, air-flow/pressure resistance and insulation/standby case studies |
@@ -47,6 +47,26 @@ The submitted team sources include the *Polar Night Energy research summary* (ma
 - **Animated temperatures:** numerical illustration, not measured thermocouple points or CFD.
 
 Python 3.13 GitHub Actions checks numerical results, imports, page navigation, CSV safety constraints, bounded plots and focused static analysis. Runtime dependencies are in `requirements.txt`; test-only tools are in `requirements-dev.txt`. Tests do **not** substitute for measurements. Team members should disclose permitted AI assistance according to their actual course/institution rules.
+
+## Stage 2: shared design and faster navigation
+
+- Open **Edit shared design** in the left navigation sidebar, set geometry,
+  material, temperature range and charging source, then press **Apply to all pages**.
+- The Dashboard and Thermal Design Studio use the active design directly.
+  Material Atlas and Advanced Research Lab start from this baseline but offer
+  clearly labelled **local exploratory overrides**.
+- In **Scenario Manager**, save the current design as A, B or C, compare modeled
+  capacity/useful heat/losses, and download `sand_battery_scenarios_v1.json`.
+  Upload the same JSON to restore all three saved designs. No external
+  account or permanent cloud database is required or implied.
+- The Dashboard calculates and draws only the selected workspace; heavy
+  charts/3D are no longer built while another dashboard section is active.
+- Old beta release notes are preserved in [historical documents](docs/archive/).
+  No active calculation engine `.py` files were deleted: they all remain imported.
+
+The import validator rejects unknown fields, invalid values, non-finite
+numbers, oversized JSON and mismatched schema versions. Imported settings are
+recalculated by the same physics engine; imported result claims are not trusted.
 
 ## Stage 1 release: quality and security
 
