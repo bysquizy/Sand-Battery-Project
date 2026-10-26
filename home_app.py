@@ -24,6 +24,7 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
+from localization import t, tr
 inject()
 
 
@@ -54,15 +55,12 @@ current_scenario = active()
 scenario_banner()
 
 hero(
-    "GROUP 8 · SAND BATTERY PROJECT",
-    "Sand Battery Thermal Storage Simulation",
-    "An academic project for modeling sand-based thermal energy storage, "
-    "heat losses, charging and discharging, and insulation design.",
+    tr("GROUP 8 · SAND BATTERY PROJECT","GRUP 8 · KUM BATARYASI PROJESİ"),
+    tr("Sand Battery Thermal Storage Simulation","Kum Bataryası Isı Depolama Simülasyonu"),
+    tr("An academic project for modeling sand-based thermal energy storage, heat losses, charging and discharging, and insulation design.","Kumla ısı depolama, ısı kayıpları, şarj-deşarj ve yalıtım tasarımı üzerine sayısal mühendislik projesi."),
 )
-st.caption(
-    "Academic numerical model · Not experimentally validated"
-)
-st.link_button("GitHub: Project files and research",
+st.caption(tr("Academic numerical model · Not experimentally validated", "Akademik sayısal model · Deneysel olarak doğrulanmamıştır"))
+st.link_button(tr("GitHub: Project files and research","GitHub: Proje dosyaları ve araştırma"),
                "https://github.com/bysquizy/Sand-Battery-Project")
 st.caption("Open Research Hub for source attribution and methods. "
            "Visual Story Studio provides model-driven animations and downloadable reports.")
