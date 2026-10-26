@@ -3,5 +3,5 @@
 Historical alpha/beta records live in the changelog archive, not this module.
 A software release is not a physical or experimental validation certificate.
 """
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.5.0"
 APP_VERSION_LABEL = f"v{APP_VERSION}"
