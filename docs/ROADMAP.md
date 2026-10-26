@@ -34,7 +34,7 @@ coefficients, add paid services or assert experimental calibration.
 - [x] Distinguish 0-D uniform-body physics from 1-D axial direct-contact LTE calculations.
 - [x] Add adjustable charge/discharge cutoffs and 1-D phase energy ledger.
 - [x] Implement an independent simplified closed-pipe fluid/solid resistance and sensible-enthalpy model with outlet-grade constraints.
-- [x] Add source-labelled tabulated cp(T), strict measured-domain checking and numerical analytical tests.
+- [x] Add source-labelled tabulated cp(T), strict measured-domain checking and numerical analytical tests.\n- [x] Add an optional 2-layer insulation screen; the old thermal_ua equation is unchanged.
 - [x] Revise Stage 1/2 input security, wasted inactive calculations and stale simulation plots.
 - [ ] Full 2-D/3-D embedded-loop CFD and commercial piping calibration (unavailable geometry/measurements).
 - [ ] Sourced measured cp(T) data for each material, quartz inversion enthalpy and experimental transient validation.
