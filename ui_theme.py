@@ -119,9 +119,9 @@ h3 {font-size:1.18rem;font-weight:730}
 }
 [data-testid="stButton"] button[kind="primary"],
 [data-testid="stLinkButton"] a[kind="primary"] {
-  background:linear-gradient(115deg,#f4d3a5,#e5a873);
-  border:1px solid #f3c596;
-  color:#132231;
+  background:linear-gradient(115deg,#173b46,#225a62);
+  border:1px solid #367986;
+  color:#effffc;
   box-shadow:0 8px 23px -19px #f2c18c;
 }
 [data-testid="stButton"] button:hover,
@@ -287,6 +287,38 @@ h3 {font-size:1.18rem;font-weight:730}
   *,*:before,*:after{animation:none!important;transition:none!important;
     scroll-behavior:auto!important}
 }
+
+/* Subtle interaction feedback, respecting system reduced-motion preferences. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-testid="stMainBlockContainer"] {animation:sb-page-enter .38s ease-out both}
+  [data-testid="stMetric"], [data-testid="stPlotlyChart"],
+  [data-testid="stVerticalBlockBorderWrapper"], [data-testid="stAlert"],
+  [data-testid="stLinkButton"] a, [data-testid="stSidebarNav"] a {
+    transition:transform .28s cubic-bezier(.2,.8,.2,1), border-color .25s ease,
+               box-shadow .3s ease, background-color .25s ease;
+  }
+  [data-testid="stMetric"]:hover {transform:translateY(-4px) scale(1.018);
+    border-color:#65aeb2;box-shadow:0 18px 35px -24px #000}
+  [data-testid="stPlotlyChart"]:hover {transform:translateY(-2px) scale(1.008);
+    border-color:#507e8a}
+  [data-testid="stLinkButton"] a:hover {transform:translateY(-2px) scale(1.015)}
+  [data-testid="stTabs"] button[role="tab"] {transition:color .24s ease,background .24s ease,transform .24s ease}
+  [data-testid="stTabs"] button[role="tab"]:hover {transform:translateY(-2px);background:rgba(104,229,207,.08)}
+  [data-testid="stSidebarNav"] a:hover {transform:translateX(3px)}
+  .sb-hero {animation:sb-page-enter .5s ease-out both}
+}
+@keyframes sb-page-enter {from {opacity:.2;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+[data-testid="stLinkButton"] a[href*="github.com"] {
+ background:linear-gradient(110deg,#152936,#203a4c)!important;
+ border:1px solid #426a7c!important;color:#eaf8fb!important;
+}
+[data-testid="stLinkButton"] a[href*="github.com"]:before {
+ content:"";display:inline-block;width:17px;height:17px;margin-right:8px;
+ vertical-align:-3px;
+ background-color:currentColor;
+ -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+ mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.28-1.24-1.28-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
 </style>
 """
 
@@ -297,7 +329,7 @@ def inject() -> None:
 
 
 def hero(kicker: str, title: str, description: str) -> None:
-    """Premium accessible static HTML header, with escaped dynamic text."""
+    """Accessible static HTML header with escaped dynamic text."""
     st.html(
         '<section class="sb-hero" aria-label="Page introduction">'
         f'<span class="sb-eyebrow">{escape(kicker)}</span>'
