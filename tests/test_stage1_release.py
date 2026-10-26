@@ -1,7 +1,6 @@
 """Stage 1 release contract: version, safe development and unchanged runtime stack."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
 import tomllib
 
@@ -19,13 +18,10 @@ def test_project_version_metadata_agree():
     assert f'version: "{APP_VERSION}"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
-def test_devcontainer_never_disables_browser_security():
-    source = (ROOT / ".devcontainer/devcontainer.json").read_text(encoding="utf-8")
-    config = json.loads(source)
-    assert "3.13" in config["image"]
-    assert "requirements-dev.txt" in config["postCreateCommand"]
-    for unsafe in ("enableCORS false", "enableXsrfProtection false", "apt upgrade", "pip3 install --user streamlit"):
-        assert unsafe not in source
+def test_web_only_repository_has_no_desktop_launcher():
+    assert not (ROOT / '.devcontainer').exists()
+    assert not (ROOT / 'start.bat').exists()
+    assert not (ROOT / 'setup.exe').exists()
 
 
 def test_current_security_and_verification_docs_are_not_alpha():
