@@ -1,26 +1,32 @@
 # Security Policy
 
-## Project status
+## Scope and status
 
-Sand Battery Studio is an academic research preview, **not** a production service or a safety-certified engineering tool. Simulations are not sufficient for construction, investment or plant operations.
+Sand Battery Studio is a public, simulation-only academic web application. Its numerical results do **not** certify equipment, industrial performance, safety or investment suitability.
 
 ## Supported versions
 
 | Version | Security support |
 | --- | --- |
-| 1.0 alpha (`main`) | Best-effort review by student maintainers; no response-time guarantee |
-| Older releases | Not supported |
+| 1.3.x (`main` after release) | Best-effort fixes by the Group 8 maintainers |
+| Earlier releases and historical beta branches | Not actively supported |
 
-## Report a vulnerability
+The GitHub repository and the [live website](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) are publicly readable. There is no promised response SLA.
 
-**Do not publish secrets, exploit instructions or sensitive information in public issues.**
+## Private security reports
 
-If private vulnerability reporting has been enabled by the repository owner, select **Security → Advisories → Report a vulnerability**. Otherwise contact the owner privately using a contact method that they have chosen to publish on their GitHub profile. If no private channel exists, open a *non-sensitive* issue requesting a private contact path—without exploit details.
+**Do not submit credentials, unpublished personal information or actionable exploit details to public GitHub issues.**
 
-Provide the affected version, expected/actual behavior and safe reproduction steps. The maintainers will review reports on a best-effort basis. Adding this policy does not automatically enable GitHub's private vulnerability reporting.
+If GitHub's private vulnerability reporting is available, use **Security → Advisories → Report a vulnerability**. Otherwise reach a maintainer using a private contact method published on their GitHub profile. If no private route is available, open only a non-sensitive issue requesting a private contact channel; do not include exploit details.
 
-## Safe research and software use
+Include the affected version/commit, the impacted page or upload path and safe reproduction steps.
 
-- Never commit credentials, personal information, `.env` files or `.streamlit/secrets.toml`.
-- Review and update third-party Python dependencies.
-- Treat material data and simulated thermal performance as unvalidated research estimates.
+## Safeguards
+
+- Keep `.streamlit/secrets.toml`, `.env` and API credentials out of the repository.
+- Uploaded CSV content is bounded by size, row count, finite numeric values and allowed power ranges before simulation.
+- Treat rate/CPU and memory protection as resource limits, not a security guarantee.
+- Update dependencies only after tests pass; investigate Dependabot alerts.
+- Do not disable Streamlit's default XSRF/CORS defenses in a shared development container.
+
+This security policy does not assert an independent penetration test or a certified security audit.
