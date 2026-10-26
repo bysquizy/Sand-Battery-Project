@@ -1,7 +1,6 @@
 """Plotly visuals for the compact sand-battery studio; no external assets."""
 import numpy as np
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 BG = '#08111d'
 PANEL = '#0f1d2a'
