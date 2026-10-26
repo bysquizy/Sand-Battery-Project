@@ -12,7 +12,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 import math
 
-import numpy as np
 from scipy.integrate import solve_ivp
 
 from .materials import Material
