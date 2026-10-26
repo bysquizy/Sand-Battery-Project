@@ -91,8 +91,9 @@ def test_navigational_entry_still_registers_all_pages():
     source=(ROOT/"streamlit_app.py").read_text(encoding="utf-8")
     for page in PAGES:
         assert page in source
-    assert "GitHub Repository" in source
-    assert "Getting started" in source
+    assert 't("github")' in source
+    assert 't("pages")' in source
+    assert "pages/9_How_It_Works.py" in source
 
 
 def test_scenario_comparison_csv_does_not_trust_imported_text():
