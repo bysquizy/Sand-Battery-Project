@@ -44,5 +44,6 @@ def test_stable_label_and_live_website_are_documented():
 
     assert PROJECT["public_app"].startswith("https://")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "# Sand Battery Studio" in readme\n    assert "## About the project" in readme
+    assert "# Sand Battery Studio" in readme
+    assert "## About the project" in readme
     assert PROJECT["public_app"] in readme
