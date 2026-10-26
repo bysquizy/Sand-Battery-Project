@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 from engine.materials import MATERIALS
+from engine.export_safety import safe_csv
 from engine.physics import simulate_cycle
 from engine.scenarios import SLOTS, MAX_IMPORT_BYTES, from_json, to_json
 from scenario_state import active, ensure_session, set_active, scenario_banner
@@ -88,7 +89,7 @@ if rows:
     st.caption("Comparisons preserve each saved scenario's own geometry, material "
                "and operating boundaries; results are not normalized unless "
                "the inputs were intentionally made equal.")
-    st.download_button("Export comparison · CSV",df.to_csv(index=False),
+    st.download_button("Export comparison · CSV",safe_csv(df),
        file_name="sand_battery_comparison.csv",mime="text/csv",
        key="manager_compare_csv")
     good = df[df["Simulation status"]=="Simulated"]
