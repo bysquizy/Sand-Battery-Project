@@ -22,11 +22,12 @@ from visuals_advanced import (
     sensitivity_tornado,
 )
 from ui_theme import inject, hero, footer
+from localization import tr
 
 st.set_page_config(page_title="Visual Story Studio | Sand Battery Studio",
                    page_icon="🎬", layout="wide")
 inject()
-hero("VISUALS / THERMAL INSIGHT", "Visual Story Studio", "Watch computed thermal fronts, compare design options and publish a reproducible engineering snapshot.")
+hero(tr("VISUALS / THERMAL INSIGHT","GÖRSELLER / ISIL ANALİZ"), tr("Visual Story Studio","Görsel Analiz"), tr("Watch computed thermal fronts, compare design options and publish a reproducible engineering snapshot.","Hesaplanan sıcaklık dağılımlarını izleyin, tasarımları karşılaştırın ve rapor oluşturun."))
 scenario = active()
 scenario_banner()
 d = scenario.make_design()
