@@ -4,7 +4,7 @@ All pages receive the same committed Scenario. Draft controls in a form do not
 change calculations until Apply is pressed. Session data are ephemeral.
 """
 from __future__ import annotations
-from dataclasses import asdict, replace
+from dataclasses import asdict
 import streamlit as st
 
 from engine.materials import MATERIALS
@@ -79,7 +79,8 @@ def sidebar_editor() -> None:
                 output = st.number_input(
                     "Thermal demand · MW", 0.1, 40.0,
                     float(scenario.thermal_output_mw), step=0.5)
-                with st.expander("Advanced geometry & source parameters"):
+                st.markdown("**Advanced geometry & source parameters**")
+                if True:  # Group related inputs without nesting Streamlit expanders.
                     modules = st.number_input("Identical silos", 1, 16,
                                               int(scenario.modules))
                     ratio = st.slider("Height / inner radius", 1.0, 6.0,
