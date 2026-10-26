@@ -127,3 +127,23 @@ def test_stage2_resource_cleanup_does_not_delete_essential_python():
                  "RELEASE_NOTES_V2.md", "RELEASE_NOTES_V22.md"):
         assert not (ROOT/"docs"/name).exists()
         assert (ROOT/"docs/archive"/name).exists()
+
+def test_manager_slot_save_then_cross_page_navigation():
+    from streamlit.testing.v1 import AppTest
+    app = AppTest.from_file(str(ROOT/"streamlit_app.py"),
+                             default_timeout=75).run(timeout=75)
+    app.switch_page("pages/6_Scenario_Manager.py").run(timeout=75)
+    assert not app.exception, [str(x.message) for x in app.exception]
+    app.button(key="slot_save_A").click().run(timeout=75)
+    assert not app.exception, [str(x.message) for x in app.exception]
+    assert app.session_state["saved_scenarios"]["A"] == Scenario()
+    app.switch_page("pages/4_Thermal_Design_Studio.py").run(timeout=75)
+    assert not app.exception, [str(x.message) for x in app.exception]
+
+
+def test_dashboard_outputs_portable_scenario_bundle_not_untrusted_results():
+    home = (ROOT/"home_app.py").read_text(encoding="utf-8")
+    assert "home_scenario_export" in home
+    assert "to_json(current_scenario" in home
+    assert "Export numerical results" in home
+
