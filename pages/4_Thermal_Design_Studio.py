@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from engine.materials import MATERIALS
-from engine.physics import Design, summarize
+from engine.physics import summarize
 from engine.design_lab import (
     volume_for_target_mwh, cooling_profile, module_comparison,
     radial_insulation_profile, bounded_geometry_candidates,
