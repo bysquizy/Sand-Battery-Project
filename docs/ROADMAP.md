@@ -1,94 +1,60 @@
-# Sand Battery Project — Engineering Development Roadmap
+# Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current release:** Sand Battery Studio **v1.2 Research Hub Update**, 24 October 2026.  
-**Project:** IZTECH, Department of Energy Systems Engineering · ESE101 Group 8 · Maintainer: Yağız Topaç (@bysquizy).
+**Current target release:** 1.3.0, Stage 1 (Foundation & Security).
+**Application:** independent Group 8 numerical research platform, not
+an experimentally validated or construction-certified thermal battery.
 
-## Delivered in v1.0
+## Stage 1 — Code Foundation, Security & Cleanup (v1.3)
 
-- Responsive, English-language Python 3.13 / Streamlit web application.
-- Transient 0-D sensible-heat charge/hold/discharge; auditable input, loss and useful-output ledger.
-- Exploratory direct-contact 1-D LTE, animated 3D silo, materials comparison and constrained geometry screening.
-- University identification, source links, APA-style evidence catalogue and technical exports.
+- [x] Review Python 3.13, documentation and safety-related development settings.
+- [x] Restore default Codespaces/Streamlit CORS and XSRF protections.
+- [x] Add bounded CSV import validation and guard the Material Atlas heatmap.
+- [x] Consolidate active software-version strings and archive obsolete release notes.
+- [x] Expand numerical/upload/UI regression tests and focused import linting.
+- [ ] Verify the merged `main` commit and the independently hosted browser UI.
+- [ ] Confirm actual output on the user's deployed Streamlit Cloud app.
 
-## Delivered in v2.0 Beta
+**Stage 1 boundary:** do not rewrite thermodynamics, change material-property
+coefficients, add paid services or assert experimental calibration.
 
-- Exergy upper bound, temperature-dependent enthalpy inversion and hypothetical source/heat-demand dispatch.
-- Exploratory 1-D **LTNE** separated gas/solid temperature model, not calibrated for the closed-loop pipe architecture.
-- Packed-bed Ergun pressure loss, ideal ε–NTU exchanger, input uncertainty and scenario LCOH tools.
-- Material Atlas: 18 total medium scenarios, including 13 clearly hypothetical comparison entries.
-- Virtual experiments: mesh sensitivity, velocity/pressure analysis, standby/insulation thermal-loss screening.
-- Three new multipage Streamlit workspaces and **42/42 successful Python 3.13 GitHub automated tests**, including page-start smoke tests.
+## Stage 2 — User Experience & Scenario System
 
-**Scientific status:** models are numerically exercised but not experimentally validated, a structural safety evaluation, a guaranteed performance prediction, or investment guidance.
+Shared `Active Scenario` state; A/B/C save/load/compare, a calmer dashboard,
+clearer sidebar controls, mobile UX, local caching and lightweight navigation.
 
-## v2.1 — Scientific strengthening (not yet implemented)
+## Stage 3 — Advanced Scientific Engineering
 
-1. Add experimentally measured, source-cited temperature-dependent cp, effective conductivity and sample packing densities (with operating ranges).
-2. Include enthalpy changes across the α–β quartz inversion when modeling quartz near 573 °C.
-3. Expand conservation, mesh/time-step refinement and uncertainty analysis for 0-D, LTE and LTNE models.
-4. Add realistic useful-outlet temperature, pressure-flow coupling and heat-exchanger pinch constraints.
-5. Add measurement comparison from accessible, compatible laboratory datasets; report fit error and validation limitations.
+Explain 0-D vs 1-D outputs; evidence-labeled material properties, simplified
+closed-pipe heat transfer, outlet temperature and insulation limits, solver
+convergence and independent validation where real data are available.
 
-## v2.2 — Industrial system model (not yet implemented)
+## Stage 4 — Visualization, Animation & Reporting
 
-1. Differentiate *closed pipe heat transfer in static sand* and *direct-contact packed-bed flow* in both physics and the interface.
-2. Evaluate time-stamped real CSP/PV/wind resource data and representative thermal load profiles.
-3. Add realistic charge scheduling, parasitic electric consumption, mechanical/insulation safety and material compatibility checks.
-4. Extend multi-objective Pareto analyses for thermal delivery, cost, heat loss and industrial footprints.
+Physically grounded 1-D temperature animations, coherent timeline controls,
+uncertainty and Pareto plots, HTML/PDF-ready scenario reports and export audit.
 
-## Academic deadlines (tentative course calendar)
+## Stage 5 — Research, Publication & Final QA
 
-- **17 November 2026:** Interim Project Report.
-- **5 January 2027:** English project poster presentation.
-- **12 January 2027:** Final Project Report, APA references and ten-page body limit, excluding cover/references.
+Centralized APA-style source records, the existing concise Research Hub,
+mobile/browser testing, GitHub release/version metadata and final QA evidence.
 
-The ESE101 course information sheet generally permits AI only for brainstorming. The team reports verbal faculty approval for coding assistance; confirm the exact exception and disclose approved use in assessed submissions.
+## Quality gate for every stage
 
-## Release checklist
+1. Feature branch and reviewed pull request.
+2. Tests on Python 3.13, no newly failing regressions.
+3. Documented assumptions and a changelog entry.
+4. Merge only after GitHub Actions passes.
+5. Clearly distinguish headless CI from live Streamlit/browser acceptance.
 
-- [x] GitHub v2 code merged into main.
-- [x] Python 3.13 GitHub automated tests and multipage startup tests passing.
-- [x] Source-specific claims and model assumptions documented.
-- [x] User supplied the Streamlit public URL, now documented in the website and README.
-- [ ] Independent rendered-browser and mobile UX review (site cannot be fetched from this testing environment).
-- [ ] Experimental calibration and independently verified input-property datasets.
-- [ ] Remaining two team-member names and faculty advisor details confirmed.
+## Open scientific limitations
 
-## v2.2 — Interface and academic evidence milestone
+- The current linear cp(T) scenarios do not model quartz phase-transition
+  enthalpy near 573 °C.
+- Direct-contact 1-D/LTNE bed physics is not Polar Night Energy's embedded-pipe
+  commercial layout.
+- No prototype or independently calibrated experimental data exists.
+- Published operator/developer Kankaanpää power ratings differ and are
+  source-specific, not calibration measurements.
 
-- [x] Shared Claude-inspired responsive theme, keyboard focus and reduced-motion styling.
-- [x] Grouped navigation, ESE101 presentation presets and low-power 3D toggle.
-- [x] Equation-to-source traceability with status and CSV export.
-- [x] Issue/PR templates, Dependabot, citation metadata and focused linting.
-- [ ] Obtain team approval for open-source licensing and verify all authorship.
-- [ ] Perform visual browser and mobile QA using the actual deployed website.
-- [ ] Collect measured material data and compatible lab results for calibration; **not done by styling changes**.
-
-## v1.0 stability freeze (24 October 2026)
-
-- [x] Recover from partial/rolling Streamlit metadata updates without losing the dashboard when the optional evidence register is absent.
-- [x] Router-level all-page smoke tests and version label consistency.
-- [x] Keep five runtime dependencies and existing scientific boundaries unchanged.
-- [ ] Confirm live-cloud reload/reboot and check rendered desktop/mobile navigation with the account owner.
-- [ ] Independently validate physical equations using appropriate measured datasets; beyond the software-stability release.
-
-Historic v2.0–v2.2 beta iterations below describe the development sequence; the public software version was rebaselined to v1.0 stable for the current academic milestone.
-
-## v1.1 — Legacy-inspired engineering tools and evidence portal
-
-- [x] Compare uploaded 1,978-line legacy code against current research engine.
-- [x] Add temperature-dependent passive cooling and module geometry/insulation comparisons.
-- [x] Add sidewall radial temperature visualizations and target stored-energy sizing.
-- [x] Consolidate bibliography, equations, university/team context and provenance audit into a standalone page.
-- [ ] Legacy multi-configuration JSON import and comparison requires separate schema security review.
-- [ ] Independently inspect the original and new live site visually; the site URLs were not readable through available automated web inspection.
-- [ ] Obtain measured material cp(T) and geometry data for meaningful experimental validation.
-
-## v1.2 — Research Hub and simplified group profile
-
-- [x] Show only Group 8 and Yağız Topaç, Semih Cenk, Fatma Ovacık on the public team page.
-- [x] Remove unnecessary academic calendar, repeated identity and source material from the Dashboard.
-- [x] Present structured source-grounded research briefs, model boundaries and searchable APA links.
-- [x] Expose canonical GitHub source URL via explicit application buttons.
-- [ ] If the native Streamlit toolbar GitHub icon points to another repository, update the Cloud deployment source (platform control, not app code).
-- [ ] Acquire measured material/plant data before asserting experimental physical validation.
+Old beta milestones were preserved under `docs/archive/`, rather than
+interleaved with future stage commitments.
