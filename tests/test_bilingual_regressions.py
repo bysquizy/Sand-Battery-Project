@@ -48,3 +48,14 @@ def test_translation_calls_not_nested_and_formula_escapes_valid():
         assert "tr(tr(" not in path.read_text(encoding="utf-8"), path.name
     guide = (ROOT / "pages/9_How_It_Works.py").read_text(encoding="utf-8")
     assert r"Q=m\,c_p\,\Delta T" in guide
+
+
+def test_turkish_pages_start_without_runtime_errors():
+    from streamlit.testing.v1 import AppTest
+
+    for page in ("home_app.py", "pages/5_Project_Research_Library.py",
+                 "pages/8_Visual_Story_Studio.py", "pages/9_How_It_Works.py"):
+        app = AppTest.from_file(str(ROOT / page), default_timeout=75)
+        app.session_state["sb_language"] = "tr"
+        app.run(timeout=75)
+        assert not app.exception, f"{page}: {[str(e.message) for e in app.exception]}"
