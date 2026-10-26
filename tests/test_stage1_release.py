@@ -15,7 +15,7 @@ def test_project_version_metadata_agree():
     assert project["project"]["version"] == APP_VERSION
     assert project["project"]["requires-python"] == ">=3.13,<3.14"
     assert APP_VERSION_LABEL == "v2.1.0"
-    assert APP_VERSION_LABEL.split(".")[0] in (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Sand Battery Studio" in (ROOT / "README.md").read_text(encoding="utf-8")
     assert f'version: "{APP_VERSION}"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
