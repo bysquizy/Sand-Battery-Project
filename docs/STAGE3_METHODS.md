@@ -104,7 +104,7 @@ using cp at the *old* timestep, numerical closure is **not algebraically
 exact** when cp(T) varies; report residuals and perform grid/time refinement
 rather than claiming physical validation.
 
-## 5. Stage 1/2 maintenance revisions
+## 6. Stage 1/2 maintenance revisions
 
 - Imported schema-v1 JSON now rejects duplicate key names (ambiguous last-key
   wins behavior is not permitted) in addition to previous size/range checks.
@@ -114,7 +114,7 @@ rather than claiming physical validation.
 - Virtual Experiments stores its active scenario beside each computed grid or
   insulation plot; stale results do not silently display for another design.
 
-## 6. Literature attribution
+## 7. Literature attribution
 
 1. Bošnjaković, M., & Santa, R. (2026). Sand batteries for thermal energy
    storage: A review of operating principles, technologies, challenges and
@@ -133,7 +133,7 @@ The Wakao correlation's direct-contact particle-bed applicability is **not**
 substituted for a closed-pipe convection coefficient here. Manufacturer
 and utility claims retain their own source classes in the Research Hub.
 
-## 7. Explicit out-of-scope evidence
+## 8. Explicit out-of-scope evidence
 
 No prototype, measured charge/discharge curves, comprehensive mesh convergence,
 2-D/3-D CFD, material-specific oxidation/sintering/phase-change testing,
@@ -142,7 +142,7 @@ fan/pump consumption, construction permit, plant CAPEX quote or operational
 dataset. The public site must not describe theoretical simulation heat
 efficiencies as measurements.
 
-## 8. Automated and manual verification
+## 9. Automated and manual verification
 
 See [Stage 3 verification checklist](STAGE3_VERIFICATION.md) for recorded
 Python 3.13 CI evidence and required manual Streamlit Cloud acceptance.
