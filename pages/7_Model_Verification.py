@@ -10,7 +10,7 @@ import streamlit as st
 from engine.closed_pipe import PipeLoop, pipe_transfer, simulate_closed_pipe
 from engine.design_lab import cooling_profile
 from engine.materials import MATERIALS
-from engine.physics import Design, simulate_cycle, summarize
+from engine.physics import simulate_cycle, summarize
 from engine.property_curves import TabulatedMaterial
 from engine.thermocline import simulate_thermocline
 from scenario_state import active, scenario_banner
