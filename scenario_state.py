@@ -80,7 +80,7 @@ def sidebar_editor() -> None:
                     "Thermal demand · MW", 0.1, 40.0,
                     float(scenario.thermal_output_mw), step=0.5)
                 st.markdown("**Advanced geometry & source parameters**")
-                if True:  # Group related inputs without nesting Streamlit expanders.
+                with st.container(border=False):  # Group controls without nested expanders.
                     modules = st.number_input("Identical silos", 1, 16,
                                               int(scenario.modules))
                     ratio = st.slider("Height / inner radius", 1.0, 6.0,
