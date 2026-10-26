@@ -16,16 +16,16 @@ hero(tr("EXPERIMENTS / NUMERICAL TESTBENCH","DENEYLER / SAYISAL TESTLER"), tr("V
 shared = active()
 scenario_banner()
 st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
-air,grid,loss=st.tabs([tr(tr("💨 Ergun & Fan","💨 Ergun ve fan"),"💨 Ergun ve fan"),tr(tr("🧮 Grid Refinement","🧮 Ağ duyarlılığı"),"🧮 Ağ duyarlılığı"),tr(tr("♨ Insulation vs Standby","♨ Yalıtım ve bekleme"),"♨ Yalıtım ve bekleme")])
+air,grid,loss=st.tabs([tr("💨 Ergun & Fan","💨 Ergun ve fan"),tr("🧮 Grid Refinement","🧮 Ağ duyarlılığı"),tr("♨ Insulation vs Standby","♨ Yalıtım ve bekleme")])
 with air:
     st.subheader('Direct-contact packed-bed pressure-loss experiment')
     a,b,c=st.columns(3)
     with a:
-        void=st.slider(tr(tr("Void fraction","Boşluk oranı"),"Boşluk oranı"),.25,.65,.42,.01,key='exp_void')
-        particle=st.slider(tr(tr("Particle diameter (mm)","Tanecik çapı (mm)"),"Tanecik çapı (mm)"),2.,30.,16.,1.,key='exp_particle')/1000
+        void=st.slider(tr("Void fraction","Boşluk oranı"),.25,.65,.42,.01,key='exp_void')
+        particle=st.slider(tr("Particle diameter (mm)","Tanecik çapı (mm)"),2.,30.,16.,1.,key='exp_particle')/1000
     with b:
-        height=st.slider(tr(tr("Bed height (m)","Dolgu yüksekliği (m)"),"Dolgu yüksekliği (m)"),2.,35.,12.,1.,key='exp_height')
-        area=st.slider(tr(tr("Bed cross-section (m²)","Dolgu kesit alanı (m²)"),"Dolgu kesit alanı (m²)"),1.,100.,15.,1.,key='exp_area')
+        height=st.slider(tr("Bed height (m)","Dolgu yüksekliği (m)"),2.,35.,12.,1.,key='exp_height')
+        area=st.slider(tr("Bed cross-section (m²)","Dolgu kesit alanı (m²)"),1.,100.,15.,1.,key='exp_area')
     with c:velocity=st.slider('Superficial velocity (m/s)',.002,.1,.025,.002,key='exp_velocity')
     r=ergun(height,area,void,particle,velocity)
     z1,z2,z3=st.columns(3)
