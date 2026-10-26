@@ -35,7 +35,30 @@ def timeline(res):
                                  line=dict(color=color,width=3),fill='tozeroy',
                                  fillcolor='rgba(100,168,246,.035)'))
     fig.update_layout(xaxis_title=tr(tr("Elapsed time · hours","Geçen süre · saat"),"Geçen süre · saat"), yaxis_title=tr(tr("Mean storage temperature · °C","Ortalama depo sıcaklığı · °C"),"Ortalama depo sıcaklığı · °C"))
-    return polish(fig,height=410)
+    fig = polish(fig,height=410)
+    series = [(res['charge_trace_h'],res['charge_trace_c']),
+              (res['hold_trace_h'],res['hold_trace_c']),
+              (res['discharge_trace_h'],res['discharge_trace_c'])]
+    frames = []
+    for step in range(1, 26):
+        partial = []
+        for xs, ys in series:
+            stop = max(2, min(len(xs), int(len(xs)*step/25)))
+            partial.append(go.Scatter(x=xs[:stop],y=ys[:stop]))
+        frames.append(go.Frame(data=partial,traces=[0,1,2],name=str(step)))
+    fig.frames = frames
+    fig.update_layout(updatemenus=[dict(type="buttons",direction="left",
+        x=1,y=1.13,xanchor="right",yanchor="bottom",showactive=False,
+        bgcolor="#1a3947",bordercolor="#426979",font=dict(color="#e8f7f8",size=11),
+        buttons=[
+            dict(label=tr("▶ Play","▶ Oynat"),method="animate",
+                 args=[None,dict(frame=dict(duration=65,redraw=False),
+                                 transition=dict(duration=25),mode="immediate")]),
+            dict(label=tr("↺ Reset","↺ Sıfırla"),method="animate",
+                 args=[[str(25)],dict(frame=dict(duration=0,redraw=False),
+                                      transition=dict(duration=0),mode="immediate")])
+        ])])
+    return fig
 
 
 def ledger(res):
