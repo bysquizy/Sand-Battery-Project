@@ -148,3 +148,18 @@ def test_model_verification_page_starts_from_router():
     assert not app.exception, [str(e.message) for e in app.exception]
     app.switch_page("pages/7_Model_Verification.py").run(timeout=75)
     assert not app.exception, [str(e.message) for e in app.exception]
+
+def test_stage_1_2_json_safety_rejects_duplicate_fields():
+    from engine.scenarios import Scenario, SLOTS, to_json, from_json
+    bundle=to_json(Scenario(),{slot: None for slot in SLOTS})
+    # A duplicate top-level key is ambiguous and must not silently override.
+    with pytest.raises(ValueError):
+        from_json(bundle.replace('"schema_version": 1,',
+                                  '"schema_version": 1, "schema_version": 1,').encode())
+
+
+def test_stage_1_2_research_is_lazily_rendered():
+    text=(ROOT/"pages/1_Engineering_Research_Lab.py").read_text(encoding="utf-8")
+    assert 'study = st.radio(' in text
+    assert "elif study == 'Cost Lab':" in text
+    assert 'energy,renewable,transport,exchanger_tab,risk,cost=st.tabs' not in text
