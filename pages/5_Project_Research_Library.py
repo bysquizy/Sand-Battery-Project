@@ -37,15 +37,16 @@ with guide:
         st.markdown(f"**{phase}**")
         st.write(details[phase][0])
         st.caption(details[phase][1])
-    sank=go.Figure(go.Sankey(
-        node=dict(label=["Heat source","Storage medium","Useful process heat","Conversion & ambient losses"],
-                  pad=28,thickness=18,color=["#69aacd","#eeb37e","#58dfc3","#bc7980"]),
-        link=dict(source=[0,0,1,1],target=[1,3,2,3],value=[75,25,57,18],
-                  color=["rgba(238,179,126,.38)","rgba(191,120,128,.3)","rgba(88,223,195,.38)","rgba(191,120,128,.23)"])))
-    sank.update_layout(template="plotly_dark",height=270,margin=dict(l=5,r=5,t=15,b=5),
-                       paper_bgcolor="rgba(0,0,0,0)",font=dict(color="#edf3f7",size=12))
-    st.plotly_chart(sank,width="stretch",key="hub_flow_diagram")
-    st.caption("Conceptual Sankey proportions are decorative illustrations, NOT measured energy fractions. Use Dashboard for calculated balances.")
+    # No decorative numeric Sankey: it could be mistaken for measured fractions.
+    c1,c2,c3=st.columns(3)
+    with c1:
+        st.info("**1 · CHARGE**  Electric resistance or defined solar thermal input")
+    with c2:
+        st.info("**2 · STORE**  Material enthalpy and ambient heat losses")
+    with c3:
+        st.info("**3 · DELIVER**  Useful heat above the chosen temperature grade")
+    st.caption("This process map is deliberately not assigned fabricated energy "
+               "percentages. Dashboard shows calculated numerical energy flows.")
 
     st.markdown("### Explore research themes")
     lookup={t["label"]:t for t in TOPICS}
@@ -91,7 +92,18 @@ with methods:
         st.markdown("#### Heat-exchanger effectiveness")
         st.latex(r"Q=\varepsilon C_{min}(T_{h,in}-T_{c,in})")
         st.caption("Standalone steady-state ε–NTU illustration; not a coupled validated exchanger.")
-    st.warning("Temperature-dependent cp(T) does not eliminate uncertainty. The built-in quartz illustration does NOT model the ~573 °C phase transition.")
+    st.markdown("#### Research evidence workflow")
+    st.markdown(
+        "**Equation → code → numerical test → input provenance → known gap** "
+        "is the traceability standard for this release. The source-register "
+        "CSV above includes the closed-pipe, multilayer insulation, tabulated "
+        "cp(T), axial visualization and report modules. "
+        "See [the engineering methods](https://github.com/bysquizy/"
+        "Sand-Battery-Project/blob/main/docs/EQUATION_TRACEABILITY.md)."
+    )
+    st.caption("Direct-contact LTE and closed-pipe thermal-transfer models are "
+               "different idealizations, and neither has been field-calibrated.")
+        st.warning("Temperature-dependent cp(T) does not eliminate uncertainty. The built-in quartz illustration does NOT model the ~573 °C phase transition.")
     st.markdown("### Unvalidated features and missing evidence")
     st.markdown("No measured 3-D temperature data, live sensors, construction-grade finite-element stresses, verified monetary CAPEX, or power-to-electricity round-trip results are claimed. Code tests verify numerical behavior, not physical agreement.")
 
@@ -121,6 +133,27 @@ with case_studies:
         st.write("NREL report 84728 discusses a particular high-purity silica particle sample, and gives material-specific measurements rather than universal numbers for all sand or crushed aggregates.")
         st.warning("Do not treat NREL modeled retention, or a different packed-bed prototype, as measured thermal efficiency of our Streamlit simulator.")
         st.link_button("NREL report 84728", "https://www.nrel.gov/docs/fy23osti/84728.pdf")
+    st.markdown("#### Published thermal power versus storage capacity")
+    df_sites=pd.DataFrame([
+        {"Site":"Kankaanpää","Source":"PNE manufacturer","Thermal power (MW)":.2,"Thermal capacity (MWh)":8},
+        {"Site":"Kankaanpää","Source":"Vatajankoski operator","Thermal power (MW)":.1,"Thermal capacity (MWh)":8},
+        {"Site":"Pornainen","Source":"PNE manufacturer","Thermal power (MW)":1.0,"Thermal capacity (MWh)":100},
+    ])
+    st.dataframe(df_sites,hide_index=True,width="stretch")
+    fig=go.Figure()
+    for source,color in [("PNE manufacturer","#eeb37e"),("Vatajankoski operator","#58dfc3")]:
+        part=df_sites[df_sites["Source"]==source]
+        fig.add_trace(go.Bar(x=part["Site"],y=part["Thermal power (MW)"],
+                             marker_color=color,name=source,
+                             customdata=part["Thermal capacity (MWh)"],
+                             hovertemplate="%{x}: %{y:.2f} MWth<br>Capacity %{customdata} MWhth<extra></extra>"))
+    fig.update_layout(barmode="group",template="plotly_dark",height=300,
+                      margin=dict(l=20,r=20,t=25,b=35),
+                      yaxis_title="Published thermal power (MWth)")
+    st.plotly_chart(fig,width="stretch",key="hub_verified_sites")
+    st.caption("These are source-attributed ratings, NOT independently matched "
+               "measurements. Kankaanpää's manufacturer/operator disagreement "
+               "is unresolved; do not average the two estimates.")
     st.caption("Each external statement is tagged by source type. Commercial capacity and rated power are not a calibration dataset and cannot validate thermal transients.")
 
 with sources:
