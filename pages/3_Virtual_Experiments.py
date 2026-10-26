@@ -50,7 +50,8 @@ with grid:
                 rows.append({'cells':n,'final_avg_solid_c':float(r['solid_c'][-1].mean()),
                              'energy_residual_mwh':r['residual_mwh']})
             st.session_state['v2_grid_results']=rows
-    if 'v2_grid_results' in st.session_state:
+            st.session_state["v2_grid_config"] = shared
+    if st.session_state.get('v2_grid_config') == shared and 'v2_grid_results' in st.session_state:
         df=pd.DataFrame(st.session_state['v2_grid_results'])
         st.dataframe(df,hide_index=True,width='stretch')
         fig=go.Figure(go.Scatter(x=df.cells,y=df.final_avg_solid_c,mode='lines+markers',line=dict(color='#70e1cd',width=3)))
@@ -72,7 +73,8 @@ with loss:
                     row.append(out['useful_heat_mwh'])
                 data.append(row)
             st.session_state['v2_loss_results']=data
-    if 'v2_loss_results' in st.session_state:
+            st.session_state['v2_loss_config']=shared
+    if st.session_state.get('v2_loss_config') == shared and 'v2_loss_results' in st.session_state:
         z=np.asarray(st.session_state['v2_loss_results'])
         fig=go.Figure(go.Heatmap(x=days,y=blankets,z=z,colorscale='Turbo',colorbar=dict(title='MWhth')))
         fig.update_layout(template='plotly_dark',height=430,xaxis_title='Standby duration (days)',yaxis_title='Insulation thickness (m)')
