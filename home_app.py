@@ -91,9 +91,14 @@ c2.metric('DELIVERED USEFUL HEAT',f"{result['useful_heat_mwh']:,.1f} MWh")
 c3.metric('SOURCE → USEFUL HEAT',f"{result['source_to_useful_heat_pct']:.1f}%")
 c4.metric('INITIAL THERMAL LOSS',f"{result['initial_loss_kw']:.1f} kW")
 
-overview,thermal,explorer,material_tab=st.tabs([
-    '◈  Overview','⌁  Thermal Dynamics','⬡  3D Plant Explorer','▤  Materials & Optimization'])
-with overview:
+# Render only the selected workspace so costly 3D figures and thermal
+# screening calculations are not reconstructed on every widget interaction.
+view = st.radio(
+    "Engineering workspace",
+    ("Overview", "Thermal Dynamics", "3D Plant Explorer", "Materials & Optimization"),
+    key="home_workspace", horizontal=True, label_visibility="collapsed",
+)
+if view == 'Overview':
     a,b=st.columns([1.45,1],gap='large')
     with a:
         st.markdown('<div class="sect">Operating temperature profile</div>',unsafe_allow_html=True)
@@ -122,7 +127,7 @@ with overview:
     st.caption('Energy Sankey and time series represent simulated flows. Reported conservation residual checks numerical accounting, not agreement with measured hardware.')
     st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
 
-with thermal:
+elif view == 'Thermal Dynamics':
     st.markdown('<div class="sect">Transient response · 0-D energy balance</div>',unsafe_allow_html=True)
     st.plotly_chart(timeline(result),width='stretch',key='chart_thermal_timeline')
     st.markdown('<div class="sect">1-D thermocline · exploratory comparison</div>',unsafe_allow_html=True)
@@ -147,7 +152,7 @@ with thermal:
     else:
         st.info('Run the 1-D model to view vertical temperature profiles and source-specific differences.')
 
-with explorer:
+elif view == '3D Plant Explorer':
     left,right=st.columns([1.3,1],gap='large')
     with left:
         st.markdown('<div class="sect">Animated thermal storage module</div>',unsafe_allow_html=True)
@@ -163,7 +168,7 @@ with explorer:
         st.metric('Identical modules',str(design.modules))
         st.markdown('<div class="info-line">The 3D animation communicates the <b>average temperature state</b> across operational phases. It is a design visualization, not a CFD simulation, structural model, or a radial thermal measurement.</div>',unsafe_allow_html=True)
 
-with material_tab:
+elif view == 'Materials & Optimization':
     st.markdown('<div class="sect">Material screening and source transparency</div>',unsafe_allow_html=True)
     rows=[]
     for m in MATERIALS.values():
