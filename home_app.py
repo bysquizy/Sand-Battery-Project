@@ -15,8 +15,7 @@ from engine.thermocline import simulate_thermocline
 from engine.optimization import screen_designs
 from visuals import timeline, ledger, plant_3d, material_comparison, thermocline_plot, optimization_scatter
 from engine.reporting import scenario_markdown
-from project_info import PROJECT
-from project_version import APP_VERSION, APP_VERSION_LABEL
+from project_version import APP_VERSION
 from engine.scenarios import PRESETS, SLOTS, to_json
 from scenario_state import active, set_active, scenario_banner
 
@@ -24,7 +23,7 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
-from localization import tr, t
+from localization import tr
 inject()
 
 
