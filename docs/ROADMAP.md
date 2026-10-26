@@ -1,6 +1,6 @@
 # Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current target release:** 1.5.0, Stage 3 (Scientific Verification).
+**Current software release:** 2.0.0 — stages 4 and 5 implemented; owner browser acceptance and later five-stage revisions pending.
 **Application:** independent Group 8 numerical research platform, not
 an experimentally validated or construction-certified thermal battery.
 
@@ -40,15 +40,30 @@ coefficients, add paid services or assert experimental calibration.
 - [ ] Sourced measured cp(T) data for each material, quartz inversion enthalpy and experimental transient validation.
 - [ ] Formal grid-and-time-step asymptotic convergence analysis (initial grid sensitivity only).
 
-## Stage 4 — Visualization, Animation & Reporting
+## Stage 4 — Visualization, Animation & Reporting (v2.0)
 
-Physically grounded 1-D temperature animations, coherent timeline controls,
-uncertainty and Pareto plots, HTML/PDF-ready scenario reports and export audit.
+- [x] Physically grounded 1-D computed axial temperature snapshots.
+- [x] Interactive 3-D cylindrical map and time/height heatmap from the same solver.
+- [x] Light/mobile 2-D view and selected-workspace/on-demand computations.
+- [x] Model-based 0-D energy Sankey, tornado sensitivity and bounded volume/insulation tradeoff.
+- [x] Self-contained, illustrated HTML, compact dependency-free PDF, scenario JSON and numeric CSV exports.
+- [x] Clearly label model-specific spatial constraints, no radial CFD/no sensors.
+- [ ] Owner's live desktop/mobile acceptance and optional polished video walkthrough.
+- [ ] Full screen-recorded animation, chart accessibility audit and advanced Pareto proof.
 
-## Stage 5 — Research, Publication & Final QA
+## Stage 5 — Research, Publication & Final QA (v2.0)
 
-Centralized APA-style source records, the existing concise Research Hub,
-mobile/browser testing, GitHub release/version metadata and final QA evidence.
+- [x] Extend equation-to-model/source/verification mapping and source register.
+- [x] Replace made-up Sankey fractions in Research Hub with nonnumeric concept blocks.
+- [x] Plot source-attributed Kankaanpää/Pornainen thermal power without merging conflicting numbers.
+- [x] Align README, CITATION.cff, project version, security and model limitations.
+- [x] Add original accessible static architecture SVG; no runtime font or image dependencies.
+- [x] Retain Group 8 names and source links; keep previous docs archive for provenance.
+- [x] Automate HTML/XSS, PDF-structure, Plotly, animation and full route tests in CI.
+- [ ] Owner live-browser/mobile acceptance and verification of Cloud redeployment.
+- [ ] GitHub About Website field and GitHub Release creation if authorized by maintainer/admin; connector permissions may limit these.
+- [ ] AI usage statement and open-source license review subject to group/course agreement.
+- [ ] Final all-stages post-release audit and user-requested edits (next revision cycle).
 
 ## Quality gate for every stage
 

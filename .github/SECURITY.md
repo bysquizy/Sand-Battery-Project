@@ -8,7 +8,7 @@ Sand Battery Studio is a public, simulation-only academic web application. Its n
 
 | Version | Security support |
 | --- | --- |
-| 1.5.x (`main` after release) | Best-effort fixes by the Group 8 maintainers |
+| 2.0.x (`main` after release) | Best-effort fixes by the Group 8 maintainers |
 | Earlier releases and historical beta branches | Not actively supported |
 
 The GitHub repository and the [live website](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) are publicly readable. There is no promised response SLA.

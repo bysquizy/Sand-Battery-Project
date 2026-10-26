@@ -75,6 +75,21 @@ def simulate_thermocline(d: Design, m: Material, n_cells: int = 40,
         return min(900., 0.35 * capacity / (C + 2 * axial_k + np.max(ua)))
 
     T = np.full(n_cells, min_t)
+    # Actual computed finite-volume snapshots for Plotly playback; max ~40
+    # small profiles. Never imply a solved radial/3D temperature field.
+    snapshots = [T.copy()]
+    snapshot_hours = [0.0]
+    snapshot_phase = ["Initial"]
+    last_capture_s = 0.0
+
+    def capture(profile, elapsed_s, phase, interval_s, force=False):
+        nonlocal last_capture_s
+        if force or elapsed_s - last_capture_s >= interval_s:
+            snapshots.append(profile.copy())
+            snapshot_hours.append(elapsed_s / 3600)
+            snapshot_phase.append(phase)
+            last_capture_s = elapsed_s
+
     charging_s, input_j = 0., 0.
     charge_loss_j = 0.0
     charge_limit_s = 8 * nominal / (d.charge_mw * 1e6 * d.charge_efficiency) + 86400
@@ -88,9 +103,11 @@ def simulate_thermocline(d: Design, m: Material, n_cells: int = 40,
         T = _advance(T, dt, C_charge, max_t, d, m, cell_mass, ua, axial_k, effective_k)
         input_j += e_to_bed_w * dt / d.charge_efficiency
         charging_s += dt
+        capture(T, charging_s, "Charging", charge_limit_s / 16)
     else:
         raise RuntimeError("1-D charge integration step limit exceeded")
     charging_profile = T.copy()
+    capture(T, charging_s, "Charged", 0, force=True)
     # Hold phase: explicit conduction/ambient loss with stable steps.
     hold_s = d.hold_days * 86400
     standby_loss_j = 0.0
@@ -99,10 +116,12 @@ def simulate_thermocline(d: Design, m: Material, n_cells: int = 40,
         if n_hold > 100000:
             raise RuntimeError("1-D standby integration step limit exceeded")
         dt = hold_s / n_hold
-        for _ in range(n_hold):
+        for step in range(n_hold):
             standby_loss_j += float(np.sum(ua * (T - d.ambient_c))) * dt
             T = _advance(T, dt, 0, 0, d, m, cell_mass, ua, axial_k, effective_k)
+            capture(T, charging_s + (step + 1) * dt, "Standby", hold_s / 6)
     hold_profile = T.copy()
+    capture(T, charging_s + hold_s, "After standby", 0, force=True)
     T = T[::-1].copy()
     ua = ua[::-1].copy()
     discharging_s, output_j = 0., 0.
@@ -119,10 +138,15 @@ def simulate_thermocline(d: Design, m: Material, n_cells: int = 40,
         discharge_loss_j += float(np.sum(ua * (T - d.ambient_c))) * dt
         T = _advance(T, dt, C_discharge, min_t, d, m, cell_mass, ua, axial_k, effective_k)
         discharging_s += dt
+        # Physical z axis runs bottom-to-top as in charge/hold.
+        capture(T[::-1], charging_s + hold_s + discharging_s,
+                "Discharging", discharge_limit_s / 16)
         history_h.append(discharging_s / 3600)
         history_out.append(T[-1])
     else:
         raise RuntimeError("1-D discharge integration step limit exceeded")
+    capture(T[::-1], charging_s + hold_s + discharging_s,
+            "After discharge", 0, force=True)
     final_relative_j = cell_mass * float(np.sum(m.enthalpy(T) - m.enthalpy(min_t)))
     thermal_input_j = input_j * d.charge_efficiency
     residual_j = (thermal_input_j - output_j - charge_loss_j -
@@ -136,6 +160,9 @@ def simulate_thermocline(d: Design, m: Material, n_cells: int = 40,
         "final_relative_energy_mwh": final_relative_j / J_PER_MWH,
         "energy_balance_residual_mwh": residual_j / J_PER_MWH,
         "z_m": (np.arange(n_cells) + .5) * dz,
+        "animation_profiles_c": np.asarray(snapshots),
+        "animation_times_h": np.asarray(snapshot_hours),
+        "animation_phases": tuple(snapshot_phase),
         "charge_profile_c": charging_profile,
         "hold_profile_c": hold_profile,
         "discharge_profile_c": T[::-1],
