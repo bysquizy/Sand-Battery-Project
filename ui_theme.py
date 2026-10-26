@@ -19,7 +19,7 @@ CSS = """
   --sb-ink:#eff7fb;
   --sb-muted:#bed0db;
   --sb-teal:#68e5cf;
-  --sb-gold:#f2c18c;
+  --sb-gold:#d1aa87;
   --sb-blue:#7bb8ed;
 }
 html,body,[data-testid="stApp"] {
@@ -160,8 +160,8 @@ h3 {font-size:1.18rem;font-weight:730}
 .sb-hero:after{
   content:"";position:absolute;z-index:-1;
   width:min(37vw,380px);aspect-ratio:1;right:-85px;top:-135px;
-  border-radius:50%;border:30px solid rgba(242,193,140,.11);
-  box-shadow:0 0 0 33px rgba(104,229,207,.05),0 0 0 70px rgba(242,193,140,.035);
+  border-radius:50%;border:30px solid rgba(97,166,170,.10);
+  box-shadow:0 0 0 33px rgba(104,229,207,.05),0 0 0 70px rgba(97,166,170,.028);
   animation:sb-intro 1.25s ease-out both;
 }
 .sb-hero h1{
@@ -307,6 +307,14 @@ h3 {font-size:1.18rem;font-weight:730}
   [data-testid="stSidebarNav"] a:hover {transform:translateX(3px)}
   .sb-hero {animation:sb-page-enter .5s ease-out both}
 }
+[data-testid="stAlert"] {border:1px solid #36566a;background:rgba(20,45,60,.85)}
+[data-testid="stAlert"][data-baseweb="notification"] {background:#142d3d}
+[data-testid="stRadio"] label {transition:transform .22s ease,color .22s ease}
+[data-testid="stRadio"] label:hover {transform:translateY(-2px);color:#70e6d3}
+[data-testid="stSlider"] [role="slider"] {transition:box-shadow .2s ease,transform .2s ease}
+[data-testid="stSlider"] [role="slider"]:hover {transform:scale(1.16);box-shadow:0 0 0 6px rgba(104,229,207,.14)}
+[data-testid="stVerticalBlockBorderWrapper"] {transition:border-color .24s ease,box-shadow .24s ease}
+[data-testid="stVerticalBlockBorderWrapper"]:hover {border-color:#4c7983;box-shadow:0 12px 30px -28px #000}
 @keyframes sb-page-enter {from {opacity:.2;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 [data-testid="stLinkButton"] a[href*="github.com"] {
  background:linear-gradient(110deg,#152936,#203a4c)!important;
