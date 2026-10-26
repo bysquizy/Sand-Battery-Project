@@ -23,11 +23,22 @@ pages = {
     ],
 }
 current = st.navigation(pages, position="sidebar", expanded=True)
+with st.sidebar:
+    st.html(
+        '<div style="padding:14px 13px 12px;border-radius:15px;'
+        'border:1px solid #385e69;background:linear-gradient(125deg,#193d44,#102431);'
+        'margin:4px 0 15px">'
+        '<div style="color:#72e9d1;letter-spacing:.18em;font-size:.67rem;'
+        'font-weight:800">GROUP 8 · RESEARCH SOFTWARE</div>'
+        '<div style="color:#f4fafc;font-size:1.19rem;font-weight:800;'
+        'letter-spacing:-.03em;margin-top:5px">Sand Battery Studio</div>'
+        '<div style="color:#c5d7df;font-size:.75rem;margin-top:4px">'
+        'Physics · Design · Evidence</div></div>'
+    )
 sidebar_editor()
 with st.sidebar:
-    st.caption("SAND BATTERY STUDIO · GROUP 8")
-    st.caption("Current design: " + active().name)
-    with st.expander("Getting started", expanded=False):
+    st.caption("Active model: " + active().name)
+    with st.expander("Explore the platform", expanded=False):
         st.markdown(
             "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\n\n"
             "**02 · Design Studio:** Compare envelope insulation and module sizing.\n\n"
@@ -40,10 +51,10 @@ with st.sidebar:
             "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\n\n"
             "**Important:** This is a simulation-only academic application, not measured equipment."
         )
-    st.link_button("GitHub Repository ↗",
+    st.link_button("Open the GitHub repository",
                    "https://github.com/bysquizy/Sand-Battery-Project",
                    width="stretch")
-    st.link_button("Live web platform ↗",
+    st.link_button("Open the live platform",
                    "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/",
                    width="stretch")
 current.run()
