@@ -16,7 +16,7 @@ st.link_button("View this project's GitHub repository",PROJECT["repository"],typ
 st.caption(tr("Literature-based educational summaries; no laboratory calibration.","Bilimsel kaynaklara dayalı eğitim özeti; laboratuvar kalibrasyonu yapılmadı."))
 
 guide,methods,case_studies,sources,group=st.tabs([
-    tr("Research guide","Araştırma rehberi"),tr("Methods & evidence","Yöntemler ve kanıtlar"),tr("Real-world systems","Gerçek sistemler"),tr("Sources & references","Kaynakça"),tr("Group 8","Grup 8")
+    tr(tr("Research guide","Araştırma rehberi"),"Araştırma rehberi"),tr(tr("Methods & evidence","Yöntemler ve kanıtlar"),"Yöntemler ve kanıtlar"),tr("Real-world systems","Gerçek sistemler"),tr("Sources & references","Kaynakça"),tr("Group 8","Grup 8")
 ])
 
 with guide:
@@ -27,15 +27,15 @@ with guide:
     b.metric(tr("Research themes","Araştırma başlıkları"),str(len(TOPICS)))
     c.metric(tr("Source categories","Kaynak türleri"),str(len({r["group"] for r in REFERENCES})))
     st.markdown(tr("#### The thermal-energy pathway","#### Termal enerjinin izlediği yol"))
-    phase=st.radio(tr("Explore one phase","Bir aşama seçin"),["Charging","Standby","Thermal delivery"],format_func=lambda x: {"Charging":tr("Charging","Şarj"),"Standby":tr("Standby","Bekleme"),"Thermal delivery":tr("Thermal delivery","Isı çıkışı")}[x],horizontal=True,key="hub_phase")
+    phase=st.radio(tr("Explore one phase","Bir aşama seçin"),[tr("Charging","Şarj"),tr("Standby","Bekleme"),tr("Thermal delivery","Isı çıkışı")],format_func=lambda x: {tr("Charging","Şarj"):tr(tr("Charging","Şarj"),"Şarj"),tr("Standby","Bekleme"):tr(tr("Standby","Bekleme"),"Bekleme"),tr("Thermal delivery","Isı çıkışı"):tr(tr("Thermal delivery","Isı çıkışı"),"Isı çıkışı")}[x],horizontal=True,key="hub_phase")
     details={
-        "Charging":("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
-        "Standby":("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
-        "Thermal delivery":("Useful thermal energy is transferred to a consumer through the selected heat-transfer system; temperature grade and exchanger limitations matter.","The web model assumes simplified output constraints, not a certified delivery temperature."),
+        tr("Charging","Şarj"):("Renewable/grid electricity or a specified solar-thermal input supplies heat. Input power, heater/optical efficiency and temperature limits matter.","Input energy is not automatically recoverable thermal energy."),
+        tr("Standby","Bekleme"):("Stored heat declines because the medium loses energy across the insulation and outer surfaces. Geometry and ambient conditions matter.","A high capacity does not imply negligible long-duration loss."),
+        tr("Thermal delivery","Isı çıkışı"):("Useful thermal energy is transferred to a consumer through the selected heat-transfer system; temperature grade and exchanger limitations matter.","The web model assumes simplified output constraints, not a certified delivery temperature."),
     }
     with st.container(border=True):
         st.markdown(f"**{phase}**")
-        st.write(details[phase][0] if t("how")=="How It Works" else {"Charging":"Şebekeden veya yenilenebilir kaynaklardan gelen enerji ısı olarak depolanır.","Standby":"Depolanan enerji, yalıtım ve dış ortam koşullarına bağlı olarak ısı kaybeder.","Thermal delivery":"Depolanan ısı, ısı transfer sistemi üzerinden kullanıcıya aktarılır."}[phase])
+        st.write(details[phase][0] if t("how")=="How It Works" else {tr("Charging","Şarj"):"Şebekeden veya yenilenebilir kaynaklardan gelen enerji ısı olarak depolanır.",tr("Standby","Bekleme"):"Depolanan enerji, yalıtım ve dış ortam koşullarına bağlı olarak ısı kaybeder.",tr("Thermal delivery","Isı çıkışı"):"Depolanan ısı, ısı transfer sistemi üzerinden kullanıcıya aktarılır."}[phase])
         st.caption(details[phase][1] if t("how")=="How It Works" else "Bunlar sadeleştirilmiş sayısal modellerdir; fiziksel sistem ölçümü değildir.")
     # No decorative numeric Sankey: it could be mistaken for measured fractions.
     c1,c2,c3=st.columns(3)
@@ -62,20 +62,20 @@ with guide:
         st.markdown(f"**Where it appears in the application:** {t['model']}")
         st.info(f"**Important boundary:** {t['limitation']}")
         st.code(t["equation"],language="text")
-        st.link_button("Read the research review",REVIEW["doi"])
+        st.link_button(tr("Read the research review","Bilimsel derlemeyi aç"),REVIEW["doi"])
     st.markdown("#### All eight topics at a glance")
     for t in TOPICS:
         with st.expander(f"{t['label']}  ·  {t['section']}",expanded=False):
             st.write(t["summary"])
-            st.caption("Application: "+t["model"])
-            st.caption("Limitation: "+t["limitation"])
+            st.caption(tr("Application: ","Uygulama: ")+t["model"])
+            st.caption(tr("Limitation: ","Sınırlama: ")+t["limitation"])
 
 with methods:
     st.markdown("### What each equation can support")
     st.write("The simulator implements physical relationships and simplified numerical boundaries. Cite the method and verify the input data separately.")
     rows=pd.DataFrame(MODEL_EVIDENCE)
     st.dataframe(rows,hide_index=True,width="stretch",height=400)
-    st.download_button("Download equations and evidence · CSV",rows.to_csv(index=False),
+    st.download_button(tr("Download equations and evidence · CSV","Denklemleri ve kanıtları CSV indir"),rows.to_csv(index=False),
         file_name="research_method_register.csv",mime="text/csv",key="hub_methods_dl")
     col1,col2=st.columns(2)
     with col1:
@@ -118,8 +118,8 @@ with case_studies:
             st.markdown("**100 kW(th)** — utility operator Vatajankoski")
             st.markdown("**200 kW(th)** — technology provider Polar Night Energy")
             st.caption("The source disagreement is unresolved. Do not use these descriptions as matched experimental time-series data.")
-            st.link_button("Utility operator source","https://www.vatajankoski.fi/en/projects/sand-battery/")
-            st.link_button("Developer source","https://polarnightenergy.com/reference/worlds-first-sand-battery/")
+            st.link_button(tr("Utility operator source","İşletmeci kaynağı"),"https://www.vatajankoski.fi/en/projects/sand-battery/")
+            st.link_button(tr("Developer source","Geliştirici kaynağı"),"https://polarnightenergy.com/reference/worlds-first-sand-battery/")
     with c2:
         with st.container(border=True):
             st.markdown("#### Pornainen, Finland")
@@ -164,7 +164,7 @@ with sources:
             st.write("**Supports:** "+item["supports"])
             st.caption("Does not establish: "+item["not_valid"])
             if item["url"]:
-                st.link_button("Open external original source",item["url"])
+                st.link_button(tr("Open external original source","Özgün kaynağı aç"),item["url"])
     st.divider()
     st.markdown("### Source-quality terminology")
     st.write(AUDIT["meaning"])
