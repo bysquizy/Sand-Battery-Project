@@ -1,6 +1,6 @@
 # Model Specification, Numerical Verification and Validation Gaps
 
-**Status: v1.4 Stage 2 shared-scenario software review · 26 October 2026; NOT experimentally validated**
+**Status: v1.5 Stage 3 scientific verification review · 26 October 2026; NOT experimentally validated**
 
 ## Model domains
 
@@ -28,7 +28,7 @@ An analytically reconstructed residual checks internal numerical consistency. **
 
 ### 1-D thermocline surrogate
 
-Finite-volume, direct-contact, local-thermal-equilibrium axial transport with effective conduction. **Not calibrated or structurally representative of an electrically heated closed-loop pipe-in-sand silo.** An additional **exploratory 1-D LTNE direct-contact gas/solid** solver and a standalone Ergun packed-bed flow calculator are now available; neither represents a validated embedded-pipe commercial silo. Closed-loop pipe physics remains future work.
+Finite-volume, direct-contact, local-thermal-equilibrium axial transport with effective conduction. **Not calibrated or structurally representative of an electrically heated closed-loop pipe-in-sand silo.** An additional **exploratory 1-D LTNE direct-contact gas/solid** solver and a standalone Ergun packed-bed flow calculator are now available; neither represents a validated embedded-pipe commercial silo. An additional *lumped* closed-pipe resistance/loop model is introduced at Stage 3. It is not the same as a calibrated multi-dimensional embedded-pipe commercial plant model; full closed-pipe spatial physics remains future work.
 
 ### Charging power
 
@@ -48,7 +48,7 @@ Current checks include 0-D energy conservation, thermodynamic limits, simplified
 
 **Numerical consistency is not experimental validation.** The new CSV boundaries and corrected heatmap sampling do not alter heat-capacity properties, solver dynamics or manufacturer-performance claims.
 
-Performance, mesh/time-step convergence, full device-temperature validation, mobile-browser QA, pressure-boundary safety and a physical rig comparison remain incomplete.
+Full asymptotic mesh/time-step convergence, measured performance, full device-temperature validation, mobile-browser QA, pressure-boundary safety and a physical rig comparison remain incomplete.
 
 ## External validation requirements
 

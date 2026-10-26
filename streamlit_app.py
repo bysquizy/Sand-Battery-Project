@@ -10,6 +10,7 @@ pages = {
         st.Page("home_app.py", title="Engineering Dashboard", icon="🏠", default=True),
         st.Page("pages/4_Thermal_Design_Studio.py", title="Thermal Design Studio", icon="📐"),
         st.Page("pages/6_Scenario_Manager.py", title="Scenario Manager", icon="🗂️"),
+        st.Page("pages/7_Model_Verification.py", title="Model Verification", icon="📏"),
     ],
     "Advanced Research": [
         st.Page("pages/1_Engineering_Research_Lab.py", title="Advanced Research Lab", icon="🔬"),
@@ -30,6 +31,7 @@ with st.sidebar:
             "**01 · Dashboard:** Start with the 0-D charge/hold/discharge calculation.\n\n"
             "**02 · Thermal Design:** Compare cooling, modules and insulation.\n\n"
             "**03 · Scenario Manager:** Save/compare A, B and C; export or import JSON.\n\n"
+            "**04 · Model Verification:** Compare 0-D and 1-D and explore an illustrative closed-pipe thermal model.\n\n"
             "**03 · Advanced Research:** Explore optional 1-D, heat exchanger, and uncertainty studies.\n\n"
             "**04 · Material Atlas:** Understand property assumptions and material comparisons.\n\n"
             "**05 · Research Hub:** Read the source summaries, key equations, evidence quality and reference links.\n\n"

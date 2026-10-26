@@ -12,5 +12,5 @@ authors:
 repository-code: "https://github.com/bysquizy/Sand-Battery-Project"
 url: "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/"
 abstract: "Independent IZTECH ESE101 student research platform for illustrative thermal-energy-storage simulations. Numerical models are not experimentally validated."
-version: "1.4.0"
+version: "1.5.0"
 date-released: "2026-10-26"

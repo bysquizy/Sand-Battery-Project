@@ -14,7 +14,7 @@ def test_project_version_metadata_agree():
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert project["project"]["version"] == APP_VERSION
     assert project["project"]["requires-python"] == ">=3.13,<3.14"
-    assert APP_VERSION_LABEL == "v1.4.0"
+    assert APP_VERSION_LABEL == "v1.5.0"
     assert APP_VERSION_LABEL.split(".")[0] in (ROOT / "README.md").read_text(encoding="utf-8")
     assert f'version: "{APP_VERSION}"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
@@ -31,7 +31,7 @@ def test_devcontainer_never_disables_browser_security():
 def test_current_security_and_verification_docs_are_not_alpha():
     security = (ROOT / ".github/SECURITY.md").read_text(encoding="utf-8")
     validation = (ROOT / "docs/MODEL_VALIDATION.md").read_text(encoding="utf-8")
-    assert "1.4.x" in security
+    assert "1.5.x" in security
     assert "1.0 alpha" not in security
     assert "23 tests passed" not in validation
     assert "Numerical consistency is not experimental validation" in validation
