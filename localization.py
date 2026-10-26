@@ -12,7 +12,7 @@ TEXT = {
  "how":"How It Works", "sidebar_project":"GROUP 8 · STUDENT PROJECT",
  "intro":"Thermal energy storage simulation", "active":"Active model",
  "pages":"Pages and functions", "github":"GitHub project repository",
- "live":"Open the simulation", "author":"Developed by Yağız Topaç (@bysquizy) · Group 8",
+ "live":"Open the simulation", "author":"Website development: Yağız Topaç (@bysquizy) · Team: Yağız Topaç, Semih Cenk, Fatma Ovacık",
  "how_intro":"How the sand-battery simulation works", "how_sub":"A guided explanation of the energy pathway, controls and results.",
  "charge":"1 · Charge", "store":"2 · Store", "discharge":"3 · Deliver heat",
  },
@@ -26,7 +26,7 @@ TEXT = {
  "how":"Nasıl Çalışır?", "sidebar_project":"GRUP 8 · ÖĞRENCİ PROJESİ",
  "intro":"Termal enerji depolama simülasyonu", "active":"Aktif model",
  "pages":"Sayfalar ve işlevler", "github":"GitHub proje deposu",
- "live":"Simülasyonu aç", "author":"Geliştiren: Yağız Topaç (@bysquizy) · Grup 8",
+ "live":"Simülasyonu aç", "author":"Web sitesi: Yağız Topaç (@bysquizy) · Ekip: Yağız Topaç, Semih Cenk, Fatma Ovacık",
  "how_intro":"Kum bataryası simülasyonu nasıl çalışır?", "how_sub":"Enerji akışını, ayarları ve sonuçları adım adım keşfedin.",
  "charge":"1 · Şarj", "store":"2 · Depola", "discharge":"3 · Isıyı kullan",
  }
