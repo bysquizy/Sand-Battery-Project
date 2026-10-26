@@ -1,6 +1,6 @@
 # Sand Battery Studio — Five-Stage Development Roadmap
 
-**Current software release:** 2.0.0 — stages 4 and 5 implemented; owner browser acceptance and later five-stage revisions pending.
+**Current software release:** 2.1.0 — five-stage software implementation plus a cross-stage premium UI/security audit. Real-browser acceptance and measured scientific validation remain open.
 **Application:** independent Group 8 numerical research platform, not
 an experimentally validated or construction-certified thermal battery.
 
@@ -64,6 +64,20 @@ coefficients, add paid services or assert experimental calibration.
 - [ ] GitHub About Website field and GitHub Release creation if authorized by maintainer/admin; connector permissions may limit these.
 - [ ] AI usage statement and open-source license review subject to group/course agreement.
 - [ ] Final all-stages post-release audit and user-requested edits (next revision cycle).
+
+## Cross-stage revision — Premium UX & Security (v2.1)
+
+- [x] Consistent nine-page premium visual system using native Streamlit
+      theme and trusted static CSS/HTML only, with no JavaScript.
+- [x] Shared contextual ribbon and Group 8 source-credit footer.
+- [x] Mobile and reduced-motion layout safeguards and improved contrast.
+- [x] Formula-safe CSV download for user-controlled scenario names.
+- [x] Preserve explicit Streamlit CORS and XSRF protections.
+- [x] Cross-page smoke/regression coverage, source limitations preserved.
+- [ ] True live Cloud browser screenshot, keyboard-only and physical-phone
+      acceptance: unavailable via the repository connector and text-only web crawl.
+- [ ] Full upstream dependency security audit and real-world calibration:
+      tests and CodeQL do not replace either.
 
 ## Quality gate for every stage
 
