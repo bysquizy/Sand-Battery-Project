@@ -1,4 +1,4 @@
-# Sand Battery Studio — v1.5 Scientific Verification
+# Sand Battery Studio — v2.0 Visualization & Research Publication
 
 [**Open the live web application**](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [**GitHub repository**](https://github.com/bysquizy/Sand-Battery-Project) · [**Scientific methods**](docs/ADVANCED_RESEARCH_V2.md)
 
@@ -13,7 +13,7 @@ A lightweight, English-language, browser-based engineering simulation of **sensi
 | Workspace | What you can explore |
 | --- | --- |
 | **Engineering Dashboard** | 0-D charge/hold/discharge, useful heat, energy losses, Sankey balance, annotated temperature timelines, illustrative animated 3D silo and bounded material screening |
-| **Model Verification** | 0-D vs 1-D model comparison, simplified closed-pipe heat transfer, cp(T) data integrity and numerical benchmarks | 
+| **Visual Story Studio** | 1-D data-grounded 3D thermal animation, computed heatmaps, sensitivity/tornado and design-tradeoff figures, offline HTML/PDF/JSON scenario reports |\n| **Model Verification** | 0-D vs 1-D model comparison, simplified closed-pipe heat transfer, cp(T) data integrity and numerical benchmarks | 
 | **Scenario Manager** | Three A/B/C design snapshots, numerical KPI comparisons, versioned JSON import/export and CSV tables (browser session only) |\n| **Thermal Design Studio** | Passive cooling, modular geometry, radial insulation temperature, geometric limits, target theoretical MWh volume sizing and scenario exports |
 | **Advanced Research Lab** | Exergy, synthetic PV/wind dispatch, direct-contact LTNE, Ergun pressure loss, ideal ε–NTU exchanger, illustrative uncertainty and LCOH |
 | **Material Atlas** | 18 sourced-or-assumption-labeled materials, cp(T) curves, temperature/capacity comparison, theoretical ideal mixtures |
@@ -25,6 +25,36 @@ The **Research Hub is the single primary place for references and team informati
 ### GitHub icon in Streamlit's upper toolbar
 
 The built-in GitHub icon belongs to Streamlit Community Cloud and may use the repository connected to the deployment. Its destination **cannot be redirected by a Streamlit Python link**. To ensure a visible working link, the application includes an explicit **GitHub Repository** button pointing to [this repository](https://github.com/bysquizy/Sand-Battery-Project). If Streamlit's native GitHub button points elsewhere, the app owner must correct the connected GitHub deployment source in Streamlit Community Cloud.
+
+## v2.0 release — visual engineering reports and trusted sources
+
+- **Thermal animation:** the 1-D direct-contact solver now saves finite-volume
+  temperature snapshots for charging, standby and discharge. Plotly displays
+  the computed axial profile on an illustrative 3D cylinder, and provides a
+  synchronized 2-D time/height heatmap. There is **no computed radial gradient,
+  thermocouple network, CFD simulation or measured temperature field**.
+- **Design exploration:** run explicitly requested ±10% sensitivity and
+  source-limited storage-volume/insulation design screens. All output uses the
+  same 0-D physics as the active scenario, not invented performance curves.
+- **Downloadable reports:** self-contained UTF-8 HTML with an inline calculated
+  SVG temperature plot, citations, project credits and energy ledger;
+  dependency-free compact PDF; JSON scenario and CSV model outputs. The browser
+  can print the richer HTML edition to PDF with full Unicode team names.
+- **Evidence integrity:** Research Hub now uses source-attributed
+  manufacturer/operator charts, not arbitrary 75/25 illustrative Sankey
+  values. The unresolved Kankaanpää 200 versus 100 kW power distinction
+  remains visible.
+- **Clean publication:** GitHub README includes an original SVG workflow
+  illustration; documentation explains equations, source evidence and model
+  limits. Four UI/physics/research stages and publication QA are tracked;
+  native page startup and export structures are checked by CI.
+- **Web-first / five dependencies:** Streamlit, NumPy, SciPy, Plotly and
+  Pandas. No browser account, persistent database, external chart fonts,
+  Kaleido or PDF generation package is required.
+
+[Equation traceability](docs/EQUATION_TRACEABILITY.md) ·
+[v2.0 acceptance and test checklist](docs/RELEASE_2_0_QA.md) ·
+[Historical release changes](CHANGELOG.md)
 
 ## Research foundation
 
