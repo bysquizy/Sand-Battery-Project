@@ -29,16 +29,16 @@ with st.sidebar:
         'border:1px solid #385e69;background:linear-gradient(125deg,#193d44,#102431);'
         'margin:4px 0 15px">'
         '<div style="color:#72e9d1;letter-spacing:.18em;font-size:.67rem;'
-        'font-weight:800">GROUP 8 · RESEARCH SOFTWARE</div>'
+        'font-weight:800">GROUP 8 · STUDENT PROJECT</div>'
         '<div style="color:#f4fafc;font-size:1.19rem;font-weight:800;'
         'letter-spacing:-.03em;margin-top:5px">Sand Battery Studio</div>'
         '<div style="color:#c5d7df;font-size:.75rem;margin-top:4px">'
-        'Physics · Design · Evidence</div></div>'
+        'Thermal energy storage simulation</div></div>'
     )
 sidebar_editor()
 with st.sidebar:
     st.caption("Active model: " + active().name)
-    with st.expander("Getting started · platform guide", expanded=False):
+    with st.expander("Pages and functions", expanded=False):
         st.markdown(
             "**01 · Dashboard:** Start with 0-D charging, losses and outputs.\n\n"
             "**02 · Design Studio:** Compare envelope insulation and module sizing.\n\n"
@@ -51,10 +51,10 @@ with st.sidebar:
             "**09 · Research Hub:** Review sourced methods, field claims and Group 8.\n\n"
             "**Important:** This is a simulation-only academic application, not measured equipment."
         )
-    st.link_button("GitHub Repository · Source & Methods",
+    st.link_button("GitHub project repository",
                    "https://github.com/bysquizy/Sand-Battery-Project",
                    width="stretch")
-    st.link_button("Open the live platform",
+    st.link_button("Open the simulation",
                    "https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/",
                    width="stretch")
 current.run()
