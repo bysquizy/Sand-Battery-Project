@@ -6,7 +6,7 @@ remain research examples, not certified industrial-system predictions.
 ## [1.5.0] — 2026-10-26 (Stage 3: Scientific Verification)
 - Added a separate lumped-solid closed-pipe heat-transfer research model with fluid, pipe-wall and surrounding-solid thermal resistances, outlet-grade constraints and a phase-integrated energy ledger.
 - Added a 0-D/1-D comparison interface with explicit divergent physical assumptions and user-adjustable direct-contact model cutoffs.
-- Added cp(T) knot interpolation, exactly integrated piecewise sensible enthalpy and strict source-domain handling; no invented quartz phase-transition enthalpy.
+- Added a source-labelled multilayer cylinder insulation screen, including interface temperatures and comparison to the old one-layer thermal UA.\n- Added cp(T) knot interpolation, exactly integrated piecewise sensible enthalpy and strict source-domain handling; no invented quartz phase-transition enthalpy.
 - Extended 1-D LTE with phase ambient-loss tracking, stored enthalpy and numerical energy closure.
 - Revised Stage 1/2: duplicate imported JSON keys are rejected; hidden Research Lab sections no longer calculate; stale experiments are hidden after active-design changes.
 - No new runtime dependencies. No claim of calibrated industrial physical performance.
