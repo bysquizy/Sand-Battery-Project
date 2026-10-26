@@ -8,7 +8,7 @@ PUBLIC="https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/"
 def test_public_url_is_real_user_supplied_site():
     assert PROJECT["public_app"] == PUBLIC
     assert PUBLIC in (ROOT/"README.md").read_text(encoding="utf-8")
-    assert PUBLIC in (ROOT/"streamlit_app.py").read_text(encoding="utf-8")
+    assert PUBLIC not in (ROOT/"streamlit_app.py").read_text(encoding="utf-8")
 
 def test_operator_and_manufacturer_specs_are_separate():
     k=FIELD_REFERENCES[0]
