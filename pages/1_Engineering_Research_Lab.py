@@ -24,7 +24,7 @@ st.write("Interactive calculations, parameter studies and physical model compari
 st.warning("The 1-D gas/solid packed-bed model is not a calibrated closed-loop pipe-in-sand design. Material properties are approximate and require independent verification.")
 
 with st.sidebar:
-    st.subheader("Local research variations")
+    st.subheader(tr("Local research variations","Yerel araştırma değişkenleri"))
     st.caption("Starts from the shared design. Edits here are exploratory and do not change Active Scenario.")
     name=st.selectbox("Base medium",list(MATERIALS),index=list(MATERIALS).index(shared.material_name),key="research_medium")
     m=MATERIALS[name]
@@ -62,7 +62,7 @@ if study == 'Exergy':
     fig=go.Figure()
     fig.add_trace(go.Scatter(x=ts,y=capacity,mode='lines',name='Stored thermal energy',line=dict(color='#e8a670',width=4)))
     fig.add_trace(go.Scatter(x=ts,y=ex,mode='lines',name='Exergy upper bound',line=dict(color='#67dcc9',width=4)))
-    fig.update_layout(template='plotly_dark',height=380,xaxis_title='Maximum temperature (°C)',yaxis_title='MWh')
+    fig.update_layout(template='plotly_dark',height=380,xaxis_title=tr(tr("Maximum temperature (°C)","Maksimum sıcaklık (°C)"),"Maksimum sıcaklık (°C)"),yaxis_title='MWh')
     st.plotly_chart(fig,width='stretch',key="research_exergy_fig")
     st.latex(r'Q=m\int_{T_\min}^{T_\max}c_p(T)\,dT')
     st.latex(r'X=m\int_{T_\min}^{T_\max}c_p(T)\left(1-\frac{T_0}{T}\right)dT')
@@ -133,7 +133,7 @@ elif study == 'LTNE & Flow':
     st.divider()
     st.subheader("Ergun pressure loss and illustrative fan power")
     c1,c2=st.columns(2)
-    with c1:eps=st.slider("Void fraction",.25,.65,.42,.01,key="research_eps")
+    with c1:eps=st.slider(tr("Void fraction","Boşluk oranı"),.25,.65,.42,.01,key="research_eps")
     with c2:v=st.slider("Superficial velocity (m/s)",.0,.15,.025,.005,key="research_vel")
     z=ergun(12,15,eps,.016,v)
     p1,p2,p3=st.columns(3)
