@@ -5,12 +5,11 @@ import plotly.graph_objects as go
 import streamlit as st
 from project_info import PROJECT, REFERENCES, MODEL_EVIDENCE, bibliography_text
 from research_notes import TOPICS, REVIEW, AUDIT, SOURCE_NOTES
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 
 st.set_page_config(page_title="Research Hub | Sand Battery Studio",page_icon="📚",layout="wide")
 inject()
-st.caption("SAND BATTERY STUDIO  /  SCIENTIFIC RESEARCH")
-st.title("Research Hub")
+hero("KNOWLEDGE / SOURCE TRANSPARENCY", "Research Hub", "Explore the methods, research themes, engineering equations and source-attributed field installations behind the simulations.")
 st.write("Understand the engineering concepts behind the simulations, review their limitations and inspect the original sources.")
 st.link_button("View this project's GitHub repository",PROJECT["repository"],type="primary")
 st.caption("Educational research summaries based on the supplied technical review, manufacturer notes and source-quality audit. No laboratory calibration has been performed.")
@@ -202,3 +201,5 @@ with group:
 
 st.divider()
 st.caption("Research summaries are source-grounded interpretations. The site presents a numerical study, not a physical test report.")
+
+footer()
