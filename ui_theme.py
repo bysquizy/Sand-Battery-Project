@@ -355,10 +355,11 @@ def note(text: str) -> None:
 
 
 def footer() -> None:
+    from localization import tr
     st.html(
         '<footer class="sb-footer">'
-        '<strong>Sand Battery Studio · Group 8</strong> — Numerical research '
-        'platform. Not experimentally validated or construction-certified. '
+        tr('<strong>Sand Battery Project · Group 8</strong> — Numerical research. Not experimentally validated. ', '<strong>Kum Bataryası Projesi · Grup 8</strong> — Sayısal araştırma. Deneysel olarak doğrulanmamıştır. ')
+        tr('Team: Yağız Topaç, Semih Cenk, Fatma Ovacık. Website by Yağız Topaç (@bysquizy). ', 'Ekip: Yağız Topaç, Semih Cenk, Fatma Ovacık. Web sitesi: Yağız Topaç (@bysquizy). ')
         '<a href="https://github.com/bysquizy/Sand-Battery-Project" '
         'target="_blank" rel="noopener noreferrer">Source code & methods</a>.'
         '</footer>'
