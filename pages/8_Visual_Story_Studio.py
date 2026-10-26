@@ -39,9 +39,9 @@ st.warning("Every chart is an illustrative simulation. The 3D color field "
            "radial gradients are **not** solved and no measured sensors exist.")
 
 workspace = st.radio(
-    "Visualization workspace",
-    ("Thermal playback", "Energy & sensitivities", "Design tradeoffs",
-     "Engineering report"),
+    tr("Visualization workspace","Görselleştirme çalışma alanı"),
+    (tr("Thermal playback","Isıl animasyon"), tr("Energy & sensitivities","Enerji ve duyarlılık"), tr("Design tradeoffs","Tasarım ödünleşimleri"),
+     tr("Engineering report","Mühendislik raporu")),
     horizontal=True, label_visibility="collapsed", key="visual_workspace",
 )
 
@@ -106,14 +106,14 @@ def _sensitivity(design, material):
     return baseline, results
 
 
-if workspace == "Thermal playback":
-    st.subheader("Computed axial temperature evolution")
+if workspace == tr("Thermal playback","Isıl animasyon"):
+    st.subheader(tr("Computed axial temperature evolution","Hesaplanan eksenel sıcaklık değişimi"))
     c1,c2 = st.columns([1,2])
     with c1:
-        cells=st.slider("Axial finite-volume cells",16,64,24,8,key="visual_cells")
-        lite=st.toggle("2D-only / mobile-friendly view",value=False,key="visual_lite")
+        cells=st.slider(tr("Axial finite-volume cells","Eksenel sonlu hacim hücreleri"),16,64,24,8,key="visual_cells")
+        lite=st.toggle(tr("2D-only / mobile-friendly view","Yalnızca 2B / mobil uyumlu görünüm"),value=False,key="visual_lite")
         st.caption("Run explicitly to avoid heavy CPU usage on slider changes.")
-        run=st.button("Solve & build thermal playback",type="primary",key="visual_run_thermal")
+        run=st.button(tr("Solve & build thermal playback","Hesapla ve ısıl animasyonu oluştur"),type="primary",key="visual_run_thermal")
     with c2:
         st.info("The snapshots come from the 1-D LTE charge / standby / discharge "
                 "solver, including its specified 10%/70% cutoff assumptions. "
@@ -130,9 +130,9 @@ if workspace == "Thermal playback":
     if st.session_state.get("visual_animation_cfg")==cfg:
         field=st.session_state["visual_animation_result"]
         a,b,c = st.columns(3)
-        a.metric("Charging duration",f"{field['charge_h']:.1f} h")
-        b.metric("Useful thermal heat",f"{field['useful_heat_mwh']:.1f} MWhth")
-        c.metric("Energy ledger residual",f"{field['energy_balance_residual_mwh']:.2e} MWh")
+        a.metric(tr("Charging duration","Şarj süresi"),f"{field['charge_h']:.1f} h")
+        b.metric(tr("Useful thermal heat","Kullanılabilir ısı"),f"{field['useful_heat_mwh']:.1f} MWhth")
+        c.metric(tr("Energy ledger residual","Enerji dengesi kalanı"),f"{field['energy_balance_residual_mwh']:.2e} MWh")
         if not lite:
             st.plotly_chart(axial_cylinder_animation(
                 field, float(summarize(d,m)["radius_m"]),
@@ -156,7 +156,7 @@ if workspace == "Thermal playback":
     else:
         st.caption("Run the 1-D solver to reveal real computed animation frames.")
 
-elif workspace == "Energy & sensitivities":
+elif workspace == tr("Energy & sensitivities","Enerji ve duyarlılık"):
     st.subheader("Thermal energy and assumption sensitivity")
     try:
         r=_cycle(d,m)
@@ -164,7 +164,7 @@ elif workspace == "Energy & sensitivities":
         energy=ledger(r)
         if energy is not None:
             st.plotly_chart(energy,width="stretch",key="visual_energy_ledger")
-        if st.button("Compute ±10% input sensitivity",
+        if st.button(tr("Compute ±10% input sensitivity","±%10 girdi duyarlılığını hesapla"),
                      type="primary",key="visual_run_sensitivity"):
             with st.spinner("Recalculating controlled input perturbations"):
                 st.session_state["visual_sensitivity"]=_sensitivity(d,m)
@@ -182,12 +182,12 @@ elif workspace == "Energy & sensitivities":
     except (RuntimeError, ValueError) as exc:
         st.error(f"Unable to evaluate active scenario: {exc}")
 
-elif workspace == "Design tradeoffs":
+elif workspace == tr("Design tradeoffs","Tasarım ödünleşimleri"):
     st.subheader("Thermal capacity vs envelope heat-loss tradeoff")
     st.write("Screen at most 16 variations of the active design's volume and "
              "insulation. The reported heat is recomputed by the same 0-D solver; "
              "it is not a globally optimized engineering solution.")
-    if st.button("Screen design alternatives",type="primary",key="visual_run_frontier"):
+    if st.button(tr("Screen design alternatives","Tasarım alternatiflerini tara"),type="primary",key="visual_run_frontier"):
         with st.spinner("Solving bounded design comparisons"):
             st.session_state["visual_frontier"]=_frontier(d,m)
             st.session_state["visual_frontier_cfg"]=(d,m)
@@ -208,7 +208,7 @@ elif workspace == "Design tradeoffs":
     else:
         st.caption("Run the design screen to display the source-constrained tradeoff.")
 
-elif workspace == "Engineering report":
+elif workspace == tr("Engineering report","Mühendislik raporu"):
     st.subheader("Publish a reproducible scenario snapshot")
     st.write("Download the active model inputs and its freshly computed "
              "charging–holding–discharging results. The offline HTML contains "
@@ -221,9 +221,9 @@ elif workspace == "Engineering report":
         st.error(f"Cannot make a report for this scenario: {exc}")
     else:
         cols=st.columns(3)
-        cols[0].metric("Theoretical capacity",f"{result['capacity_mwh']:.1f} MWhth")
-        cols[1].metric("Useful delivered heat",f"{result['useful_heat_mwh']:.1f} MWhth")
-        cols[2].metric("Energy conservation residual",
+        cols[0].metric(tr("Theoretical capacity","Teorik kapasite"),f"{result['capacity_mwh']:.1f} MWhth")
+        cols[1].metric(tr("Useful delivered heat","Kullanılabilir ısı çıkışı"),f"{result['useful_heat_mwh']:.1f} MWhth")
+        cols[2].metric(tr("Energy conservation residual","Enerji korunumu kalanı"),
                        f"{result['energy_balance_residual_mwh']:.2e} MWh")
         with st.spinner("Building self-contained report formats"):
             html=html_report(scenario,result)
