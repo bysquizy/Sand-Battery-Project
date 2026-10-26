@@ -1,51 +1,40 @@
-# Sand Battery Studio
+# Sand Battery Project
 
-A browser-based engineering project for exploring **sensible thermal energy storage** using sand and other granular materials. The application models charging, heat retention, thermal discharge and design trade-offs through transparent numerical assumptions.
-
-**[Open the simulation](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/)** · **[Research methods](docs/EQUATION_TRACEABILITY.md)** · **[Model limitations](docs/MODEL_VALIDATION.md)**
+**Sand-based thermal energy storage — numerical simulation and research project**
 
 **Group 8:** Yağız Topaç · Semih Cenk · Fatma Ovacık
 
-![Sand Battery Studio simulation workflow](assets/architecture.svg)
+[Run the simulation](https://sand-battery-project-a5twmepge6cqbndgbz9jmj.streamlit.app/) · [Source code](https://github.com/bysquizy/Sand-Battery-Project)
 
-## About the project
+## Project overview
 
-Sand Battery Studio is a software-only thermal storage study. It helps users investigate how storage volume, material properties, operating temperatures, insulation and heat transfer affect modeled thermal performance. All calculations run in a browser-based Streamlit application; no hardware or local installation is required to use the website.
+This is a student engineering project investigating how sand and other granular materials can store energy as heat. The Streamlit application explores charging, heat retention, thermal discharge, insulation, storage geometry and material-property assumptions through numerical models.
 
-The project uses numerical models of different complexity. They provide ways to explore engineering behavior, not direct predictions of commercial equipment.
+The project is **software-only**. Results are simulations, not measured performance from a physical prototype or commercial battery. Energy capacity is reported as **thermal energy** (MWh), not electricity generated.
 
-## Application
+## What the application does
 
-| Page | Main functions |
-| --- | --- |
-| Engineering Dashboard | Charging, holding and discharging cycles; energy and heat-loss summaries |
-| Thermal Design Studio | Insulation, geometry and thermal capacity screening |
-| Scenario Manager | Save and compare three designs; JSON/CSV exchange |
-| Model Verification | Compare 0-D and 1-D assumptions, energy balances and simplified closed-pipe transfer |
-| Visual Story Studio | Computed axial thermal animation, heatmaps, design comparisons and HTML/PDF reports |
-| Advanced Research Lab | Exergy, renewable dispatch, thermal flow, uncertainty and cost assumptions |
-| Material Atlas | Compare granular storage materials and temperature-dependent heat capacities |
-| Virtual Experiments | Mesh sensitivity, flow and thermal-loss investigations |
-| Research Hub | Literature summaries, field references, equations and source attribution |
+- **Engineering Dashboard:** explores charging, stored heat, useful thermal output and heat losses.
+- **Thermal Design Studio:** compares insulation and tank-design choices.
+- **Scenario Manager:** saves and compares design configurations.
+- **Model Verification:** inspects calculation and energy-balance assumptions.
+- **Visual Story Studio:** visualizes modeled temperatures and exports reports.
+- **Advanced Research Lab, Material Atlas and Virtual Experiments:** explores materials, sensitivities and additional simplified engineering models.
+- **Research Hub:** documents the project background, sources and limitations.
 
-The same **Active Scenario** provides core design parameters across the application. Some research tools intentionally allow local exploratory variations without changing the saved design.
+All pages use a shared active scenario. Adjustable waiting periods, including a two-day example value, are **simulation inputs**, not project deadlines.
 
-## Scientific basis and limitations
+## How it works
 
-Thermal energy is calculated from material mass and temperature-dependent specific heat. Transient energy balances include charging, thermal output and modeled losses. The 1-D thermocline and simplified embedded-pipe approaches represent **different physical configurations**; their outputs are not interchangeable.
+Electrical or solar energy is represented as thermal input. A model estimates sensible heat stored in a granular medium and tracks heat losses during storage and discharge. The idealized energy relationship is:
 
-**This is an educational simulation, not an experimentally validated sand battery.** Material properties and economic inputs may be illustrative. Charts and animated temperatures are computed visualizations, not measurements, and no real prototype, sensor data or industrial certification is claimed.
+```text
+Q = m × cp × ΔT
+```
 
-Source details and limitations are documented in:
+Actual predictions depend on the chosen heat capacity, temperature range, geometry, insulation, power inputs and model assumptions. The application includes simplified 0-D and 1-D approaches, which do not describe identical physics.
 
-- [Equation and source traceability](docs/EQUATION_TRACEABILITY.md)
-- [Research guide](docs/RESEARCH_GUIDE.md)
-- [Source register](docs/SOURCE_REGISTER.md)
-- [Model verification and limitations](docs/MODEL_VALIDATION.md)
-
-Reference installations mentioned in the Research Hub are attributed to their publishers. In particular, the **Kankaanpää** thermal-power figures reported by Polar Night Energy (200 kW) and Vatajankoski (100 kW) differ; this unresolved discrepancy is not used to calibrate the simulation.
-
-## Running locally
+## Installation
 
 Python 3.13 is recommended.
 
@@ -54,26 +43,31 @@ python -m pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-The runtime uses **Streamlit, NumPy, SciPy, Plotly and Pandas**.
-
-To run the software tests:
+Tests:
 
 ```bash
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-## Project structure
+## Sources and limitations
 
-- `streamlit_app.py` — multipage navigation
-- `home_app.py` and `pages/` — application workspaces
-- `engine/` — physical models and input validation
-- `scenario_state.py` — active design state
-- `visuals.py` and `visuals_advanced.py` — numerical visualization
-- `project_info.py` and `research_notes.py` — project metadata and research context
-- `docs/` — scientific methods, source registers, verification and historical records
-- `tests/` — automated software regression tests
+The project documentation records equations, citations, evidence quality and model limitations:
 
-See [Contributing](CONTRIBUTING.md), [Security](.github/SECURITY.md), [Changelog](CHANGELOG.md) and [Citation](CITATION.cff) for repository details.
+- [Equations and assumptions](docs/EQUATION_TRACEABILITY.md)
+- [Research guide](docs/RESEARCH_GUIDE.md)
+- [Source register](docs/SOURCE_REGISTER.md)
+- [Model verification](docs/MODEL_VALIDATION.md)
 
-**Reuse:** No general open-source license has been selected by the three contributors.
+Reference systems described in the research are **not** calibration or validation data for this simulator. Commercial performance, electricity-to-electricity efficiency and planned emissions reductions must not be confused with the results of this educational model.
+
+## Repository structure
+
+- `streamlit_app.py`, `home_app.py`, `pages/`: application screens.
+- `engine/`: numerical models and input validation.
+- `scenario_state.py`: shared scenario state.
+- `project_info.py`, `research_notes.py`: project information and references.
+- `docs/`: methodology and documentation.
+- `tests/`: automated regression tests.
+
+**License:** No general open-source license has been selected by the contributors.
