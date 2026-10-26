@@ -32,11 +32,8 @@ scenario = active()
 scenario_banner()
 d = scenario.make_design()
 m = MATERIALS[scenario.material_name]
-st.write("Explore model-linked thermal animation, energy flows, design "
-         "tradeoffs and downloadable engineering reports.")
-st.warning("Every chart is an illustrative simulation. The 3D color field "
-           "maps a computed 1-D axial profile around a cylinder; "
-           "radial gradients are **not** solved and no measured sensors exist.")
+st.write(tr("Explore model-linked thermal animation, energy flows, design tradeoffs and downloadable engineering reports.","Model tabanlı ısıl animasyonları, enerji akışlarını, tasarım karşılaştırmalarını ve indirilebilir mühendislik raporlarını inceleyin."))
+st.warning(tr("Every chart is an illustrative simulation. The 3D color field maps a computed 1-D axial profile around a cylinder; radial gradients are **not** solved and no measured sensors exist.","Tüm grafikler temsili sayısal simülasyondur. 3B renk görünümü, hesaplanmış 1B eksenel sıcaklık profilini silindire yansıtır; radyal gradyanlar çözülmez ve gerçek sensör ölçümü kullanılmaz."))
 
 workspace = st.radio(
     tr("Visualization workspace","Görselleştirme çalışma alanı"),
@@ -112,13 +109,10 @@ if workspace == tr("Thermal playback","Isıl animasyon"):
     with c1:
         cells=st.slider(tr("Axial finite-volume cells","Eksenel sonlu hacim hücreleri"),16,64,24,8,key="visual_cells")
         lite=st.toggle(tr("2D-only / mobile-friendly view","Yalnızca 2B / mobil uyumlu görünüm"),value=False,key="visual_lite")
-        st.caption("Run explicitly to avoid heavy CPU usage on slider changes.")
+        st.caption(tr("Run explicitly to avoid heavy CPU usage on slider changes.","Kaydırıcı değiştiğinde yoğun işlemci kullanımını önlemek için hesaplamayı düğmeyle başlatın."))
         run=st.button(tr("Solve & build thermal playback","Hesapla ve ısıl animasyonu oluştur"),type="primary",key="visual_run_thermal")
     with c2:
-        st.info("The snapshots come from the 1-D LTE charge / standby / discharge "
-                "solver, including its specified 10%/70% cutoff assumptions. "
-                "The animation represents axial state, **not an instrumented "
-                "3D thermal measurement**.")
+        st.info(tr("The snapshots come from the 1-D LTE charge / standby / discharge solver, including its specified 10%/70% cutoff assumptions. The animation represents axial state, **not an instrumented 3D thermal measurement**.","Görüntüler 1B LTE şarj / bekleme / deşarj çözümünden üretilir. %10/%70 kesme varsayımları kullanılır. Animasyon yalnızca eksenel durumu gösterir; **ölçülmüş bir 3B sıcaklık alanı değildir**."))
     cfg=(d,m,cells)
     if run:
         try:
