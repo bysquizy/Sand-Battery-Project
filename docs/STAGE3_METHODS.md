@@ -74,7 +74,21 @@ and α–β quartz inversion near 573 °C. Its study does **not** justify an
 arbitrary latent-enthalpy spike in the existing application's linear material
 models. Source https://www.nrel.gov/docs/fy23osti/84728.pdf
 
-## 4. One-dimensional LTE energy accounting
+## 4. Two-layer insulation study
+
+The standalone multilayer cylinder uses exact steady radial resistance for
+each of up to five named constant-k layers. It sums their sidewall resistances
+and exterior film in series; two approximate plane end-caps remain separate.
+The new UI demonstrates two layers with user-assumed thickness, conductivity
+and outer convection. It reports each layer-interface temperature, total
+cylinder UA and heat loss without changing the original 0-D design model.
+
+A one-layer limit matches the preexisting thermal_ua calculation
+algebraically. Temperature-dependent insulation conductivity, metallic
+penetrations, roof construction and ground heat flux are **not** included;
+the output is a screening study, not a safety/compliance temperature rating.
+
+## 5. One-dimensional LTE energy accounting
 
 The direct-contact upwind solver now accumulates:
 
