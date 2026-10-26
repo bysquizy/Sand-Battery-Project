@@ -1,11 +1,10 @@
 """Optional v2 advanced research module — English-only multipage interface."""
-from dataclasses import replace
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
-from engine.materials import MATERIALS,Material
+from engine.materials import MATERIALS
 from engine.physics import Design,summarize,simulate_cycle
 from engine.input_validation import parse_hourly_dispatch_csv
 from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
