@@ -15,11 +15,12 @@ from engine.design_lab import (
     radial_insulation_profile, bounded_geometry_candidates,
 )
 from ui_theme import inject, hero, footer
+from localization import tr
 from scenario_state import active, scenario_banner
 
 st.set_page_config(page_title="Thermal Design Studio | Sand Battery", layout="wide", page_icon="📐")
 inject()
-hero("DESIGN / THERMAL ENGINEERING", "Thermal Design Studio", "Examine insulation, passive cooling, modular tank geometry and target thermal capacity.")
+hero(tr("DESIGN / THERMAL ENGINEERING","TASARIM / TERMAL MÜHENDİSLİK"), tr("Thermal Design Studio","Termal Tasarım"), tr("Examine insulation, passive cooling, modular tank geometry and target thermal capacity.","Yalıtımı, doğal soğumayı, depo geometrisini ve hedef ısı kapasitesini inceleyin."))
 st.write("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.")
 st.info("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.")
 
