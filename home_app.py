@@ -54,18 +54,16 @@ current_scenario = active()
 scenario_banner()
 
 hero(
-    "GROUP 8  /  THERMAL STORAGE INTELLIGENCE",
-    "Engineering insight, built on thermal science.",
-    "Explore industrial-scale sensible heat storage with transparent "
-    "model assumptions, coupled design scenarios, computed visualizations "
-    "and reproducible engineering reports.",
+    "GROUP 8 · SAND BATTERY PROJECT",
+    "Sand Battery Thermal Storage Simulation",
+    "An academic project for modeling sand-based thermal energy storage, "
+    "heat losses, charging and discharging, and insulation design.",
 )
 st.caption(
-    f"RESEARCH PLATFORM  ·  {APP_VERSION_LABEL}  ·  "
-    "SIMULATION ONLY / NOT FIELD VALIDATED"
+    "Academic numerical model · Not experimentally validated"
 )
-st.link_button("Explore the project source on GitHub",
-               PROJECT["repository"], type="primary")
+st.link_button("GitHub: Project files and research",
+               "https://github.com/bysquizy/Sand-Battery-Project")
 st.caption("Open Research Hub for source attribution and methods. "
            "Visual Story Studio provides model-driven animations and downloadable reports.")
 
