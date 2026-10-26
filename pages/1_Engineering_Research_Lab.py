@@ -31,7 +31,7 @@ with st.sidebar:
     volume=st.number_input("Packed material volume (m³)",50.,20000.,float(shared.volume_m3),step=100.,key="research_vol")
     minimum=st.number_input("Minimum solid temperature (°C)",20.,200.,float(shared.minimum_c),step=10.,key="research_low")
     maximum=st.number_input("Maximum solid temperature (°C)",250.,850.,float(shared.maximum_c),step=10.,key="research_high")
-    inputmw=st.number_input("Charging power (MW)",.2,100.,float(shared.charge_power_mw()),step=.5,key="research_power")
+    inputmw=st.number_input("Charging power (MW)",.2,300.,float(shared.charge_power_mw()),step=.5,key="research_power")
     heatmw=st.number_input("Thermal discharge rating (MW)",.1,40.,float(shared.thermal_output_mw),step=.5,key="research_load")
     st.caption(m.provenance)
 d=replace(shared.make_design(), volume_m3=volume, minimum_c=minimum, maximum_c=maximum, charge_mw=inputmw, thermal_output_mw=heatmw)
