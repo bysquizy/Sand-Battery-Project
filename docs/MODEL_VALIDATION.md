@@ -1,6 +1,6 @@
 # Model Specification, Numerical Verification and Validation Gaps
 
-**Status: v1.3 Stage 1 software quality review · 26 October 2026; NOT experimentally validated**
+**Status: v1.4 Stage 2 shared-scenario software review · 26 October 2026; NOT experimentally validated**
 
 ## Model domains
 
