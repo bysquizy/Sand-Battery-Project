@@ -13,11 +13,10 @@ from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
    Exchanger,exchanger,ergun,uncertainty,levelized_heat,LTNE,ltne)
 
 st.set_page_config(page_title="Engineering Research Lab | Sand Battery Studio",page_icon="🔬",layout="wide")
-from ui_theme import inject
+from ui_theme import inject, hero, footer
 inject()
 
-st.caption("SAND BATTERY STUDIO · ADVANCED RESEARCH")
-st.title("Advanced Engineering Laboratory")
+hero("RESEARCH / ADVANCED PHYSICS", "Engineering Research Lab", "Compare second-law bounds, renewable dispatch, packed-bed heat transfer, heat exchangers, uncertainty and research-grade economics.")
 shared = active()
 scenario_banner()
 st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
@@ -196,3 +195,5 @@ elif study == 'Cost Lab':
 
 st.divider()
 st.caption("References: Bošnjaković & Santa (2026), DOI 10.3390/cleantechnol8050165; Liu et al. (2024), DOI 10.1016/j.est.2023.109957. Sources, assumptions and test limitations must be disclosed.")
+
+footer()
