@@ -147,3 +147,13 @@ def test_dashboard_outputs_portable_scenario_bundle_not_untrusted_results():
     assert "to_json(current_scenario" in home
     assert "Export numerical results" in home
 
+
+def test_research_lab_accepts_maximum_valid_renewable_source_power():
+    high = Scenario(
+        source="PV + wind", pv_mwp=200.0, pv_capacity_factor=0.6,
+        wind_mw=200.0, wind_capacity_factor=0.75
+    )
+    high.validate()
+    assert high.charge_power_mw() == pytest.approx(270.0)
+    source = (ROOT/"pages/1_Engineering_Research_Lab.py").read_text(encoding="utf-8")
+    assert 'st.number_input("Charging power (MW)",.2,300.' in source
