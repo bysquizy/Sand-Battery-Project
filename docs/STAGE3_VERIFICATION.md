@@ -3,8 +3,12 @@
 **Software:** Sand Battery Studio v1.5.0
 **Date:** 26 October 2026
 **Pull Request:** https://github.com/bysquizy/Sand-Battery-Project/pull/18
-**Status:** Python 3.13 test gate required before merge; use GitHub Actions
-for the final run count and exact passing commit.
+**Status:** 165/165 tests passed on Python 3.13 in Pull Request CI; Ruff and pip consistency passed. CodeQL Python/Actions analysis passed.
+
+- [Scientific CI — 165 passing tests](https://github.com/bysquizy/Sand-Battery-Project/actions/runs/40329075069)
+- [CodeQL security analysis](https://github.com/bysquizy/Sand-Battery-Project/actions/runs/40329069649)
+
+These checks apply to the feature-branch commit tested; the merged main revision must run its own release checks.
 
 ## Implementation log
 
