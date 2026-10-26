@@ -1,6 +1,5 @@
 """Optional v2 advanced research module — English-only multipage interface."""
 from dataclasses import replace
-import io
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -8,6 +7,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 from engine.materials import MATERIALS,Material
 from engine.physics import Design,summarize,simulate_cycle
+from engine.input_validation import parse_hourly_dispatch_csv
 from engine.research_v2 import (exergy_mwh,illustrative_renewables,dispatch,
    Exchanger,exchanger,ergun,uncertainty,levelized_heat,LTNE,ltne)
 
@@ -31,7 +31,11 @@ with st.sidebar:
     heatmw=st.number_input("Thermal discharge rating (MW)",.2,50.,2.,step=.5,key="research_load")
     st.caption(m.provenance)
 d=Design(volume_m3=volume,minimum_c=minimum,maximum_c=maximum,charge_mw=inputmw,thermal_output_mw=heatmw)
-s=summarize(d,m)
+try:
+    s = summarize(d, m)
+except ValueError as exc:
+    st.error(f"Check the thermal design: {exc}")
+    st.stop()
 energy,renewable,transport,exchanger_tab,risk,cost=st.tabs(
     ["⚡ Exergy","☀️ Renewable Dispatch","🌡 LTNE & Flow","♨ Exchanger","🎲 Uncertainty","€ Cost Lab"])
 
@@ -59,13 +63,12 @@ with renewable:
     with a:days=st.slider("Scenario days",1,14,7,key="research_days")
     with b:pv=st.slider("PV rating (MWp)",0.,30.,10.,1.,key="research_pv")
     with c:wind=st.slider("Wind rating (MW)",0.,30.,8.,1.,key="research_wind")
-    upload=st.file_uploader("Optional user CSV: available_mw,demand_mw (up to 1 MB)",type="csv",key="research_csv")
+    upload=st.file_uploader("Optional user CSV: available_mw,demand_mw (up to 1 MB / 8,760 rows)",type="csv",key="research_csv")
     try:
         if upload:
-            if upload.size>1_000_000:raise ValueError("CSV size >1 MB")
-            df=pd.read_csv(io.BytesIO(upload.getvalue()))
-            supply=pd.to_numeric(df["available_mw"],errors="raise").to_numpy()
-            requested=pd.to_numeric(df["demand_mw"],errors="raise").to_numpy()
+            if upload.size > 1_000_000:
+                raise ValueError("CSV must not exceed 1 MB.")
+            supply, requested = parse_hourly_dispatch_csv(upload.getvalue())
             source="User CSV: unverified data"
         else:
             supply=illustrative_renewables(24*days,pv,wind)
@@ -90,7 +93,8 @@ with renewable:
             "curtailed_mwh":r["curtailed_mwh"],"storage_soc_pct":r["soc_pct"][1:]})
         st.download_button("Export simulated dispatch CSV",export.to_csv(index=False),file_name="dispatch.csv")
         st.caption(source+". Hourly simplified charge–loss–delivery sequence; no price-aware optimization or exchanger pinch.")
-    except (ValueError,KeyError,TypeError) as exc:st.error(f"Invalid scenario: {exc}")
+    except (ValueError, KeyError, TypeError) as exc:
+        st.error(f"Invalid hourly scenario: {exc}")
 
 with transport:
     st.subheader("Direct-contact packed-bed fluid–solid model")
