@@ -103,7 +103,7 @@ with methods:
     )
     st.caption("Direct-contact LTE and closed-pipe thermal-transfer models are "
                "different idealizations, and neither has been field-calibrated.")
-        st.warning("Temperature-dependent cp(T) does not eliminate uncertainty. The built-in quartz illustration does NOT model the ~573 °C phase transition.")
+    st.warning("Temperature-dependent cp(T) does not eliminate uncertainty. The built-in quartz illustration does NOT model the ~573 °C phase transition.")
     st.markdown("### Unvalidated features and missing evidence")
     st.markdown("No measured 3-D temperature data, live sensors, construction-grade finite-element stresses, verified monetary CAPEX, or power-to-electricity round-trip results are claimed. Code tests verify numerical behavior, not physical agreement.")
 
