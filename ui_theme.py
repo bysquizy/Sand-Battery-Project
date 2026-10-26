@@ -1,72 +1,325 @@
-"""Shared web styling adapted from the team-supplied ui_theme.py.
+"""Sand Battery Studio design system.
 
-Presentation only: no engineering formulas, external fonts or network requests.
-Reduced-motion preference, keyboard focus and mobile layouts are respected.
+CSS and HTML are trusted source literals only. No external fonts, JS, CDNs,
+cookies, client-side scripts or untrusted HTML injection.
+Streamlit's native controls remain accessible and functional.
 """
+from __future__ import annotations
+
+from html import escape
 import streamlit as st
 
 CSS = """
 <style>
-:root{--copper:#eeb37e;--copper-2:#df9874;--mint:#58dfc3;--ink:#08111d;--panel:#0f1d2a;--line:#283d4c;--muted:#a7bdcb}
-.stApp{
- background:radial-gradient(ellipse 900px 460px at 78% -180px,rgba(45,124,145,.19),transparent 80%),
- radial-gradient(ellipse 700px 380px at -8% 12%,rgba(238,179,126,.08),transparent 75%),#08111d;color:#e7eff5}
-html,body,[class*='css']{font-family:system-ui,'Segoe UI',sans-serif}
-[data-testid='stMainBlockContainer'],.block-container{max-width:1480px;padding-top:1.25rem;padding-bottom:3.5rem}
-[data-testid='stSidebar']{background:linear-gradient(180deg,#0d1b28,#091521);border-right:1px solid var(--line)}
-[data-testid='stSidebar'] summary{font-weight:700;letter-spacing:.04em}
-[data-testid='stMetric']{
- background:linear-gradient(135deg,#203443e9,#0e1d2bfa);border:1px solid var(--line);border-radius:16px;
- padding:16px 18px;min-height:106px;box-shadow:0 12px 24px -20px #000;
- transition:transform .24s ease,border-color .24s ease}
-[data-testid='stMetric']:hover{transform:translateY(-2px);border-color:var(--copper-2)}
-[data-testid='stMetricLabel'] p{font-size:.78rem;color:#b3c7d4;letter-spacing:.025em;font-weight:600}
-[data-testid='stMetricValue']{font-size:1.6rem;font-weight:780;color:#f4f8fa}
-[data-testid='stPlotlyChart']{
- border:1px solid #2a4655;border-radius:15px;background:linear-gradient(145deg,#132434,#0c1826);
- padding:3px;transition:border-color .2s ease}
-[data-testid='stPlotlyChart']:hover{border-color:#5f8a95}
-[data-testid='stDataFrame']{border:1px solid var(--line);border-radius:11px}
-div[data-testid='stExpander']{border:1px solid var(--line);border-radius:12px;background:#12202d9f}
-div[data-testid='stAlert']{border-radius:11px}
-.stButton button,.stDownloadButton button{border-radius:11px;font-weight:700;transition:transform .2s ease,box-shadow .2s ease}
-.stButton button:hover,.stDownloadButton button:hover{transform:translateY(-1px)}
-.stButton button[kind='primary']{background:linear-gradient(110deg,#f2c48e,#df9874);color:#091522;font-weight:800}
-.stDownloadButton button{border:1px solid #476575}
-div[data-testid='stTabs'] button[role='tab']{font-weight:700;color:#b1c5d1}
-div[data-testid='stTabs'] button[aria-selected='true']{color:var(--copper)}
-div[data-testid='stTabs'] [data-baseweb='tab-highlight']{background:var(--copper);height:3px}
-.hero{position:relative;overflow:hidden;border:1px solid #35505e;border-radius:22px;padding:30px 34px;margin:4px 0 24px;
- background:linear-gradient(110deg,#163343 0%,#102430 55%,#242c35 100%);box-shadow:0 20px 35px -32px #000;
- animation:ui-rise .65s ease-out both}
-.hero:before{content:'';position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(110deg,transparent 30%,#ffffff0a 50%,transparent 70%);
- background-size:250% 100%;animation:ui-shimmer 9s ease-in-out infinite}
-.hero:after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;right:-130px;top:-235px;
- border:52px solid #eeb37e18;animation:ui-orbit 15s ease-in-out infinite alternate;pointer-events:none}
-.hero h1{font-size:clamp(1.65rem,3.4vw,2.65rem);font-weight:800;letter-spacing:-.045em;color:#f3f9fc;margin:.5rem 0}
-.hero p{color:#b9cdd8;max-width:740px;font-size:.95rem;line-height:1.75;margin:0}
-.eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#83ead7;font-weight:800}
-.pill{display:inline-flex;padding:5px 10px;color:#b2fae8;border:1px solid #438e85;background:#133c38;border-radius:20px}
-.info-line{border-left:3px solid var(--copper);background:#142938;border-radius:0 10px 10px 0;
- padding:12px 16px;color:#bdd1dc;font-size:.89rem;margin:12px 0}
-.sect{font-size:1.13rem;font-weight:800;color:#ecf4f7;margin:16px 0 12px}
-.label-block{color:var(--copper);font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.09em}
-.small{font-size:.82rem;color:#aec2cc;line-height:1.6}
-.foot{border-top:1px solid var(--line);margin-top:28px;padding-top:16px;color:#a4bcc9;font-size:.8rem;line-height:1.8}
-h1,h2,h3{letter-spacing:-.025em}
-:focus-visible{outline:3px solid #f4c796!important;outline-offset:3px}
-@keyframes ui-rise{from{opacity:.4;transform:translateY(9px)}to{opacity:1;transform:none}}
-@keyframes ui-shimmer{0%,65%{background-position:140% 0}100%{background-position:-140% 0}}
-@keyframes ui-orbit{to{transform:translate(-36px,52px) rotate(38deg)}}
-@media(max-width:900px){[data-testid='stMetricValue']{font-size:1.3rem}}
-@media(max-width:680px){.hero{padding:20px}.hero:after,.hero:before{display:none}
- [data-testid='stMetric']{min-height:95px;padding:11px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{
- animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+:root {
+  --sb-bg:#07121d;
+  --sb-surface:#101f2d;
+  --sb-glass:#132637;
+  --sb-line:#2e495a;
+  --sb-ink:#eff7fb;
+  --sb-muted:#bed0db;
+  --sb-teal:#68e5cf;
+  --sb-gold:#f2c18c;
+  --sb-blue:#7bb8ed;
+}
+html,body,[data-testid="stApp"] {
+  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+[data-testid="stApp"] {
+  background:radial-gradient(ellipse 60% 410px at 74% -80px,rgba(64,176,177,.18),transparent 80%),
+             radial-gradient(ellipse 43% 430px at 0% 19%,rgba(239,176,112,.085),transparent 85%),
+             linear-gradient(160deg,#081522 0%,#081421 65%,#07111b 100%);
+  color:var(--sb-ink);
+}
+[data-testid="stMainBlockContainer"],.block-container {
+  max-width:1360px;
+  padding-top:1.2rem;
+  padding-bottom:4rem;
+}
+[data-testid="stSidebar"] {
+  background:linear-gradient(170deg,#0c1d2a 0%,#071420 100%);
+  border-right:1px solid var(--sb-line);
+}
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+  color:#cbdce5;
+}
+[data-testid="stSidebarNav"] a {
+  border-radius:10px;
+  transition:background-color .18s ease,color .18s ease;
+}
+[data-testid="stSidebarNav"] a:hover{background:#1c3b47}
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+  background:#1e444b;
+  color:#e7fff8;
+}
+h1,h2,h3 {letter-spacing:-.034em;color:#f4f9fc;text-wrap:balance}
+h1 {font-size:clamp(1.9rem,3.1vw,2.65rem);font-weight:790;line-height:1.18}
+h2 {font-size:clamp(1.32rem,2vw,1.78rem);font-weight:750}
+h3 {font-size:1.18rem;font-weight:730}
+[data-testid="stCaptionContainer"],.stCaption {
+  color:var(--sb-muted);
+  line-height:1.6;
+}
+[data-testid="stMetric"] {
+  position:relative;
+  padding:18px 19px 17px;
+  min-height:126px;
+  background:linear-gradient(145deg,rgba(31,57,70,.87),rgba(14,29,45,.97));
+  border:1px solid #3b5869;
+  border-radius:17px;
+  box-shadow:inset 0 1px rgba(255,255,255,.055),0 12px 28px -25px #000;
+}
+[data-testid="stMetric"]:before {
+  content:"";
+  position:absolute;
+  top:0;left:20px;right:20px;height:2px;
+  background:linear-gradient(90deg,var(--sb-teal),rgba(104,229,207,0));
+  opacity:.8;
+}
+[data-testid="stMetricLabel"] p {
+  color:#d0dfe7;
+  font-weight:700;
+  font-size:.78rem;
+  letter-spacing:.075em;
+  text-transform:uppercase;
+}
+[data-testid="stMetricValue"] {
+  color:#fff;
+  font-size:clamp(1.32rem,2.2vw,1.85rem);
+  font-weight:790;
+  letter-spacing:-.03em;
+  overflow-wrap:anywhere;
+}
+[data-testid="stMetricDelta"]{color:var(--sb-teal)}
+[data-testid="stPlotlyChart"] {
+  background:linear-gradient(145deg,#112638,#0d1c2b);
+  border:1px solid #355366;
+  border-radius:17px;
+  padding:7px 4px;
+  overflow:hidden;
+  box-shadow:0 10px 35px -31px #000;
+}
+[data-testid="stDataFrame"] {
+  border:1px solid #355467;
+  border-radius:12px;
+  overflow:hidden;
+}
+[data-testid="stExpander"],[data-testid="stForm"],
+[data-testid="stVerticalBlockBorderWrapper"] > div[data-testid="stVerticalBlock"] {
+  border-color:#355264;
+}
+[data-testid="stAlert"]{border-radius:13px;line-height:1.5}
+[data-testid="stDownloadButton"] button,
+[data-testid="stButton"] button,
+[data-testid="stLinkButton"] a {
+  border-radius:11px;
+  font-weight:730;
+  min-height:2.55rem;
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+[data-testid="stButton"] button[kind="primary"],
+[data-testid="stLinkButton"] a[kind="primary"] {
+  background:linear-gradient(115deg,#f4d3a5,#e5a873);
+  border:1px solid #f3c596;
+  color:#132231;
+  box-shadow:0 8px 23px -19px #f2c18c;
+}
+[data-testid="stButton"] button:hover,
+[data-testid="stLinkButton"] a:hover {
+  border-color:#80d9ce;
+  box-shadow:0 8px 23px -21px #80d9ce;
+}
+[data-testid="stRadio"] label,[data-testid="stToggle"] label {
+  line-height:1.48;
+}
+[data-testid="stTabs"] button[role="tab"] {
+  color:#c9d8e2;
+  font-weight:720;
+}
+[data-testid="stTabs"] button[aria-selected="true"] {color:var(--sb-teal)}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {background:var(--sb-teal)}
+.sb-eyebrow {
+  font-size:.80rem;
+  color:var(--sb-teal);
+  text-transform:uppercase;
+  letter-spacing:.19em;
+  font-weight:790;
+}
+.sb-hero {
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  border:1px solid #49737f;
+  border-radius:25px;
+  padding:clamp(24px,4vw,48px);
+  margin:10px 0 23px;
+  background:radial-gradient(circle at 88% 16%,rgba(109,225,209,.18),transparent 35%),
+             linear-gradient(117deg,#193b46 0%,#102838 56%,#122032 100%);
+  box-shadow:0 25px 50px -41px rgba(0,0,0,.85),inset 0 1px rgba(255,255,255,.065);
+}
+.sb-hero:after{
+  content:"";position:absolute;z-index:-1;
+  width:min(37vw,380px);aspect-ratio:1;right:-85px;top:-135px;
+  border-radius:50%;border:30px solid rgba(242,193,140,.11);
+  box-shadow:0 0 0 33px rgba(104,229,207,.05),0 0 0 70px rgba(242,193,140,.035);
+  animation:sb-intro 1.25s ease-out both;
+}
+.sb-hero h1{
+  max-width:790px;
+  font-size:clamp(2.05rem,4.5vw,3.55rem);
+  font-weight:820;
+  letter-spacing:-.05em;
+  line-height:1.1;
+  margin:15px 0 18px;
+  color:#fff;
+}
+.sb-hero p{max-width:750px;color:#d1e4eb;font-size:1rem;line-height:1.75;margin:0}
+.sb-hero .sb-kicker{
+  display:inline-block;
+  margin-right:9px;
+  padding:5px 11px;
+  border-radius:999px;
+  border:1px solid #40847e;
+  background:#153d3f;
+  font-size:.76rem;font-weight:790;
+  letter-spacing:.08em;
+  color:#a5f6df;
+}
+.sb-section-intro{
+  display:flex;align-items:center;flex-wrap:wrap;gap:9px;
+  color:#a8c5d3;font-size:.86rem;font-weight:660;
+  margin:5px 0 13px;
+  letter-spacing:.065em;
+  text-transform:uppercase;
+}
+.sb-section-intro:before{
+  content:"";display:inline-block;width:17px;height:4px;
+  border-radius:9px;background:var(--sb-teal);
+}
+.sb-context{
+  display:flex;gap:9px;align-items:center;flex-wrap:wrap;
+  border:1px solid #345466;
+  border-radius:12px;
+  padding:11px 14px;
+  margin:5px 0 15px;
+  background:linear-gradient(100deg,rgba(25,57,70,.9),rgba(12,30,43,.68));
+}
+.sb-context-label {
+  font-size:.72rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:var(--sb-teal);
+  margin-right:4px;
+}
+.sb-chip{
+  font-size:.79rem;
+  border:1px solid #3c6370;
+  background:#162f3d;
+  color:#e0edf3;
+  border-radius:999px;
+  padding:4px 9px;
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+.sb-note {
+  padding:14px 17px;
+  border-left:3px solid var(--sb-gold);
+  border-radius:0 11px 11px 0;
+  background:rgba(28,49,65,.84);
+  color:#d1e1e9;
+  font-size:.88rem;
+  line-height:1.66;
+}
+.sb-footer{
+  margin-top:34px;
+  border-top:1px solid #355365;
+  padding-top:17px;
+  color:#bbceda;
+  font-size:.81rem;
+  line-height:1.7;
+}
+.sb-footer a{color:#9feadb}
+.hero,.info-line,.sect,.label-block,.foot{ /* legacy compatibility */
+  color:inherit;
+}
+.hero{
+  border-radius:23px;
+  padding:31px 35px;
+  margin:7px 0 24px;
+  border:1px solid #49717d;
+  background:linear-gradient(115deg,#193c46,#112736 62%,#142636);
+}
+.hero h1{font-size:clamp(2rem,3.7vw,3rem);color:#fff;letter-spacing:-.045em}
+.hero p{font-size:.97rem;color:#d0e1e9;line-height:1.7}
+.eyebrow{font-size:.81rem;font-weight:790;letter-spacing:.13em;color:var(--sb-teal)}
+.pill{display:inline-block;padding:5px 10px;border-radius:20px;
+  border:1px solid #427d77;color:#a4f6e0;background:#163d3f}
+.info-line{border-left:3px solid var(--sb-gold);padding:13px 17px;
+  border-radius:0 11px 11px 0;background:#152e3d;color:#d1e1e9;
+  font-size:.9rem;margin:14px 0}
+.sect{font-size:1.16rem;font-weight:760;color:#f0f8fb;margin:18px 0 13px}
+.label-block{font-size:.86rem;color:var(--sb-gold);font-weight:750}
+.small{font-size:.88rem;color:#c1d4de;line-height:1.7}
+.foot{border-top:1px solid #355365;margin-top:30px;padding-top:18px;
+  color:#bbceda;font-size:.83rem;line-height:1.65}
+@keyframes sb-intro{
+  from{opacity:.35;transform:translateY(-16px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+:focus-visible{outline:3px solid #f5d6a7!important;outline-offset:3px}
+@media(max-width:880px){
+  [data-testid="stMainBlockContainer"],.block-container {padding-top:.8rem}
+  [data-testid="stMetric"]{min-height:109px;padding:13px 14px}
+  [data-testid="stMetricValue"]{font-size:1.38rem}
+  .sb-hero{padding:26px}
+}
+@media(max-width:620px){
+  .sb-hero{padding:23px;border-radius:18px}
+  .sb-hero h1{font-size:2.15rem}
+  .sb-hero:after{width:195px;right:-115px;top:-100px}
+  .sb-context{gap:6px;padding:9px}
+  .sb-chip{font-size:.74rem}
+  [data-testid="stPlotlyChart"]{padding:0;border-radius:12px}
+  [data-testid="stMetric"]{min-height:98px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;
+    scroll-behavior:auto!important}
+}
 </style>
 """
 
+
 def inject() -> None:
-    """Apply the shared lightweight theme once per page, after page configuration."""
-    st.markdown(CSS, unsafe_allow_html=True)
+    """Add constant, sanitizer-compatible CSS without enabling JavaScript."""
+    st.html(CSS)
+
+
+def hero(kicker: str, title: str, description: str) -> None:
+    """Premium accessible static HTML header, with escaped dynamic text."""
+    st.html(
+        '<section class="sb-hero" aria-label="Page introduction">'
+        f'<span class="sb-eyebrow">{escape(kicker)}</span>'
+        f'<h1>{escape(title)}</h1>'
+        f'<p>{escape(description)}</p></section>'
+    )
+
+
+def section_intro(label: str) -> None:
+    st.html(f'<div class="sb-section-intro">{escape(label)}</div>')
+
+
+def note(text: str) -> None:
+    st.html(f'<div class="sb-note">{escape(text)}</div>')
+
+
+def footer() -> None:
+    st.html(
+        '<footer class="sb-footer">'
+        '<strong>Sand Battery Studio · Group 8</strong> — Numerical research '
+        'platform. Not experimentally validated or construction-certified. '
+        '<a href="https://github.com/bysquizy/Sand-Battery-Project" '
+        'target="_blank" rel="noopener noreferrer">Source code & methods</a>.'
+        '</footer>'
+    )
