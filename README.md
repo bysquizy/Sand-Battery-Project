@@ -10,7 +10,7 @@
 
 This is a student engineering project investigating how sand and other granular materials can store energy as heat. The Streamlit application explores charging, heat retention, thermal discharge, insulation, storage geometry and material-property assumptions through numerical models.
 
-The project is **software-only**. Results are simulations, not measured performance from a physical prototype or commercial battery. Energy capacity is reported as **thermal energy** (MWh), not electricity generated.
+The project is **software-only**. Charts are illustrative numerical results. Results are simulations, not measured performance from a physical prototype or commercial battery. Energy capacity is reported as **thermal energy** (MWh), not electricity generated.
 
 ## What the application does
 
