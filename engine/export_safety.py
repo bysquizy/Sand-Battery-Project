@@ -6,7 +6,6 @@ beyond the pandas dependency already used by the app.
 """
 from __future__ import annotations
 
-import io
 import re
 
 import pandas as pd
