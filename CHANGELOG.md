@@ -3,6 +3,13 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## Unreleased — Layered 3D storage view
+- Replace the five-stage illustrative cylinder with steel cladding, insulation, granular core cut faces, lid and footing; provide exterior/cutaway selection.
+- Drive at most 36 playback frames directly from solver samples, with synchronized mean temperature, elapsed time and material-enthalpy-based heat above Tmin.
+- Keep all steel neutral; explicitly distinguish illustrative construction details from physical model outputs and show one representative module with total-module heat.
+- Place compact horizontal playback controls and an unlabeled scrubber below the 3D scene to prevent long mobile phase labels from clipping; keep the numeric phase/time readout visible.
+- Preserve native camera interaction, stable language-independent view selection and Light mode that bypasses the 3D renderer.
+
 ## Unreleased — Web release consistency
 - Explain Apply semantics, local research overrides, ephemeral sessions and JSON backup/restore in the browser-first README.
 - Distinguish restorable scenario JSON from numerical output JSON; warn that importing an active-only bundle clears saved A/B/C slots.

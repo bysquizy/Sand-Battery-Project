@@ -65,6 +65,8 @@ Core navigation and key controls support Turkish and English. Some advanced rese
 
 Scenario import accepts schema-v1 JSON up to **40,000 bytes**, regardless of the file picker's separate 1 MB transfer ceiling. Review the imported design before applying, and back up your current bundle first. Invalid files leave the current design and saved slots unchanged.
 
+The Dashboard **3D Plant Explorer** provides exterior and cutaway views of one representative module, with separate schematic steel cladding, insulation and storage medium. Playback uses bounded original 0-D solver samples; its temperature, heat above Tmin (all modules) and elapsed time update together. The shell is not colored as if its surface matched the bulk temperature. Surface finish, fasteners, lid and base are illustrative, not manufacturing geometry.
+
 For phones, enable Dashboard **Light mode** to skip its 3D view. Visual Story Studio has a separate **2D-only / mobile-friendly view** switch. These settings apply to their respective workspaces.
 
 Compact PDF reports may transliterate non-ASCII characters. The illustrated HTML report retains Unicode and can be printed to PDF in your browser.

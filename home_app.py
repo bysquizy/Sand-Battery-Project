@@ -145,20 +145,44 @@ elif view == 'Thermal Dynamics':
         st.info(tr('Run the 1-D model to view vertical temperature profiles and source-specific differences.', 'Düşey sıcaklık profillerini ve kaynaklara bağlı farkları görmek için 1B modeli çalıştırın.'))
 
 elif view == '3D Plant Explorer':
-    left,right=st.columns([1.3,1],gap='large')
-    with left:
-        st.markdown(tr('<div class="sect">Animated thermal storage module</div>','<div class="sect">Animasyonlu ısıl depolama modülü</div>'),unsafe_allow_html=True)
-        if lightweight:
-            st.info(tr('3D animation is paused in Light mode. Disable Light mode to explore the interactive silo.', 'Hafif modda 3B animasyon gösterilmez. Etkileşimli depoyu incelemek için Hafif modu kapatın.'))
-        else:
-            st.plotly_chart(plant_3d(result,design),width='stretch',key='chart_3d_silo')
-    with right:
-        st.markdown(tr('<div class="sect">Plant geometry</div>','<div class="sect">Tesis geometrisi</div>'),unsafe_allow_html=True)
-        st.metric(tr("Internal silo radius","Depo iç yarıçapı"),f"{result['radius_m']:.2f} m")
-        st.metric(tr("Module height","Modül yüksekliği"),f"{result['height_m']:.2f} m")
-        st.metric(tr("Outer silo diameter","Dış depo çapı"),f"{result['outer_diameter_m']:.2f} m")
-        st.metric(tr("Identical modules","Özdeş modüller"),str(design.modules))
-        st.markdown('<div class="info-line">The 3D animation communicates the <b>average temperature state</b> across operational phases. It is a design visualization, not a CFD simulation, structural model, or a radial thermal measurement.</div>',unsafe_allow_html=True)
+    st.subheader(tr("Thermal storage · 3D cutaway", "Isıl depolama · 3B kesit"))
+    st.caption(tr("Rotate the model to inspect the layers. Playback follows the calculated 0-D cycle.",
+                  "Katmanları incelemek için modeli çevirin. Animasyon hesaplanan 0B çevrimini izler."))
+    presentation = st.radio(
+        tr("Silo view", "Depo görünümü"), ("exterior", "cutaway"), index=1,
+        format_func={"exterior": tr("Exterior", "Dış görünüm"),
+                     "cutaway": tr("Cutaway", "Kesit görünümü")}.__getitem__,
+        horizontal=True, key="silo_presentation", label_visibility="collapsed")
+    if lightweight:
+        st.info(tr("3D rendering is disabled in Light mode. Turn it off in the sidebar to explore the silo.",
+                   "Hafif modda 3B çizim kapalıdır. Depoyu incelemek için yan menüden Hafif modu kapatın."))
+    else:
+        st.plotly_chart(plant_3d(result, design, material, cutaway=presentation == "cutaway"),
+                        width="stretch", key="chart_3d_silo",
+                        config={"displayModeBar": False, "scrollZoom": False,
+                                "displaylogo": False})
+        st.markdown(
+            '<div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;'
+            'font-size:13px;padding:12px;color:#dce7ef">'
+            '<span><span style="color:#b9c7d1">●</span> ' + tr("Steel cladding", "Çelik gövde") + '</span>'
+            '<span><span style="color:#e7dfcc">●</span> ' + tr("Insulation", "Yalıtım") + '</span>'
+            '<span><span style="color:#d4a65c">●</span> ' + tr("Storage medium", "İç dolgu") + '</span></div>',
+            unsafe_allow_html=True)
+        st.caption(tr(f"Illustrative color scale: {design.ambient_c:g}–{design.maximum_c:g} °C; use the numerical temperature readout.",
+                      f"Temsili renk ölçeği: {design.ambient_c:g}–{design.maximum_c:g} °C; sayısal sıcaklık göstergesini esas alın."))
+        st.caption(tr("Thermal colors apply only to the inner storage medium; the metallic shell color is not its surface temperature. Heat is for all modules above Tmin; time spans charge, standby and discharge.",
+                      "Sıcaklık renkleri yalnızca iç dolguya aittir; metal kabuğun rengi yüzey sıcaklığı değildir. Isı, tüm modüllerin Tmin üzerindeki enerjisidir; süre şarj, bekleme ve deşarjı kapsar."))
+    st.markdown(tr("### Plant geometry", "### Tesis geometrisi"))
+    a, b = st.columns(2)
+    a.metric(tr("Internal radius", "İç yarıçap"), f"{result['radius_m']:.2f} m")
+    b.metric(tr("Module height", "Modül yüksekliği"), f"{result['height_m']:.2f} m")
+    c, e = st.columns(2)
+    c.metric(tr("Insulation thickness", "Yalıtım kalınlığı"), f"{design.insulation_m:.2f} m")
+    e.metric(tr("Outer diameter", "Dış çap"), f"{result['outer_diameter_m']:.2f} m")
+    st.caption(tr(f"One representative module shown · {design.modules} identical module(s) in the calculation · {material.name}",
+                  f"Bir temsilî modül gösteriliyor · Hesaplamada {design.modules} özdeş modül · {material.name}"))
+    st.info(tr("Uniform-temperature 0-D model. Cladding, lid, fasteners and base are schematic; they are not a construction drawing. No radial gradients or measured temperatures are shown. For computed axial profiles, open Visual Story Studio.",
+               "Tek ortalama sıcaklıklı 0B model. Gövde, kapak, bağlantılar ve taban şematiktir; imalat çizimi değildir. Radyal gradyan veya ölçülmüş sıcaklık gösterilmez. Hesaplanan eksenel profiller için Görsel Analiz sayfasını açın."))
 
 elif view == 'Materials & Optimization':
     st.markdown(tr('<div class="sect">Material screening and source transparency</div>','<div class="sect">Malzeme karşılaştırması ve kaynaklar</div>'),unsafe_allow_html=True)
