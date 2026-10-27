@@ -1,6 +1,6 @@
 # Contributing
 
-Sand Battery Project is a three-person ESE101 academic research project. Please keep all project artifacts and code comments in **English**.
+Sand Battery Project is a three-person ESE101 academic research project. Keep scientific documentation, numerical data keys and code comments in **English**. User-facing navigation and core controls support **English and Turkish**; translate important save, apply, import and error messages together. Do not translate serialized scenario fields or numerical schema keys.
 
 1. Open an issue describing the proposed engineering or interface change.
 2. Create a short-lived feature branch and use a pull request for review.

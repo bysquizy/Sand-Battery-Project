@@ -37,8 +37,9 @@ st.warning(tr("Every chart is an illustrative simulation. The 3D color field map
 
 workspace = st.radio(
     tr("Visualization workspace","Görselleştirme çalışma alanı"),
-    (tr("Thermal playback","Isıl animasyon"), tr("Energy & sensitivities","Enerji ve duyarlılık"), tr("Design tradeoffs","Tasarım ödünleşimleri"),
-     tr("Engineering report","Mühendislik raporu")),
+    ('Thermal playback', 'Energy & sensitivities', 'Design tradeoffs',
+     'Engineering report'),
+    format_func={key: tr(key, translated) for key, translated in {'Thermal playback': 'Isıl animasyon', 'Energy & sensitivities': 'Enerji ve duyarlılık', 'Design tradeoffs': 'Tasarım ödünleşimleri', 'Engineering report': 'Mühendislik raporu'}.items()}.__getitem__,
     horizontal=True, label_visibility="collapsed", key="visual_workspace",
 )
 
@@ -103,7 +104,7 @@ def _sensitivity(design, material):
     return baseline, results
 
 
-if workspace == tr("Thermal playback","Isıl animasyon"):
+if workspace == 'Thermal playback':
     st.subheader(tr("Computed axial temperature evolution","Hesaplanan eksenel sıcaklık değişimi"))
     c1,c2 = st.columns([1,2])
     with c1:
@@ -120,7 +121,7 @@ if workspace == tr("Thermal playback","Isıl animasyon"):
                 st.session_state["visual_animation_result"]=_axial(*cfg)
                 st.session_state["visual_animation_cfg"]=cfg
         except (ValueError, RuntimeError, OverflowError) as exc:
-            st.error(f"Thermal animation calculation failed: {exc}")
+            st.error(tr(f"Thermal animation calculation failed: {exc}", f"Isıl animasyon hesaplanamadı: {exc}"))
     if st.session_state.get("visual_animation_cfg")==cfg:
         field=st.session_state["visual_animation_result"]
         a,b,c = st.columns(3)
@@ -142,15 +143,15 @@ if workspace == tr("Thermal playback","Isıl animasyon"):
                            columns=[f"height_{z:.2f}_m" for z in field["z_m"]])
         frame.insert(0,"elapsed_time_h",field["animation_times_h"])
         frame.insert(1,"phase",field["animation_phases"])
-        st.download_button("Download computed temperature snapshots · CSV",
+        st.download_button(tr('Download computed temperature snapshots · CSV', 'Hesaplanan sıcaklık görüntülerini indir · CSV'),
                            frame.to_csv(index=False),
                            file_name="axial_temperature_snapshots.csv",
                            mime="text/csv",key="visual_axial_csv",
                            on_click="ignore")
     else:
-        st.caption("Run the 1-D solver to reveal real computed animation frames.")
+        st.caption(tr('Run the 1-D solver to reveal real computed animation frames.', 'Hesaplanan animasyon karelerini görmek için 1B çözücüyü çalıştırın.'))
 
-elif workspace == tr("Energy & sensitivities","Enerji ve duyarlılık"):
+elif workspace == 'Energy & sensitivities':
     st.subheader("Thermal energy and assumption sensitivity")
     try:
         r=_cycle(d,m)
@@ -170,13 +171,13 @@ elif workspace == tr("Energy & sensitivities","Enerji ve duyarlılık"):
                                 width="stretch",key="visual_tornado")
                 st.dataframe(pd.DataFrame(rows),hide_index=True,width="stretch")
             else:
-                st.info("No numerically feasible ±10% candidates were found.")
+                st.info(tr('No numerically feasible ±10% candidates were found.', 'Sayısal olarak uygun ±%10 aday bulunamadı.'))
         st.caption("The sensitivity is a local deterministic model comparison, "
                    "NOT statistical measurement uncertainty.")
     except (RuntimeError, ValueError) as exc:
-        st.error(f"Unable to evaluate active scenario: {exc}")
+        st.error(tr(f"Unable to evaluate active scenario: {exc}", f"Aktif senaryo hesaplanamıyor: {exc}"))
 
-elif workspace == tr("Design tradeoffs","Tasarım ödünleşimleri"):
+elif workspace == 'Design tradeoffs':
     st.subheader("Thermal capacity vs envelope heat-loss tradeoff")
     st.write("Screen at most 16 variations of the active design's volume and "
              "insulation. The reported heat is recomputed by the same 0-D solver; "
@@ -192,17 +193,17 @@ elif workspace == tr("Design tradeoffs","Tasarım ödünleşimleri"):
                             key="visual_frontier_chart")
             data=pd.DataFrame(records)
             st.dataframe(data,hide_index=True,width="stretch")
-            st.download_button("Export alternative designs · CSV",
+            st.download_button(tr('Export alternative designs · CSV', 'Alternatif tasarımları indir · CSV'),
                                data.to_csv(index=False),
                                file_name="sand_battery_design_tradeoffs.csv",
                                mime="text/csv",key="visual_frontier_csv",
                                on_click="ignore")
         else:
-            st.error("No feasible candidate design under the selected source constraints.")
+            st.error(tr('No feasible candidate design under the selected source constraints.', 'Seçili kaynak kısıtları altında uygun aday tasarım bulunamadı.'))
     else:
-        st.caption("Run the design screen to display the source-constrained tradeoff.")
+        st.caption(tr('Run the design screen to display the source-constrained tradeoff.', 'Kaynak kısıtlarına göre karşılaştırma için tasarım taramasını çalıştırın.'))
 
-elif workspace == tr("Engineering report","Mühendislik raporu"):
+elif workspace == 'Engineering report':
     st.subheader("Publish a reproducible scenario snapshot")
     st.write("Download the active model inputs and its freshly computed "
              "charging–holding–discharging results. The offline HTML contains "
@@ -212,36 +213,34 @@ elif workspace == tr("Engineering report","Mühendislik raporu"):
     try:
         result=_cycle(d,m)
     except (RuntimeError, ValueError) as exc:
-        st.error(f"Cannot make a report for this scenario: {exc}")
+        st.error(tr(f"Cannot make a report for this scenario: {exc}", f"Bu senaryo için rapor oluşturulamıyor: {exc}"))
     else:
         cols=st.columns(3)
         cols[0].metric(tr("Theoretical capacity","Teorik kapasite"),f"{result['capacity_mwh']:.1f} MWhth")
         cols[1].metric(tr("Useful delivered heat","Kullanılabilir ısı çıkışı"),f"{result['useful_heat_mwh']:.1f} MWhth")
         cols[2].metric(tr("Energy conservation residual","Enerji korunumu kalanı"),
                        f"{result['energy_balance_residual_mwh']:.2e} MWh")
-        with st.spinner("Building self-contained report formats"):
+        with st.spinner(tr('Building self-contained report formats', 'Bağımsız rapor dosyaları hazırlanıyor')):
             html=html_report(scenario,result)
             pdf=pdf_report(scenario,result)
         col1,col2,col3=st.columns(3)
         col1.download_button(
-            "Download illustrated HTML",
+            tr("Download illustrated HTML", "Görselli HTML raporunu indir"),
             html, file_name="Sand_Battery_Engineering_Report.html",
             mime="text/html", key="visual_report_html", on_click="ignore",
             use_container_width=True)
         col2.download_button(
-            "Download compact PDF",
+            tr("Download compact PDF", "Kısa PDF raporunu indir"),
             pdf, file_name="Sand_Battery_Engineering_Report.pdf",
             mime="application/pdf",key="visual_report_pdf",
             on_click="ignore",use_container_width=True)
         col3.download_button(
-            "Download editable scenario JSON",
+            tr("Download editable scenario JSON", "Düzenlenebilir senaryo JSON dosyasını indir"),
             to_json(scenario, {slot:None for slot in SLOTS}),
             file_name="Sand_Battery_Scenario.json",
             mime="application/json",key="visual_report_json",
             on_click="ignore",use_container_width=True)
-        st.caption("HTML uses UTF-8 and preserves team names; PDF is an "
-                   "offline basic-font print version and may transliterate "
-                   "non-ASCII characters. HTML can also be printed to PDF "
-                   "with full browser typography. All results are model-generated.")
+        st.caption(tr("HTML uses UTF-8 and preserves team names; PDF is an offline basic-font print version and may transliterate non-ASCII characters. HTML can also be printed to PDF with full browser typography. All results are model-generated.",
+                      "HTML, UTF-8 ile ekip adlarını korur. Kısa PDF bazı Türkçe karakterleri dönüştürebilir. Türkçe karakterleri koruyan görselli PDF için HTML dosyasını tarayıcıdan yazdırın. Tüm sonuçlar model tarafından hesaplanır."))
 
 footer()

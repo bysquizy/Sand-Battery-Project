@@ -3,8 +3,7 @@
 **Release objective:** Research-grade Streamlit web demo with traceable simulation
 visuals, lightweight reports, curated sources, and source-control review.
 **Project:** Sand Battery Studio — Group 8.
-**Status:** Implemented in PR feature branch; CI and final deployment validation
-must be checked at the exact deployed commit. This is not an industrial certificate.
+**Status:** Historical v2.0 deliverables are present on main; current software version is 2.1.0. The 26 October main baseline `d0fbc8e68cca8db3932e14af0905c15bd945719c` passed 205 automated tests. Later revisions require their own CI and deployed-commit check. Physical-phone acceptance remains open. This is not an industrial certificate.
 
 ## Stage 4 deliverables
 
@@ -77,7 +76,8 @@ must be checked at the exact deployed commit. This is not an industrial certific
 
 ## CI and audit links
 
-- Pull Request: link after creation.
+- Baseline CI: https://github.com/bysquizy/Sand-Battery-Project/actions/runs/40387317283
+- Current prioritized browser/device acceptance: [WEB_ACCEPTANCE.md](WEB_ACCEPTANCE.md)
 - GitHub Actions: https://github.com/bysquizy/Sand-Battery-Project/actions
 - CodeQL/security: https://github.com/bysquizy/Sand-Battery-Project/security/code-scanning
 
