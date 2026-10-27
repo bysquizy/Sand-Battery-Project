@@ -1,12 +1,12 @@
 # Premium UX, Source Integrity & Security Audit — v2.1
 
-**Release scope:** Streamlit user interface, repository storefront, documentation consistency, export trust boundaries, and non-breaking regression checks. All nine pages were revised without changing the physical equations or adding runtime dependencies.
+**Release scope:** Streamlit user interface, repository storefront, documentation consistency, export trust boundaries, and non-breaking regression checks. The original nine workspaces were revised; the current app has ten screens including How It Works. They were updated without changing the physical equations or adding runtime dependencies.
 
 ## Decisions and evidence
 
 | Topic | Action completed | Remaining limit |
 |---|---|---|
-| Brand consistency | Native dark-teal/copper Streamlit theme, global CSS tokens, uniform header + footer for nine pages | Real rendered mobile screenshot comparison not available in the repository API |
+| Brand consistency | Native dark-teal/copper Streamlit theme, global CSS tokens, uniform header + footer; ten current screens | Real rendered mobile screenshot comparison not available in the repository API |
 | Dashboard | One clear leading hero with meaningful model disclaimers and canonical GitHub link | Data plots remain interactive, but chart layout needs live-phone acceptance |
 | Sidebar | Unified branded header, grouped page navigation, controlled scenario editor | Some advanced Streamlit widgets remain lengthy on narrow screens |
 | Scenario identity | Escaped dynamic label; material, volume, Tmin/Tmax, charging source/power chips | Browser-session-only storage, not an account sync feature |
@@ -18,7 +18,7 @@
 | User input | Existing size/type/schema bounds for JSON and hourly CSV preserved | No authenticated user accounts or data persistence |
 | Python stack | Still only Streamlit, NumPy, SciPy, Plotly and Pandas | Vulnerability landscape changes; monitor Dependabot alerts |
 | Research sources | Source attribution and unresolved Kankaanpää 100/200kW differences retained | Manufacturer specs do not validate simulator output |
-| Repository | Release v2.1, README badge/architecture image, transparent roadmap and security docs | GitHub About Website field and formal Release may require direct maintainer UI action |
+| Repository | Release v2.1, browser-first README, architecture SVG asset, transparent roadmap and security docs | GitHub About Website field and formal Release may require direct maintainer UI action |
 
 ## Accessibility and reduced-motion rationale
 
@@ -51,3 +51,7 @@ Native `st.metric`, `st.button`, `st.radio`, `st.tabs`, charts and form fields r
 - [Stage 4/5 release QA](RELEASE_2_0_QA.md)
 
 **No claim of experimental calibration, industrial safety certification, or independent live web-browser inspection is made.**
+
+## Current acceptance status
+
+See [Web acceptance](WEB_ACCEPTANCE.md) for prioritized remaining browser/device checks. Source-level CSS assertions and headless AppTest are not rendered accessibility or phone acceptance. The 27 October audit observed desktop startup, English-to-Turkish switching and navigation to Scenario Manager; the revised code still needs live deployment acceptance.

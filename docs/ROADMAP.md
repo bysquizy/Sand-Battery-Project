@@ -68,15 +68,15 @@ coefficients, add paid services or assert experimental calibration.
 
 ## Cross-stage revision — Interface and security (v2.1)
 
-- [x] Consistent nine-page user interface using native Streamlit
+- [x] Consistent ten-screen user interface (including How It Works) using native Streamlit
       theme and trusted static CSS/HTML only, with no JavaScript.
 - [x] Shared contextual ribbon and Group 8 source-credit footer.
 - [x] Mobile and reduced-motion layout safeguards and improved contrast.
 - [x] Formula-safe CSV download for user-controlled scenario names.
 - [x] Preserve explicit Streamlit CORS and XSRF protections.
 - [x] Cross-page smoke/regression coverage, source limitations preserved.
-- [ ] True live Cloud browser screenshot, keyboard-only and physical-phone
-      acceptance: unavailable via the repository connector and text-only web crawl.
+- [ ] Complete revised-build live Cloud browser, keyboard-only and physical-phone
+      acceptance. A limited desktop smoke check of the previous baseline is not full acceptance.
 - [ ] Full upstream dependency security audit and real-world calibration:
       tests and CodeQL do not replace either.
 

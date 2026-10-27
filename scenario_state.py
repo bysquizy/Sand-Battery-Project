@@ -142,5 +142,4 @@ def sidebar_editor() -> None:
                     st.rerun()
                 except ValueError as exc:
                     st.error(str(exc))
-        st.caption("Changes affect all workspaces only after Apply. "
-                   "For saved A/B/C comparisons, open Scenario Manager.")
+        st.caption(tr('Changes affect all workspaces only after Apply. For saved A/B/C comparisons, open Scenario Manager.', 'Değişiklikler yalnızca “Tüm sayfalara uygula” düğmesine basınca geçerli olur. A/B/C kayıtları ve karşılaştırmalar için Senaryo Yöneticisi’ni açın.'))

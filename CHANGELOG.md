@@ -3,6 +3,14 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## Unreleased — Web release consistency
+- Explain Apply semantics, local research overrides, ephemeral sessions and JSON backup/restore in the browser-first README.
+- Distinguish restorable scenario JSON from numerical output JSON; warn that importing an active-only bundle clears saved A/B/C slots.
+- Translate critical Dashboard, shared-editor, Scenario Manager and report-download controls into Turkish; document remaining English scientific content.
+- Preserve Dashboard and Visual Story workspace selection across language changes using stable internal values.
+- Reduce the scenario file picker's transport ceiling to 1 MB, explain the separate strict 40,000-byte scenario validation limit, and require Streamlit 1.66.1 or newer for the upload API used here.
+- Update ten-screen documentation and add prioritized browser/mobile acceptance criteria without claiming unfinished checks passed.
+
 ## [2.1.0] — 2026-10-26 (Premium Interface & Security Revision)
 - Unified all nine Streamlit workspaces with source-only, dependency-free
   native theming and safe static HTML/CSS: accessible headers, product identity,
@@ -38,13 +46,15 @@ remain research examples, not certified industrial-system predictions.
 ## [1.5.0] — 2026-10-26 (Stage 3: Scientific Verification)
 - Added a separate lumped-solid closed-pipe heat-transfer research model with fluid, pipe-wall and surrounding-solid thermal resistances, outlet-grade constraints and a phase-integrated energy ledger.
 - Added a 0-D/1-D comparison interface with explicit divergent physical assumptions and user-adjustable direct-contact model cutoffs.
-- Added a source-labelled multilayer cylinder insulation screen, including interface temperatures and comparison to the old one-layer thermal UA.\n- Added cp(T) knot interpolation, exactly integrated piecewise sensible enthalpy and strict source-domain handling; no invented quartz phase-transition enthalpy.
+- Added a source-labelled multilayer cylinder insulation screen, including interface temperatures and comparison to the old one-layer thermal UA.
+- Added cp(T) knot interpolation, exactly integrated piecewise sensible enthalpy and strict source-domain handling; no invented quartz phase-transition enthalpy.
 - Extended 1-D LTE with phase ambient-loss tracking, stored enthalpy and numerical energy closure.
 - Revised Stage 1/2: duplicate imported JSON keys are rejected; hidden Research Lab sections no longer calculate; stale experiments are hidden after active-design changes.
 - No new runtime dependencies. No claim of calibrated industrial physical performance.
 
 ## [1.4.0] — 2026-10-26 (Stage 2: Shared scenarios & user experience)
-- Aligned Research Lab charging-power control with the full valid shared PV/wind source range.\n- Added one validated `Active Scenario` for the dashboard, Material Atlas,
+- Aligned Research Lab charging-power control with the full valid shared PV/wind source range.
+- Added one validated `Active Scenario` for the dashboard, Material Atlas,
   Research Lab, Virtual Experiments, and Thermal Design Studio.
 - Added a compact shared sidebar editor; page-specific exploratory controls
   are labelled as local overrides and reset on applying a new active design.
