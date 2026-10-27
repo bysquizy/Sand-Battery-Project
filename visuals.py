@@ -87,45 +87,11 @@ def ledger(res):
     return fig
 
 
-def plant_3d(res,d):
-    """Animated illustrative silo colors; uniform cylindrical temperature fields.
+def plant_3d(res, d, material=None, *, cutaway=True):
+    """Layered schematic, using selected samples from the actual 0-D cycle."""
+    from silo_visual import layered_silo
+    return layered_silo(res, d, material, cutaway=cutaway)
 
-    Does not claim measured vertical/radial gradients. 
-    """
-    r,h=res['radius_m'],res['height_m']
-    theta=np.linspace(0,2*np.pi,56)
-    z=np.linspace(0,h,24)
-    Z,Theta=np.meshgrid(z,theta,indexing='ij')
-    X=r*np.cos(Theta);Y=r*np.sin(Theta)
-    levels=[d.minimum_c,(d.minimum_c+d.maximum_c)/2,d.maximum_c,
-            res['hold_end_c'],max(d.minimum_c,res['hold_end_c']-.2*(d.maximum_c-d.minimum_c))]
-    names=[tr("Initial","Başlangıç"),tr("Mid-charge","Şarj ortası"),tr("Charged","Şarj tamamlandı"),tr("After standby","Bekleme sonrası"),tr("During discharge","Deşarj sırasında")]
-    scale=[[0,'#325e86'],[.35,'#48b7bd'],[.65,'#e4b063'],[1,'#f46b42']]
-    def surface(t):
-        return go.Surface(x=X,y=Y,z=Z,opacity=.93,showscale=False,
-                          surfacecolor=np.full_like(Z,t,dtype=float),
-                          colorscale=scale,cmin=d.minimum_c,cmax=d.maximum_c,
-                          lighting=dict(ambient=.72,diffuse=.65,specular=.30,roughness=.65),
-                          hovertemplate=f'Temperature: {t:.1f} °C<extra></extra>')
-    fig=go.Figure(data=[surface(levels[0])],frames=[go.Frame(data=[surface(t)],name=n) for n,t in zip(names,levels)])
-    fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0,r=0,b=0,t=8),height=420,
-        font=dict(color='#e1e9f0',size=11),
-        scene=dict(bgcolor='rgba(0,0,0,0)',aspectmode='manual',
-             aspectratio=dict(x=1,y=1,z=min(2.1,max(.8,h/(2*r)))),
-             xaxis=dict(visible=False),yaxis=dict(visible=False),zaxis=dict(visible=False),
-             camera=dict(eye=dict(x=1.8,y=1.7,z=1.35))),
-        updatemenus=[dict(type='buttons',showactive=False,x=.0,y=.04,
-            buttons=[dict(label=tr("▶  Animate","▶  Oynat"),method='animate',
-               args=[None,dict(frame=dict(duration=680,redraw=True),
-                                    transition=dict(duration=300),fromcurrent=True)]),
-                     dict(label=tr("❚❚  Pause","❚❚  Duraklat"),method='animate',
-               args=[[None],dict(frame=dict(duration=0,redraw=False),mode='immediate')])])],
-        sliders=[dict(active=0,y=-.04,len=.9,x=.05,pad=dict(t=5,b=0),
-                      steps=[dict(method='animate',label=n,args=[[n],
-                           dict(frame=dict(duration=0,redraw=True),mode='immediate')]) for n in names])],
-    )
-    return fig
 
 
 def material_comparison(df):

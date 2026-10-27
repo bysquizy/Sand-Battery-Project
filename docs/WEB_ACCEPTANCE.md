@@ -27,3 +27,7 @@ Record for each case: deployed SHA, date, device, OS/browser version, language, 
 - [ ] Check README live-app/source links and in-app method/reference links. Broken scientific links should retain citation details and be recorded.
 
 Suggested desktop matrix: Chrome or Edge plus Firefox. Mobile emulation helps layout checks but does not replace physical Android/iOS behavior. No device/browser result should be marked passed without running it.
+
+## Layered Dashboard 3D revision
+
+For the revised build, also verify: cutaway/exterior switching, camera drag, play/pause/reset and scrubber behavior at 360 px width. The phase, temperature, time and heat-above-Tmin readouts must change together. Steel must remain neutral; only the inner core changes thermal color. Geometry uses the active design; one module is shown while heat is for all modules. Switch material and module count, and confirm no old model result survives. Activate Light mode and confirm the 3D canvas is absent. Physical-phone interaction remains a manual gate.
