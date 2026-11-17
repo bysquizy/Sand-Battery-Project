@@ -40,3 +40,15 @@ Streamlit. (n.d.). *Deploy your app on Community Cloud*. https://docs.streamlit.
 - Pornainen: **1 MW thermal / 100 MWh**, 2025, crushed soapstone, from https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/.
 - NREL's **>95% thermal retention over five days** is a **modeled commercial-scale outcome for a distinct particle TES architecture** supported by prototype work, NOT a measurement of this project or of Polar Night Energy's plant: https://www.nrel.gov/news/features/2024/solution-to-energy-storage-may-be-beneath-your-feet.html.
 - The bibliography displayed in the website is maintained in `project_info.py`, with APA-style entries and a claim-evidence mapping. None of these public references certifies the app's uncalibrated material inputs or heat delivery figures.
+
+
+## Independent public source spot-check — 17 November 2026
+
+Checked the exact cited public material against the publisher or operator pages. These checks confirm **citation attribution only**, not validation of this project's numerical models:
+
+- Bošnjaković, M. & Santa, R. (2026), *Clean Technologies* **8**(5), 165, DOI [10.3390/cleantechnol8050165](https://doi.org/10.3390/cleantechnol8050165): the journal lists publication on 9 October 2026; it is a review article, not calibration data.
+- [Vatajankoski operator](https://www.vatajankoski.fi/en/projects/sand-battery/) reports Kankaanpää heating power as **100 kW** with **8 MWh** storage.
+- [Polar Night Energy developer](https://polarnightenergy.com/reference/worlds-first-sand-battery/) reports **200 kW** with **8 MWh** for Kankaanpää. The public discrepancy remains unresolved; keep both figures distinctly attributed.
+- [Polar Night Energy's June 2025 announcement](https://polarnightenergy.com/news/worlds-largest-sand-battery-now-in-operation/) reports Pornainen's **1 MW thermal output** and **100 MWh storage**. Statements on projected emissions must not be treated as independently measured realized savings.
+
+Field-scale power, capacity and technology topology cannot be used to validate an unrelated simplified solver without matched measurements and boundary conditions.
