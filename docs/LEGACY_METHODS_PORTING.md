@@ -1,6 +1,6 @@
-# Legacy study archive → Sand Battery Studio feature mapping
+# Legacy study archive → Sand Battery Project feature mapping
 
-**Comparison performed:** 24 October 2026.  
+**Original comparison:** 24 October 2026. **Current feature-status review:** 17 November 2026.  
 **Primary artifact:** user-provided `kum-bataryasi-proje-main.zip`, consisting of a 1,978-line `main.py` and a `requirements.txt`.  
 **Reference web URL supplied by owner:** https://kum-bataryasi.streamlit.app/
 
@@ -8,7 +8,7 @@ The Streamlit site itself could not be fetched through the available web inspect
 
 ## Calculation and interface mapping
 
-| Feature in original ZIP | Where it exists in Sand Battery Studio | Verification scope |
+| Feature in original ZIP | Where it exists in Sand Battery Project | Verification scope |
 | --- | --- | --- |
 | Temperature-dependent sensible enthalpy and charge/hold/discharge | `engine/materials.py`, `engine/physics.py` | Existing energy balance tests |
 | Cylindrical silo geometry and insulation resistance | `engine/physics.py` | Formula tests and design summary |
@@ -22,8 +22,8 @@ The Streamlit site itself could not be fetched through the available web inspect
 | Insulation thickness and approximate shell volume | **New:** `engine/design_lab.py`, Thermal Design Studio | Sidewall conduction, cap volume approximation |
 | Cooling-driven radial insulation study | **New:** Thermal Design Studio | Quasi-steady wall profile, not transient radial CFD |
 | Constrained height/diameter geometry screening | **New:** Thermal Design Studio | Geometric feasibility only, not structural safety |
-| Multi-configuration save/load via JSON | Current Dashboard exports inputs and results; rich multi-configuration import **not yet migrated** | Future release, guarded schema required |
-| Original Finnish/Turkish app presentation | New pages are English, consistent with ESE101 project decision | Current original site not browser-audited |
+| Multi-configuration save/load via JSON | Scenario Manager saves A/B/C designs and exports/imports versioned JSON with strict input validation | Session-only storage; imports replace active design and slots, requiring a backup |
+| Original Finnish/Turkish app presentation | English/Turkish navigation and core controls; some scientific notes remain in English | Original site was not browser-audited; translation does not change model keys |
 
 ## Why not copy the original 1,978-line `main.py` directly?
 
