@@ -20,7 +20,7 @@ guide,methods,case_studies,sources,group=st.tabs([
 ])
 
 with guide:
-    st.markdown(tr("### Start with the science","### Temel prensipler"))
+    st.markdown(tr(tr("### Start with the science","### Fiziksel temeller"),"### Temel prensipler"))
     st.write(tr("The technical review examines charging, storage, discharge and practical design.","Teknik inceleme şarj, depolama, deşarj ve uygulanabilir tasarım kavramlarını ele alır."))
     a,b,c=st.columns(3)
     a.metric(tr("Operating phases","Çalışma aşamaları"),"3")
@@ -48,7 +48,7 @@ with guide:
     st.caption("This process map is deliberately not assigned fabricated energy "
                "percentages. Dashboard shows calculated numerical energy flows.")
 
-    st.markdown(tr("### Explore research themes","### Araştırma konuları"))
+    st.markdown(tr(tr("### Explore research themes","### Araştırma konularını inceleyin"),"### Araştırma konuları"))
     lookup={t["label"]:t for t in TOPICS}
     choose=st.selectbox(tr("Choose a topic","Bir konu seçin"),list(lookup),key="hub_topic")
     t=lookup[choose]
@@ -56,14 +56,14 @@ with guide:
         st.caption(f"Reading location: {t['section']} · Bošnjaković & Santa (2026)")
         st.markdown(f"#### {t['label']}")
         st.write(t["summary"])
-        st.markdown("**Essential takeaways**")
+        st.markdown(tr("**Essential takeaways**","**Temel çıkarımlar**"))
         for item in t["key_points"]:
             st.markdown(f"- {item}")
         st.markdown(f"**Where it appears in the application:** {t['model']}")
         st.info(f"**Important boundary:** {t['limitation']}")
         st.code(t["equation"],language="text")
         st.link_button(tr("Read the research review","Bilimsel derlemeyi aç"),REVIEW["doi"])
-    st.markdown("#### All eight topics at a glance")
+    st.markdown(tr("#### All eight topics at a glance","#### Sekiz konunun özeti"))
     for t in TOPICS:
         with st.expander(f"{t['label']}  ·  {t['section']}",expanded=False):
             st.write(t["summary"])
@@ -71,7 +71,7 @@ with guide:
             st.caption(tr("Limitation: ","Sınırlama: ")+t["limitation"])
 
 with methods:
-    st.markdown("### What each equation can support")
+    st.markdown(tr("### What each equation can support","### Denklemlerin kullanım sınırları"))
     st.write("The simulator implements physical relationships and simplified numerical boundaries. Cite the method and verify the input data separately.")
     rows=pd.DataFrame(MODEL_EVIDENCE)
     st.dataframe(rows,hide_index=True,width="stretch",height=400)
@@ -79,17 +79,17 @@ with methods:
         file_name="research_method_register.csv",mime="text/csv",key="hub_methods_dl")
     col1,col2=st.columns(2)
     with col1:
-        st.markdown("#### Thermal capacity")
+        st.markdown(tr("#### Thermal capacity","#### Isıl kapasite"))
         st.latex(r"Q=\rho_{bulk}V\int_{T_{min}}^{T_{max}}c_p(T)\,dT")
         st.caption("Theoretical sensible energy; material cp(T) is an illustrative input unless measured.")
-        st.markdown("#### Mean-temperature balance")
+        st.markdown(tr("#### Mean-temperature balance","#### Ortalama sıcaklık dengesi"))
         st.latex(r"m c_p(T)\frac{dT}{dt}=P_{charge}-P_{out}-UA(T-T_a)")
         st.caption("0-D approximation, not a certified geometry-specific thermal field.")
     with col2:
-        st.markdown("#### Thermodynamic exergy")
+        st.markdown(tr("#### Thermodynamic exergy","#### Termodinamik ekserji"))
         st.latex(r"X=m\int c_p(T)\left(1-\frac{T_0}{T}\right)dT")
         st.caption("Absolute temperatures in kelvin; exergy is not electricity actually produced.")
-        st.markdown("#### Heat-exchanger effectiveness")
+        st.markdown(tr("#### Heat-exchanger effectiveness","#### Isı değiştirici etkinliği"))
         st.latex(r"Q=\varepsilon C_{min}(T_{h,in}-T_{c,in})")
         st.caption("Standalone steady-state ε–NTU illustration; not a coupled validated exchanger.")
     st.markdown("#### Research evidence workflow")
@@ -104,15 +104,15 @@ with methods:
     st.caption("Direct-contact LTE and closed-pipe thermal-transfer models are "
                "different idealizations, and neither has been field-calibrated.")
     st.warning("Temperature-dependent cp(T) does not eliminate uncertainty. The built-in quartz illustration does NOT model the ~573 °C phase transition.")
-    st.markdown("### Unvalidated features and missing evidence")
+    st.markdown(tr("### Unvalidated features and missing evidence","### Doğrulanmamış özellikler ve eksik kanıtlar"))
     st.markdown("No measured 3-D temperature data, live sensors, construction-grade finite-element stresses, verified monetary CAPEX, or power-to-electricity round-trip results are claimed. Code tests verify numerical behavior, not physical agreement.")
 
 with case_studies:
-    st.markdown("### Commercial installations — attributed statements")
+    st.markdown(tr("### Commercial installations — attributed statements","### Ticari uygulamalar — kaynaklı bilgiler"))
     c1,c2=st.columns(2)
     with c1:
         with st.container(border=True):
-            st.markdown("#### Kankaanpää, Finland")
+            st.markdown(tr("#### Kankaanpää, Finland","#### Kankaanpää, Finlandiya"))
             st.metric("Published storage capacity","8 MWh(th)")
             st.write("**Rated thermal power is inconsistent across published sources:**")
             st.markdown("**100 kW(th)** — utility operator Vatajankoski")
@@ -122,18 +122,18 @@ with case_studies:
             st.link_button(tr("Developer source","Geliştirici kaynağı"),"https://polarnightenergy.com/reference/worlds-first-sand-battery/")
     with c2:
         with st.container(border=True):
-            st.markdown("#### Pornainen, Finland")
+            st.markdown(tr("#### Pornainen, Finland","#### Pornainen, Finlandiya"))
             st.metric("Manufacturer storage specification","100 MWh(th)")
             st.metric("Manufacturer rated thermal output","1 MW(th)")
             st.write("Reported industrial medium: crushed soapstone.")
             st.caption("Manufacturer-stated plant parameters only; not a physical-validation dataset for this app.")
             st.link_button("Developer's installation report","https://polarnightenergy.com/reference/solution-for-clean-energys-big-problem/")
     with st.container(border=True):
-        st.markdown("#### NREL: a distinct particle storage concept")
+        st.markdown(tr("#### NREL: a distinct particle storage concept","#### NREL: farklı bir tanecik depolama yaklaşımı"))
         st.write("NREL report 84728 discusses a particular high-purity silica particle sample, and gives material-specific measurements rather than universal numbers for all sand or crushed aggregates.")
         st.warning("Do not treat NREL modeled retention, or a different packed-bed prototype, as measured thermal efficiency of our Streamlit simulator.")
         st.link_button("NREL report 84728", "https://www.nrel.gov/docs/fy23osti/84728.pdf")
-    st.markdown("#### Published thermal power versus storage capacity")
+    st.markdown(tr("#### Published thermal power versus storage capacity","#### Yayımlanan ısıl güç ve depolama kapasitesi"))
     df_sites=pd.DataFrame([
         {"Site":"Kankaanpää","Source":"PNE manufacturer","Thermal power (MW)":.2,"Thermal capacity (MWh)":8},
         {"Site":"Kankaanpää","Source":"Vatajankoski operator","Thermal power (MW)":.1,"Thermal capacity (MWh)":8},
@@ -157,7 +157,7 @@ with case_studies:
     st.caption("Each external statement is tagged by source type. Commercial capacity and rated power are not a calibration dataset and cannot validate thermal transients.")
 
 with sources:
-    st.markdown("### Your research material, organized")
+    st.markdown(tr("### Your research material, organized","### Araştırma kaynakları"))
     for item in SOURCE_NOTES:
         with st.expander(item["title"],expanded=item["title"]=="2026 research review"):
             st.write(f"**Evidence class:** {item['class']}")
@@ -166,19 +166,19 @@ with sources:
             if item["url"]:
                 st.link_button(tr("Open external original source","Özgün kaynağı aç"),item["url"])
     st.divider()
-    st.markdown("### Source-quality terminology")
+    st.markdown(tr("### Source-quality terminology","### Kaynak kalitesi terimleri"))
     st.write(AUDIT["meaning"])
     col1,col2=st.columns(2)
     with col1:
-        st.markdown("**Provenance tiers**")
+        st.markdown(tr("**Provenance tiers**","**Kaynak güvenilirliği düzeyleri**"))
         for key,val in AUDIT["tiers"].items():
             st.markdown(f"**{key}** — {val}")
     with col2:
-        st.markdown("**Audit verdicts**")
+        st.markdown(tr("**Audit verdicts**","**Kaynak kontrolü sonuçları**"))
         for key,val in AUDIT["verdicts"].items():
             st.markdown(f"**{key}** — {val}")
     st.divider()
-    st.markdown("### Search the bibliography")
+    st.markdown(tr("### Search the bibliography","### Kaynakçada ara"))
     groups=["All categories"]+list(dict.fromkeys(r["group"] for r in REFERENCES))
     a,b=st.columns([1,2])
     with a:selected=st.selectbox("Reference category",groups,key="hub_ref_cat")
