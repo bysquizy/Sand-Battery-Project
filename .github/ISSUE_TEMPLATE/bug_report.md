@@ -7,7 +7,7 @@ assignees: []
 ---
 
 ### Which page?
-Dashboard / Research Lab / Materials / Virtual Experiments / Other
+Dashboard / How It Works / Design / Scenarios / Verification / Visuals / Research Lab / Material Atlas / Virtual Experiments / Research Hub / Other
 
 ### What happened?
 Describe the error, units, values, and what you expected.
@@ -21,7 +21,10 @@ Describe the error, units, values, and what you expected.
 Only include non-sensitive parameters or anonymized CSV data. Do not share secrets.
 
 ### Evidence
-Screenshot, browser version, and public GitHub commit/release if available.
+Screenshot, language (EN/TR), browser/device, and GitHub commit/release if available.
+
+### Device and motion settings
+Desktop/mobile, browser zoom and reduced-motion preference (if relevant).
 
 ### Scientific impact
 Does the issue affect a computed value, a graph, units, or only presentation?
