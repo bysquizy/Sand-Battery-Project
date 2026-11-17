@@ -20,13 +20,13 @@ inject()
 hero(tr("RESEARCH / ADVANCED PHYSICS","İLERİ FİZİK ARAŞTIRMASI"), tr("Engineering Research Lab","Mühendislik Araştırma Laboratuvarı"), tr("Compare second-law bounds, renewable dispatch, packed-bed heat transfer, heat exchangers, uncertainty and research-grade economics.","Termodinamiğin ikinci yasasını, yenilenebilir enerji kullanımını, ısı transferini, belirsizlikleri ve maliyetleri inceleyin."))
 shared = active()
 scenario_banner()
-st.write("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**")
-st.warning("The 1-D gas/solid packed-bed model is not a calibrated closed-loop pipe-in-sand design. Material properties are approximate and require independent verification.")
+st.write(tr("Interactive calculations, parameter studies and physical model comparisons. **All results are numerical scenarios, not measured laboratory performance.**","Etkileşimli hesaplamalar, parametre çalışmaları ve fiziksel model karşılaştırmaları. **Bütün sonuçlar sayısal senaryolardır; laboratuvar ölçümü değildir.**"))
+st.warning(tr("The 1-D gas/solid packed-bed model is not a calibrated closed-loop pipe-in-sand design. Material properties are approximate and require independent verification.","1B gaz/katı dolgulu yatak modeli, kalibre edilmiş kapalı borulu kum bataryası değildir. Malzeme özellikleri yaklaşık değerlerdir ve bağımsız doğrulama gerektirir."))
 
 with st.sidebar:
     st.subheader(tr("Local research variations","Yerel araştırma değişkenleri"))
-    st.caption("Starts from the shared design. Edits here are exploratory and do not change Active Scenario.")
-    name=st.selectbox("Base medium",list(MATERIALS),index=list(MATERIALS).index(shared.material_name),key="research_medium")
+    st.caption(tr("Starts from the shared design. Edits here are exploratory and do not change Active Scenario.","Ortak tasarım başlangıç alınır. Buradaki değişiklikler deneme amaçlıdır; Aktif senaryoyu değiştirmez."))
+    name=st.selectbox(tr("Base medium","Temel malzeme"),list(MATERIALS),index=list(MATERIALS).index(shared.material_name),key="research_medium")
     m=MATERIALS[name]
     volume=st.number_input("Packed material volume (m³)",50.,20000.,float(shared.volume_m3),step=100.,key="research_vol")
     minimum=st.number_input("Minimum solid temperature (°C)",20.,200.,float(shared.minimum_c),step=10.,key="research_low")
@@ -51,7 +51,7 @@ study = st.radio(
 )
 
 if study == 'Exergy':
-    st.subheader("Thermal storage vs reversible work potential")
+    st.subheader(tr("Thermal storage vs reversible work potential","Isıl depolama ve tersinir iş potansiyeli"))
     x=exergy_mwh(m,volume,minimum,maximum,d.ambient_c)
     a,b=st.columns(2)
     a.metric("Sensible thermal storage",f"{s['capacity_mwh']:,.1f} MWhth")
@@ -66,10 +66,10 @@ if study == 'Exergy':
     st.plotly_chart(fig,width='stretch',key="research_exergy_fig")
     st.latex(r'Q=m\int_{T_{\mathrm{min}}}^{T_{\mathrm{max}}}c_p(T)\,dT')
     st.latex(r'X=m\int_{T_{\mathrm{min}}}^{T_{\mathrm{max}}}c_p(T)\left(1-\frac{T_0}{T}\right)dT')
-    st.caption("Exergy uses Kelvin absolute temperatures and represents reversible availability, NOT electricity delivered.")
+    st.caption(tr("Exergy uses Kelvin absolute temperatures and represents reversible availability, NOT electricity delivered.","Ekserji hesabında Kelvin cinsinden mutlak sıcaklık kullanılır. Sonuç teslim edilen elektrik değil, tersinir kullanılabilirliktir."))
 
 elif study == 'Renewable Dispatch':
-    st.subheader("Hourly renewable energy and heat-demand matching")
+    st.subheader(tr("Hourly renewable energy and heat-demand matching","Saatlik yenilenebilir enerji ve ısı talebi eşleştirmesi"))
     a,b,c=st.columns(3)
     with a:days=st.slider("Scenario days",1,14,7,key="research_days")
     with b:pv=st.slider("PV rating (MWp)",0.,30.,10.,1.,key="research_pv")
@@ -108,7 +108,7 @@ elif study == 'Renewable Dispatch':
         st.error(f"Invalid hourly scenario: {exc}")
 
 elif study == 'LTNE & Flow':
-    st.subheader("Direct-contact packed-bed fluid–solid model")
+    st.subheader(tr("Direct-contact packed-bed fluid–solid model","Doğrudan temaslı dolgulu yatak akışkan–katı modeli"))
     c1,c2,c3=st.columns(3)
     with c1:cells=st.slider("Axial cells",8,40,20,4,key="research_cells")
     with c2:hours=st.slider("Duration (hours)",.5,8.,2.,.5,key="research_hours")
@@ -116,22 +116,22 @@ elif study == 'LTNE & Flow':
     if st.button("Solve gas/solid two-temperature profiles",type="primary",key="research_solve"):
         try:
             cfg=LTNE(cells=cells,hours=hours,hv=hv,initial_c=minimum,inlet_c=maximum)
-            with st.spinner("Solving coupled finite-volume equations"):
+            with st.spinner(tr("Solving coupled finite-volume equations","Birleşik sonlu hacim denklemleri çözülüyor")):
                 st.session_state["research_ltne"]=ltne(d,m,cfg)
                 st.session_state["research_cfg"]=(d,m,cfg)
         except (RuntimeError,ValueError) as exc:st.error(str(exc))
     cfg=LTNE(cells=cells,hours=hours,hv=hv,initial_c=minimum,inlet_c=maximum)
     if st.session_state.get("research_cfg")==(d,m,cfg):
         r=st.session_state["research_ltne"]
-        st.metric("1-D energy closure residual",f"{r['residual_mwh']:.3e} MWh")
+        st.metric(tr("1-D energy closure residual","1B enerji dengesi kalanı"),f"{r['residual_mwh']:.3e} MWh")
         fig=make_subplots(rows=1,cols=2,subplot_titles=("Gas temperature","Solid temperature"))
         for i,z in enumerate(["gas_c","solid_c"],1):
             fig.add_trace(go.Heatmap(z=r[z],x=r["z_m"],y=r["time_h"],colorscale='Turbo',showscale=i==2),1,i)
         fig.update_layout(template="plotly_dark",height=430)
         st.plotly_chart(fig,width="stretch",key="research_ltne_fig")
-    else:st.info("Run the optional transport solver to view two-phase heatmaps.")
+    else:st.info(tr("Run the optional transport solver to view two-phase heatmaps.","İki fazlı sıcaklık haritaları için isteğe bağlı taşınım çözücüsünü çalıştırın."))
     st.divider()
-    st.subheader("Ergun pressure loss and illustrative fan power")
+    st.subheader(tr("Ergun pressure loss and illustrative fan power","Ergun basınç kaybı ve temsili fan gücü"))
     c1,c2=st.columns(2)
     with c1:eps=st.slider(tr("Void fraction","Boşluk oranı"),.25,.65,.42,.01,key="research_eps")
     with c2:v=st.slider("Superficial velocity (m/s)",.0,.15,.025,.005,key="research_vel")
@@ -140,15 +140,15 @@ elif study == 'LTNE & Flow':
     p1.metric("Pressure drop",f"{z['delta_p_pa']:.1f} Pa")
     p2.metric("Fan power",f"{z['fan_kw']:.3f} kW")
     p3.metric("Particle Reynolds number",f"{z['particle_re']:.0f}")
-    st.caption("Direct-contact Ergun equation, not a commercial closed-pipe fan calculation. Liu et al. 2024 tested 16 mm glass beads, Re 58–252.")
+    st.caption(tr("Direct-contact Ergun equation, not a commercial closed-pipe fan calculation. Liu et al. 2024 tested 16 mm glass beads, Re 58–252.","Ergun denklemi doğrudan temas içindir; ticari kapalı borulu sistemin fan hesabı değildir. Liu ve ark. (2024) 16 mm cam taneciklerini Re 58–252 aralığında test etmiştir."))
 
 elif study == 'Exchanger':
-    st.subheader("Effectiveness–NTU heat exchanger")
+    st.subheader(tr("Effectiveness–NTU heat exchanger","Etkinlik–NTU ısı değiştirici"))
     u1,u2,u3=st.columns(3)
     with u1:th=st.number_input("Hot inlet °C",100.,800.,500.,key="research_th")
     with u2:tc=st.number_input("Cold inlet °C",10.,400.,60.,key="research_tc")
     with u3:ua=st.number_input("Exchanger UA (kW/K)",.5,500.,40.,key="research_ua")
-    kind=st.selectbox("Flow arrangement",["counterflow","parallel"],key="research_arr")
+    kind=st.selectbox(tr("Flow arrangement","Akış düzeni"),["counterflow","parallel"],key="research_arr")
     try:
         inp=Exchanger(th,tc,25,20,ua,kind)
         out=exchanger(inp)
@@ -163,21 +163,21 @@ elif study == 'Exchanger':
         st.plotly_chart(fig,width="stretch",key="research_exchanger_fig")
     except ValueError as exc:st.error(str(exc))
     st.latex(r'Q=\epsilon C_{\min}(T_{h,in}-T_{c,in}),\;\;NTU=UA/C_{\min}')
-    st.caption("Steady exchanger experiment only, not thermally coupled to the dynamic bed.")
+    st.caption(tr("Steady exchanger experiment only, not thermally coupled to the dynamic bed.","Yalnızca kararlı durum ısı değiştirici örneğidir; dinamik yatağa ısıl olarak bağlanmamıştır."))
 
 elif study == 'Uncertainty':
-    st.subheader("Assumption-based uncertainty propagation")
+    st.subheader(tr("Assumption-based uncertainty propagation","Varsayıma dayalı belirsizlik yayılımı"))
     sd=st.slider("Assumed input standard deviation (%)",0,30,10,key="research_sigma")/100
     r=uncertainty(d,m,400,sd,seed=23)
     ci=np.percentile(r["capacity_samples_mwh"],[5,50,95])
-    st.metric("Illustrative P05–P95 capacity",f"{ci[0]:.1f}–{ci[2]:.1f} MWhth")
+    st.metric(tr("Illustrative P05–P95 capacity","Temsili P05–P95 kapasite"),f"{ci[0]:.1f}–{ci[2]:.1f} MWhth")
     fig=go.Figure(go.Histogram(x=r["capacity_samples_mwh"],nbinsx=32,marker_color="#e8a670"))
     fig.update_layout(template="plotly_dark",height=360,xaxis_title="Theoretical capacity (MWhth)")
     st.plotly_chart(fig,width="stretch",key="research_uncertainty_fig")
-    st.warning("Input distributions are assumptions, not empirically estimated uncertainty bounds.")
+    st.warning(tr("Input distributions are assumptions, not empirically estimated uncertainty bounds.","Girdi dağılımları varsayımdır; deneysel olarak belirlenmiş belirsizlik sınırları değildir."))
 
 elif study == 'Cost Lab':
-    st.subheader("Transparent financial scenario — LCOH")
+    st.subheader(tr("Transparent financial scenario — LCOH","Şeffaf maliyet senaryosu — seviyelendirilmiş ısı maliyeti"))
     a,b,c=st.columns(3)
     with a:capex=st.number_input("Hypothetical CAPEX (€)",0.,100_000_000.,2_000_000.,100_000.,key="research_capex")
     with b:price=st.number_input("Input energy price (€/MWh)",0.,500.,70.,5.,key="research_price")
@@ -185,14 +185,14 @@ elif study == 'Cost Lab':
     try:
         r=simulate_cycle(d,m,max_step_s=3600)
         value=levelized_heat(capex,20,.08,cycles,r["useful_heat_mwh"],r["source_input_mwh"],price,30000)
-        st.metric("Scenario levelized cost of heat",f"{value:.1f} €/MWhth")
+        st.metric(tr("Scenario levelized cost of heat","Senaryonun seviyelendirilmiş ısı maliyeti"),f"{value:.1f} €/MWhth")
         prices=np.linspace(0,max(1,price*2),25)
         costs=[levelized_heat(capex,20,.08,cycles,r["useful_heat_mwh"],r["source_input_mwh"],p,30000) for p in prices]
         fig=go.Figure(go.Scatter(x=prices,y=costs,mode="lines",line=dict(color="#67dcc9",width=3)))
         fig.update_layout(template="plotly_dark",height=350,xaxis_title="Input price (€/MWh)",yaxis_title="LCOH (€/MWh)")
         st.plotly_chart(fig,width="stretch",key="research_lcoh_fig")
     except (ValueError,RuntimeError) as exc:st.error(str(exc))
-    st.caption("This is not an investment recommendation, market quote or techno-economic validation.")
+    st.caption(tr("This is not an investment recommendation, market quote or techno-economic validation.","Bu sonuç yatırım önerisi, piyasa fiyat teklifi veya tekno-ekonomik doğrulama değildir."))
 
 st.divider()
 st.caption("References: Bošnjaković & Santa (2026), DOI 10.3390/cleantechnol8050165; Liu et al. (2024), DOI 10.1016/j.est.2023.109957. Sources, assumptions and test limitations must be disclosed.")
