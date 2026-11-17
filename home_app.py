@@ -23,7 +23,11 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
-from localization import tr, language, preset_option_label
+from localization import tr, language
+import localization
+
+# Stable options remain usable if a deployment temporarily has old translations.
+preset_option_label = getattr(localization, "preset_option_label", str)
 inject()
 
 
