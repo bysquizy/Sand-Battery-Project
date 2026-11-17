@@ -23,8 +23,19 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
-from localization import tr
+from localization import tr, language
 inject()
+
+
+@st.cache_data(max_entries=4, ttl=1200, show_spinner=False)
+def _cached_silo(design, material, cutaway, language_code):
+    """Reuse the expensive schematic Plotly geometry across sidebar reruns.
+
+    The language code is intentionally in the cache key because surface labels
+    and playback controls are localized.
+    """
+    _ = language_code
+    return plant_3d(_cached_cycle(design, material), design, material, cutaway=cutaway)
 
 
 @st.cache_data(max_entries=24,ttl=1800,show_spinner=False)
@@ -164,7 +175,7 @@ elif view == '3D Plant Explorer':
         st.info(tr("3D rendering is disabled in Light mode. Turn it off in the sidebar to explore the silo.",
                    "Hafif modda 3B çizim kapalıdır. Depoyu incelemek için yan menüden Hafif modu kapatın."))
     else:
-        st.plotly_chart(plant_3d(result, design, material, cutaway=presentation == "cutaway"),
+        st.plotly_chart(_cached_silo(design, material, presentation == "cutaway", language()),
                         width="stretch", key="chart_3d_silo",
                         config={"displayModeBar": False, "scrollZoom": False,
                                 "displaylogo": False})
