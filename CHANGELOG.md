@@ -26,7 +26,7 @@ remain research examples, not certified industrial-system predictions.
 - Reduce the scenario file picker's transport ceiling to 1 MB, explain the separate strict 40,000-byte scenario validation limit, and require Streamlit 1.66.1 or newer for the upload API used here.
 - Update ten-screen documentation and add prioritized browser/mobile acceptance criteria without claiming unfinished checks passed.
 
-## [2.1.0] — 2026-10-26 (Premium Interface & Security Revision)
+## [2.1.0] — 2026-10-26 (Interface & Security Revision)
 - Unified all nine Streamlit workspaces with source-only, dependency-free
   native theming and safe static HTML/CSS: accessible headers, product identity,
   consistent KPI cards, navigation, context ribbon and project footer.
@@ -39,7 +39,7 @@ remain research examples, not certified industrial-system predictions.
   cells when exporting A/B/C comparison CSV; original numeric data stays intact.
 - Enabled CORS/XSRF protections explicitly; retained five lightweight
   dependencies and all physics engines.
-- Added cross-page QA for premium layout, security, native configuration,
+- Added cross-page QA for interface layout, security, native configuration,
   user metadata and CSV export; real browser acceptance remains manual.
 
 ## [2.0.0] — 2026-10-26 (Stages 4/5: Visual Engineering & Publication)
