@@ -56,6 +56,11 @@ def test_3d_animation_uses_computed_profiles_and_finite_axes():
     assert len(fig.frames[0].data) == 1
     assert np.isclose(fig.data[0].surfacecolor[0,0],
                       result["animation_profiles_c"][0,0])
+    # Animation frames must reuse the same 3D geometry instead of retransmitting
+    # the cylinder meshes for every physical solver sample.
+    assert all(frame.data[0].x is None and frame.data[0].y is None
+               and frame.data[0].z is None for frame in fig.frames)
+    assert all(tuple(frame.traces) == (0,) for frame in fig.frames)
     heatmap=axial_history_heatmap(result)
     assert heatmap.data[0].z.shape==result["animation_profiles_c"].shape
 
