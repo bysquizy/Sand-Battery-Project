@@ -23,7 +23,7 @@ CSS = """
   --sb-blue:#7bb8ed;
 }
 html,body,[data-testid="stApp"] {
-  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 [data-testid="stApp"] {
   background:radial-gradient(ellipse 60% 410px at 74% -80px,rgba(64,176,177,.18),transparent 80%),
@@ -122,7 +122,7 @@ h3 {font-size:1.18rem;font-weight:730}
   background:linear-gradient(115deg,#173b46,#225a62);
   border:1px solid #367986;
   color:#effffc;
-  box-shadow:0 8px 23px -19px #f2c18c;
+  box-shadow:0 8px 23px -19px rgba(104,229,207,.55);
 }
 [data-testid="stButton"] button:hover,
 [data-testid="stLinkButton"] a:hover {
@@ -288,46 +288,71 @@ h3 {font-size:1.18rem;font-weight:730}
     scroll-behavior:auto!important}
 }
 
-/* Subtle interaction feedback, respecting system reduced-motion preferences. */
-@media (prefers-reduced-motion: no-preference) {
-  [data-testid="stMainBlockContainer"] {animation:sb-page-enter .38s ease-out both}
-  [data-testid="stMetric"], [data-testid="stPlotlyChart"],
-  [data-testid="stVerticalBlockBorderWrapper"], [data-testid="stAlert"],
-  [data-testid="stLinkButton"] a, [data-testid="stSidebarNav"] a {
-    transition:transform .28s cubic-bezier(.2,.8,.2,1), border-color .25s ease,
-               box-shadow .3s ease, background-color .25s ease;
-  }
-  [data-testid="stMetric"]:hover {transform:translateY(-4px) scale(1.018);
-    border-color:#65aeb2;box-shadow:0 18px 35px -24px #000}
-  [data-testid="stPlotlyChart"]:hover {transform:translateY(-2px) scale(1.008);
-    border-color:#507e8a}
-  [data-testid="stLinkButton"] a:hover {transform:translateY(-2px) scale(1.015)}
-  [data-testid="stTabs"] button[role="tab"] {transition:color .24s ease,background .24s ease,transform .24s ease}
-  [data-testid="stTabs"] button[role="tab"]:hover {transform:translateY(-2px);background:rgba(104,229,207,.08)}
-  [data-testid="stSidebarNav"] a:hover {transform:translateX(3px)}
-  .sb-hero {animation:sb-page-enter .5s ease-out both}
+/* Calm interface motion: only compositor-friendly transforms and color changes. */
+@keyframes sb-page-enter {
+  from {opacity:0;transform:translate3d(0,12px,0)}
+  to {opacity:1;transform:translate3d(0,0,0)}
 }
-[data-testid="stAlert"] {border:1px solid #36566a;background:rgba(20,45,60,.85)}
-[data-testid="stAlert"][data-baseweb="notification"] {background:#142d3d}
-[data-testid="stRadio"] label {transition:transform .22s ease,color .22s ease}
-[data-testid="stRadio"] label:hover {transform:translateY(-2px);color:#70e6d3}
-[data-testid="stSlider"] [role="slider"] {transition:box-shadow .2s ease,transform .2s ease}
-[data-testid="stSlider"] [role="slider"]:hover {transform:scale(1.16);box-shadow:0 0 0 6px rgba(104,229,207,.14)}
-[data-testid="stVerticalBlockBorderWrapper"] {transition:border-color .24s ease,box-shadow .24s ease}
-[data-testid="stVerticalBlockBorderWrapper"]:hover {border-color:#4c7983;box-shadow:0 12px 30px -28px #000}
-@keyframes sb-page-enter {from {opacity:.2;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sb-card-arrive {
+  from {opacity:.48;transform:translate3d(0,8px,0)}
+  to {opacity:1;transform:translate3d(0,0,0)}
+}
+[data-testid="stPlotlyChart"] {
+  border-color:#355869;
+  box-shadow:0 10px 24px -24px #000;
+}
+[data-testid="stAlert"] {border-radius:13px}
+[data-testid="stSlider"] [role="slider"] {border:2px solid #0a2432}
+[data-testid="stTabs"] button[role="tab"] {min-height:2.75rem}
+[data-testid="stRadio"] label {min-height:2.1rem}
+[data-testid="stMetric"] [data-testid="stMetricValue"] {font-variant-numeric:tabular-nums}
+[data-testid="stExpander"] {border-radius:12px}
+[data-testid="stMainBlockContainer"] p,
+[data-testid="stMainBlockContainer"] li {line-height:1.62}
 [data-testid="stLinkButton"] a[href*="github.com"] {
- background:linear-gradient(110deg,#152936,#203a4c)!important;
- border:1px solid #426a7c!important;color:#eaf8fb!important;
+  background:linear-gradient(115deg,#193447,#122635)!important;
+  color:#ecf7fa!important;border:1px solid #496a7b!important;
 }
 [data-testid="stLinkButton"] a[href*="github.com"]:before {
- content:"";display:inline-block;width:17px;height:17px;margin-right:8px;
- vertical-align:-3px;
- background-color:currentColor;
- -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
- mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.28-1.24-1.28-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  content:"";display:inline-block;width:16px;height:16px;margin-right:8px;
+  vertical-align:-3px;background-color:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.28-1.24-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.28-1.24-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
-
+@media(prefers-reduced-motion:no-preference) {
+  .sb-hero {animation:sb-page-enter .42s cubic-bezier(.2,.8,.2,1) both}
+  [data-testid="stMetric"] {animation:sb-card-arrive .38s ease-out both}
+  [data-testid="stPlotlyChart"] {animation:sb-card-arrive .4s ease-out both}
+  [data-testid="stMetric"],
+  [data-testid="stPlotlyChart"],
+  [data-testid="stVerticalBlockBorderWrapper"],
+  [data-testid="stLinkButton"] a,
+  [data-testid="stButton"] button,
+  [data-testid="stDownloadButton"] button,
+  [data-testid="stSidebarNav"] a,
+  [data-testid="stTabs"] button[role="tab"] {
+    transition:transform .22s cubic-bezier(.2,.8,.2,1),
+      border-color .22s ease, box-shadow .22s ease,
+      color .22s ease, background-color .22s ease;
+  }
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  [data-testid="stMetric"]:hover {transform:translate3d(0,-3px,0);
+    border-color:#6bafa8;box-shadow:0 16px 30px -25px #000}
+  /* Moving an interactive Plotly canvas disrupts pointer/zoom hit testing:
+     highlight its edge instead of scaling the canvas. */
+  [data-testid="stPlotlyChart"]:hover {border-color:#5a9d99;
+    box-shadow:0 14px 32px -24px #000}
+  [data-testid="stVerticalBlockBorderWrapper"]:hover {border-color:#466f7a}
+  [data-testid="stButton"] button:hover,
+  [data-testid="stLinkButton"] a:hover,
+  [data-testid="stDownloadButton"] button:hover {transform:translate3d(0,-2px,0)}
+  [data-testid="stButton"] button:active,
+  [data-testid="stLinkButton"] a:active,
+  [data-testid="stDownloadButton"] button:active {transform:translate3d(0,0,0) scale(.985)}
+  [data-testid="stSidebarNav"] a:hover {transform:translate3d(3px,0,0)}
+  [data-testid="stTabs"] button[role="tab"]:hover {background:rgba(104,229,207,.08)}
+}
 /* Small-screen controls remain reachable without shrinking technical labels. */
 [data-testid="stRadio"] [role="radiogroup"] {
   flex-wrap:wrap;
