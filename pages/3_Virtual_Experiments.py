@@ -15,10 +15,10 @@ inject()
 hero(tr("EXPERIMENTS / NUMERICAL TESTBENCH","DENEYLER / SAYISAL TESTLER"), tr("Virtual Experiments","Sanal Deneyler"), tr("Investigate flow resistance, solver grid sensitivity and thermal retention using reproducible virtual studies.","Akış direnci, ağ duyarlılığı ve ısı depolama davranışını sanal deneylerle inceleyin."))
 shared = active()
 scenario_banner()
-st.info('All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.')
+st.info(tr("All experiments use theoretical numerical models. Smooth plots and small solver residuals do not prove experimental agreement.","Bütün deneyler teorik sayısal modeller kullanır. Düzgün grafikler ve küçük sayısal artıklar deneysel uyumu kanıtlamaz."))
 air,grid,loss=st.tabs([tr("💨 Ergun & Fan","💨 Ergun ve fan"),tr("🧮 Grid Refinement","🧮 Ağ duyarlılığı"),tr("♨ Insulation vs Standby","♨ Yalıtım ve bekleme")])
 with air:
-    st.subheader('Direct-contact packed-bed pressure-loss experiment')
+    st.subheader(tr("Direct-contact packed-bed pressure-loss experiment","Doğrudan temaslı dolgulu yatakta basınç kaybı deneyi"))
     a,b,c=st.columns(3)
     with a:
         void=st.slider(tr("Void fraction","Boşluk oranı"),.25,.65,.42,.01,key='exp_void')
@@ -38,11 +38,11 @@ with air:
     fig.update_layout(template='plotly_dark',height=380,xaxis_title='Superficial velocity (m/s)',yaxis_title='Bed pressure loss (Pa)')
     st.plotly_chart(fig,width='stretch',key='exp_ergun_plot')
     st.latex(r'\Delta P/L=150\mu(1-\varepsilon)^2u/(\varepsilon^3d_p^2)+1.75\rho(1-\varepsilon)u^2/(\varepsilon^3d_p)')
-    st.warning('Ergun applies to approximately packed particle beds, NOT the embedded closed-loop pipe network of an actual Polar Night Energy plant.')
+    st.warning(tr("Ergun applies to approximately packed particle beds, NOT the embedded closed-loop pipe network of an actual Polar Night Energy plant.","Ergun denklemi yaklaşık dolgulu tanecik yatakları için geçerlidir; gerçek bir Polar Night Energy tesisinin gömülü kapalı boru ağı için değildir."))
 with grid:
-    st.subheader('Spatial resolution and conservation')
+    st.subheader(tr("Spatial resolution and conservation","Uzaysal çözünürlük ve korunum"))
     if st.button('Run gas/solid simulations at 8, 16 and 32 cells',type='primary',key='exp_grid_run'):
-        with st.spinner('Solving three finite-volume configurations'):
+        with st.spinner(tr("Solving three finite-volume configurations","Üç sonlu hacim yapılandırması çözülüyor")):
             rows=[]
             d=replace(shared.make_design(),volume_m3=400,charge_mw=3,thermal_output_mw=1)
             for n in [8,16,32]:
@@ -57,13 +57,13 @@ with grid:
         fig=go.Figure(go.Scatter(x=df.cells,y=df.final_avg_solid_c,mode='lines+markers',line=dict(color='#70e1cd',width=3)))
         fig.update_layout(template='plotly_dark',height=340,xaxis_title='Axial cells',yaxis_title='Mean final solid temperature °C')
         st.plotly_chart(fig,width='stretch',key='exp_grid_fig')
-    else:st.caption('Compute results only on demand, avoiding unnecessary cloud CPU usage.')
-    st.caption('This study fixes a 400 m³ reference volume while retaining the active material and temperatures. The comparison reveals mesh sensitivity; it is not a formal proof of convergence or validation on measured data.')
+    else:st.caption(tr("Compute results only on demand, avoiding unnecessary cloud CPU usage.","Bulut işlemcisini gereksiz kullanmamak için sonuçları yalnızca istendiğinde hesaplayın."))
+    st.caption(tr("This study fixes a 400 m³ reference volume while retaining the active material and temperatures. The comparison reveals mesh sensitivity; it is not a formal proof of convergence or validation on measured data.","Bu çalışma etkin malzeme ve sıcaklıkları korurken 400 m³ referans hacim kullanır. Karşılaştırma ağ duyarlılığını gösterir; yakınsamanın resmî kanıtı veya ölçüm doğrulaması değildir."))
 with loss:
-    st.subheader('Insulation / standby heat sensitivity')
+    st.subheader(tr("Insulation / standby heat sensitivity","Yalıtım ve bekleme ısı duyarlılığı"))
     blankets=[.2,.4,.6,.8,1.]; days=[0,1,2,4,7]
     if st.button('Run 25 thermal simulations',type='primary',key='exp_loss_run'):
-        with st.spinner('Comparing insulation and standby constraints'):
+        with st.spinner(tr("Comparing insulation and standby constraints","Yalıtım ve bekleme koşulları karşılaştırılıyor")):
             data=[]
             base=shared.make_design()
             for thick in blankets:
@@ -80,6 +80,6 @@ with loss:
         fig.update_layout(template='plotly_dark',height=430,xaxis_title='Standby duration (days)',yaxis_title='Insulation thickness (m)')
         st.plotly_chart(fig,width='stretch',key='exp_loss_fig')
         st.download_button('Export thermal design matrix (CSV)',pd.DataFrame(z,index=blankets,columns=days).to_csv(),file_name='loss_experiment.csv')
-    st.caption('Model includes mean bulk temperature, geometry and UA only; no thermal bridging, exchanger outlet pinch or structural model.')
+    st.caption(tr("Model includes mean bulk temperature, geometry and UA only; no thermal bridging, exchanger outlet pinch or structural model.","Model yalnızca ortalama kütle sıcaklığını, geometriyi ve UA değerini içerir; ısı köprüsü, eşanjör sıcaklık yaklaşımı veya yapısal model içermez."))
 
 footer()
