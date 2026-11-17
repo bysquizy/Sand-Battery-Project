@@ -87,3 +87,43 @@ def test_display_translation_keeps_stable_source_keys(monkeypatch):
     assert localization.source_option_label("Electric heater") == "Electric heater / Elektrikli ısıtıcı"
     assert "CSP" in localization.preset_option_label("CSP-assisted thermal storage")
 
+
+
+def test_optional_translation_imports_are_deployment_safe():
+    """A staggered Cloud reload must not crash when label helpers are absent."""
+    import ast
+
+    permitted = {"t", "tr", "language"}
+    for path in (
+        ROOT / "scenario_state.py",
+        ROOT / "home_app.py",
+        ROOT / "pages/9_How_It_Works.py",
+    ):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom) and node.module == "localization":
+                assert {item.name for item in node.names} <= permitted
+        source = path.read_text(encoding="utf-8")
+        assert "getattr(localization," in source
+
+
+def test_scenario_editor_can_import_with_old_localization_module():
+    """Exercise an older in-memory translation module in a clean interpreter."""
+    import subprocess
+    import sys
+
+    script = """
+import sys
+import types
+stub = types.ModuleType("localization")
+stub.tr = lambda en, tr: en
+sys.modules["localization"] = stub
+import scenario_state
+assert scenario_state.material_option_label("Silica sand") == "Silica sand"
+assert scenario_state.preset_label("Industrial thermal store") == "Industrial thermal store"
+"""
+    completed = subprocess.run(
+        [sys.executable, "-c", script],
+        cwd=ROOT, text=True, capture_output=True, timeout=30, check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
