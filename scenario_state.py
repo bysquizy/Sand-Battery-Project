@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from html import escape
 import streamlit as st
-from localization import tr, material_label, source_label, preset_label
+from localization import tr, material_label, source_label, preset_label, material_option_label, source_option_label
 
 from engine.materials import MATERIALS
 from engine.scenarios import PRESETS, SLOTS, SOURCES, Scenario, from_mapping
@@ -80,7 +80,7 @@ def sidebar_editor() -> None:
                 medium = st.selectbox(
                     tr("Material","Malzeme"), list(MATERIALS),
                     index=list(MATERIALS).index(scenario.material_name),
-                    format_func=material_label)
+                    format_func=material_option_label)
                 volume = st.number_input(
                     tr("Packed volume · m³","Dolu hacim · m³"), 50.0, 20000.0,
                     float(scenario.volume_m3), step=25.0)
@@ -92,7 +92,7 @@ def sidebar_editor() -> None:
                     float(scenario.maximum_c), step=10.0)
                 source = st.selectbox(tr("Charge source","Şarj kaynağı"), SOURCES,
                                       index=SOURCES.index(scenario.source),
-                                      format_func=source_label)
+                                      format_func=source_option_label)
                 output = st.number_input(
                     tr("Thermal demand · MW","Isı talebi · MW"), 0.1, 40.0,
                     float(scenario.thermal_output_mw), step=0.5)
