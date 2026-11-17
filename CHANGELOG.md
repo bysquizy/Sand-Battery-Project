@@ -3,6 +3,14 @@
 Software release history for Sand Battery Studio. All physical modelling results
 remain research examples, not certified industrial-system predictions.
 
+## Unreleased — November 2026 interface and performance review
+- Extend Turkish scientific explanations across Material Atlas, Research Lab, Virtual Experiments, Design, Verification and Research Hub without renaming underlying data keys or modifying physical equations.
+- Replace duplicate Dashboard explanatory HTML and footer with the shared bilingual UI components.
+- Cache the layered 3D Plotly figure by design, material, presentation and language to reduce repeated geometric reconstruction on reruns.
+- Improve narrow-screen radio/tab wrapping, theme consistency and responsive control sizing while retaining reduced-motion preferences.
+- Recheck public research attribution and record the 100/200 kW operator/manufacturer discrepancy explicitly in the source register.
+- Retain staged browser/mobile manual acceptance: passing CI is not a certified site or physical model validation.
+
 ## Unreleased — Layered 3D storage view
 - Replace the five-stage illustrative cylinder with steel cladding, insulation, granular core cut faces, lid and footing; provide exterior/cutaway selection.
 - Drive at most 36 playback frames directly from solver samples, with synchronized mean temperature, elapsed time and material-enthalpy-based heat above Tmin.
