@@ -54,6 +54,15 @@ def _cycle(design, material):
 
 
 @st.cache_data(max_entries=8, ttl=1200, show_spinner=False)
+def _report_bundle(scenario):
+    """Compute reports only for the chosen scenario; reuse them on UI reruns."""
+    design = scenario.make_design()
+    material = MATERIALS[scenario.material_name]
+    result = _cycle(design, material)
+    return html_report(scenario, result), pdf_report(scenario, result)
+
+
+@st.cache_data(max_entries=8, ttl=1200, show_spinner=False)
 def _frontier(design, material):
     rows = []
     volumes = sorted(set(
@@ -221,25 +230,24 @@ elif workspace == 'Engineering report':
         cols[2].metric(tr("Energy conservation residual","Enerji korunumu kalanı"),
                        f"{result['energy_balance_residual_mwh']:.2e} MWh")
         with st.spinner(tr('Building self-contained report formats', 'Bağımsız rapor dosyaları hazırlanıyor')):
-            html=html_report(scenario,result)
-            pdf=pdf_report(scenario,result)
+            html,pdf=_report_bundle(scenario)
         col1,col2,col3=st.columns(3)
         col1.download_button(
             tr("Download illustrated HTML", "Görselli HTML raporunu indir"),
             html, file_name="Sand_Battery_Engineering_Report.html",
             mime="text/html", key="visual_report_html", on_click="ignore",
-            use_container_width=True)
+            width="stretch")
         col2.download_button(
             tr("Download compact PDF", "Kısa PDF raporunu indir"),
             pdf, file_name="Sand_Battery_Engineering_Report.pdf",
             mime="application/pdf",key="visual_report_pdf",
-            on_click="ignore",use_container_width=True)
+            on_click="ignore",width="stretch")
         col3.download_button(
             tr("Download editable scenario JSON", "Düzenlenebilir senaryo JSON dosyasını indir"),
             to_json(scenario, {slot:None for slot in SLOTS}),
             file_name="Sand_Battery_Scenario.json",
             mime="application/json",key="visual_report_json",
-            on_click="ignore",use_container_width=True)
+            on_click="ignore",width="stretch")
         st.caption(tr("HTML uses UTF-8 and preserves team names; PDF is an offline basic-font print version and may transliterate non-ASCII characters. HTML can also be printed to PDF with full browser typography. All results are model-generated.",
                       "HTML, UTF-8 ile ekip adlarını korur. Kısa PDF bazı Türkçe karakterleri dönüştürebilir. Türkçe karakterleri koruyan görselli PDF için HTML dosyasını tarayıcıdan yazdırın. Tüm sonuçlar model tarafından hesaplanır."))
 
