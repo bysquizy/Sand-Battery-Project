@@ -61,3 +61,23 @@ def test_turkish_pages_start_without_runtime_errors():
         app.session_state["sb_language"] = "tr"
         app.run(timeout=75)
         assert not app.exception, f"{page}: {[str(e.message) for e in app.exception]}"
+
+
+def test_display_translation_keeps_stable_source_keys(monkeypatch):
+    """Turkish labels must never mutate saved JSON scenario source identifiers."""
+    from engine.scenarios import Scenario, to_json
+
+    monkeypatch.setattr(
+        localization, "st", SimpleNamespace(session_state={"sb_language": "tr"})
+    )
+    assert localization.material_label("Silica sand") == "Silis kumu"
+    assert localization.source_label("Electric heater") == "Elektrikli ısıtıcı"
+    assert localization.preset_label("Compact research study") == "Kompakt araştırma örneği"
+    saved = to_json(Scenario(), {"A": None, "B": None, "C": None})
+    assert '"source": "Electric heater"' in saved
+    assert '"material_name": "Silica sand"' in saved
+    monkeypatch.setattr(
+        localization, "st", SimpleNamespace(session_state={"sb_language": "en"})
+    )
+    assert localization.material_label("Silica sand") == "Silica sand"
+    assert localization.source_label("Electric heater") == "Electric heater"
