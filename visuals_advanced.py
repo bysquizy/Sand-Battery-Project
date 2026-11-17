@@ -9,6 +9,8 @@ from __future__ import annotations
 import numpy as np
 import plotly.graph_objects as go
 
+from localization import tr
+
 THERMAL_COLORS = [
     [0.0, "#264d84"], [0.28, "#398bb3"],
     [0.53, "#59cbb5"], [0.74, "#f4bf73"], [1.0, "#e56850"],
@@ -59,18 +61,26 @@ def axial_cylinder_animation(tc: dict, radius_m: float,
             cmin=tmin_c, cmax=tmax_c, colorscale=THERMAL_COLORS,
             showscale=True, colorbar=dict(title="°C", len=.70, thickness=12),
             opacity=.96,
-            hovertemplate="Axial height %{z:.2f} m<br>Mapped 1-D temperature %{surfacecolor:.1f} °C<extra></extra>",
+            hovertemplate=tr("Axial height","Eksenel yükseklik") + " %{z:.2f} m<br>" + tr("Mapped 1-D temperature","Yansıtılmış 1B sıcaklık") + " %{surfacecolor:.1f} °C<extra></extra>",
             lighting=dict(ambient=.74, diffuse=.6, specular=.16),
         )
 
     names = [f"t{int(i)}" for i in indices]
     fig = go.Figure(data=[surface(profiles[indices[0]])])
-    fig.frames = tuple(go.Frame(name=name, data=[surface(profiles[i])],
-                                traces=[0]) for name, i in zip(names, indices))
+    # Reuse one cylinder geometry; playback frames change calculated colors only.
+    # This avoids serializing the same x/y/z grids for every snapshot.
+    fig.frames = tuple(
+        go.Frame(
+            name=name,
+            data=[go.Surface(surfacecolor=np.broadcast_to(profiles[i][:, None], xx.shape))],
+            traces=[0],
+        )
+        for name, i in zip(names, indices)
+    )
     labels = [f"{phases[i]} · {times[i]:.1f} h" for i in indices]
     fig.update_layout(
         template="plotly_dark", paper_bgcolor=BG, margin=dict(l=0,r=15,b=10,t=38),
-        height=495, title=dict(text="Axial thermal front · 1-D mapped onto a silo",
+        height=495, title=dict(text=tr("Axial thermal front · 1-D mapped onto a silo","Eksenel ısı cephesi · silindir üzerinde 1B model"),
                                font=dict(size=15)),
         scene=dict(bgcolor=BG, aspectmode="manual",
                    aspectratio=dict(x=1,y=1,z=min(2.4,max(.8,
@@ -80,15 +90,15 @@ def axial_cylinder_animation(tc: dict, radius_m: float,
                    camera=dict(eye=dict(x=1.8,y=1.65,z=1.3))),
         updatemenus=[dict(type="buttons", direction="left", x=0.01, y=0.02,
                           showactive=False, buttons=[
-            dict(label="▶ Play", method="animate",
+            dict(label=tr("▶ Play","▶ Oynat"), method="animate",
                  args=[None, dict(frame=dict(duration=230, redraw=True),
                                   transition=dict(duration=0),fromcurrent=True)]),
-            dict(label="❚❚ Pause", method="animate",
+            dict(label=tr("❚❚ Pause","❚❚ Duraklat"), method="animate",
                  args=[[None], dict(frame=dict(duration=0, redraw=False),
                                     mode="immediate")]),
         ])],
         sliders=[dict(active=0,x=.08,y=-.05,len=.85,
-                      currentvalue=dict(prefix="Computed snapshot: ",font=dict(size=12)),
+                      currentvalue=dict(prefix=tr("Computed snapshot: ","Hesaplanan kare: "),font=dict(size=12)),
                       steps=[dict(label=labels[j],method="animate",
                                   args=[[name],dict(mode="immediate",
                                       frame=dict(duration=0,redraw=True),
@@ -105,15 +115,15 @@ def axial_history_heatmap(tc: dict) -> go.Figure:
     fig = go.Figure(go.Heatmap(
         x=z, y=times, z=profiles, colorscale=THERMAL_COLORS,
         colorbar=dict(title="°C"), hovertemplate=(
-            "Axial position: %{x:.2f} m<br>"
-            "Elapsed time: %{y:.2f} h<br>"
-            "Modeled temperature: %{z:.1f} °C<extra></extra>"
+            tr("Axial position: ","Eksenel konum: ") + "%{x:.2f} m<br>" +
+            tr("Elapsed time: ","Geçen süre: ") + "%{y:.2f} h<br>" +
+            tr("Modeled temperature: ","Model sıcaklığı: ") + "%{z:.1f} °C<extra></extra>"
         ),
     ))
     fig.update_layout(template="plotly_dark",paper_bgcolor=BG,plot_bgcolor=BG,
                       height=380, margin=dict(l=15,r=10,t=18,b=35),
-                      xaxis_title="Axial height (m)",
-                      yaxis_title="Elapsed model time (h)")
+                      xaxis_title=tr("Axial height (m)","Eksenel yükseklik (m)"),
+                      yaxis_title=tr("Elapsed model time (h)","Modelde geçen süre (saat)"))
     return fig
 
 
@@ -129,19 +139,19 @@ def design_frontier_chart(rows: list[dict]) -> go.Figure:
             x=[r["initial_loss_kw"] for r in sample],
             y=[r["useful_heat_mwh"] for r in sample],
             mode="markers",
-            name=f"{thickness:g} m insulation",
+            name=f"{thickness:g} m " + tr("insulation","yalıtım"),
             marker=dict(size=[max(7,min(22,r["volume_m3"]/110)) for r in sample],
                         opacity=.86),
             customdata=[[r["volume_m3"],r["modules"]] for r in sample],
-            hovertemplate=("Initial heat loss: %{x:.1f} kW<br>"
-                           "Useful heat: %{y:.1f} MWhth<br>"
-                           "Volume: %{customdata[0]:.0f} m³<br>"
-                           "Modules: %{customdata[1]:.0f}<extra></extra>"),
+            hovertemplate=(tr("Initial heat loss: ","Başlangıç ısı kaybı: ") + "%{x:.1f} kW<br>" +
+                           tr("Useful heat: ","Kullanılabilir ısı: ") + "%{y:.1f} MWhth<br>" +
+                           tr("Volume: ","Hacim: ") + "%{customdata[0]:.0f} m³<br>" +
+                           tr("Modules: ","Modül sayısı: ") + "%{customdata[1]:.0f}<extra></extra>"),
         ))
     fig.update_layout(template="plotly_dark",paper_bgcolor=BG,plot_bgcolor=BG,
                       height=390,margin=dict(l=20,r=20,t=20,b=45),
-                      xaxis_title="Initial envelope thermal loss (kW)",
-                      yaxis_title="Modeled useful heat (MWhth)")
+                      xaxis_title=tr("Initial envelope thermal loss (kW)","Başlangıç dış yüzey ısı kaybı (kW)"),
+                      yaxis_title=tr("Modeled useful heat (MWhth)","Hesaplanan kullanılabilir ısı (MWhth)"))
     return fig
 
 
@@ -151,13 +161,13 @@ def sensitivity_tornado(base_mwh: float, changes: list[dict]) -> go.Figure:
     lower = [v["low_mwh"]-base_mwh for v in changes]
     upper = [v["high_mwh"]-base_mwh for v in changes]
     fig = go.Figure()
-    fig.add_trace(go.Bar(y=labels,x=lower,name="−10% input",orientation="h",
+    fig.add_trace(go.Bar(y=labels,x=lower,name=tr("−10% input","−%10 girdi"),orientation="h",
                          marker_color="#5ab8c6"))
-    fig.add_trace(go.Bar(y=labels,x=upper,name="+10% input",orientation="h",
+    fig.add_trace(go.Bar(y=labels,x=upper,name=tr("+10% input","＋%10 girdi"),orientation="h",
                          marker_color="#eeb37e"))
     fig.update_layout(template="plotly_dark",barmode="relative",
                       paper_bgcolor=BG,plot_bgcolor=BG,
                       height=350,margin=dict(l=20,r=20,t=20,b=45),
-                      xaxis_title="Change in modeled useful heat from baseline (MWhth)")
+                      xaxis_title=tr("Change in modeled useful heat from baseline (MWhth)","Temel senaryoya göre kullanılabilir ısı farkı (MWhth)"))
     fig.add_vline(x=0,line_color="#b7c6d2",line_width=1)
     return fig
