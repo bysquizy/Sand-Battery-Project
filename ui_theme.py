@@ -327,6 +327,29 @@ h3 {font-size:1.18rem;font-weight:730}
  -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
  mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.08c-3.12.68-3.78-1.33-3.78-1.33-.5-1.28-1.24-1.28-1.24-1.28-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.86 1.73 3.25 1.23.1-.73.4-1.23.72-1.51-2.49-.29-5.11-1.24-5.11-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-2.99 0 0 .95-.3 3.11 1.15a10.9 10.9 0 0 1 5.67 0c2.16-1.46 3.11-1.15 3.11-1.15.61 1.55.23 2.71.11 2.99.73.79 1.16 1.79 1.16 3.02 0 4.33-2.63 5.27-5.13 5.55.41.36.78 1.05.78 2.11v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
+
+/* Small-screen controls remain reachable without shrinking technical labels. */
+[data-testid="stRadio"] [role="radiogroup"] {
+  flex-wrap:wrap;
+  row-gap:.55rem;
+  column-gap:1rem;
+}
+[data-testid="stTabs"] [role="tablist"] {
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scroll-behavior:smooth;
+}
+[data-testid="stDataFrame"] {max-width:100%}
+[data-testid="stLinkButton"] a {overflow-wrap:anywhere}
+@media(max-width:640px) {
+  [data-testid="stMainBlockContainer"],.block-container {padding-left:.85rem;padding-right:.85rem}
+  [data-testid="stMetric"] {min-height:92px}
+  [data-testid="stLinkButton"] a {width:100%}
+  [data-testid="stTabs"] button[role="tab"] {white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce) {
+  [data-testid="stTabs"] [role="tablist"] {scroll-behavior:auto}
+}
 </style>
 """
 
