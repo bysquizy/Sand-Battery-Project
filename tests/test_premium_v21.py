@@ -54,7 +54,7 @@ def test_ribbon_html_escapes_scenario_names():
     from html import escape
     name="<img src=x onerror=alert(1)>"
     text=(ROOT/"scenario_state.py").read_text(encoding="utf-8")
-    assert "escape(s.name)" in text
+    assert "escape(preset_label(s.name))" in text
     assert escape(name) != name
     # Scenario names remain valid as model metadata; rendered output escapes.
     replace(Scenario(),name=name).validate()
