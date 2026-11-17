@@ -9,7 +9,7 @@ textColor = "#EEF6FA"
 font = "sans serif"
 
 [theme.sidebar]
-primaryColor = "#F0C18D"
+primaryColor = "#68E5CF"
 backgroundColor = "#0C1D2A"
 secondaryBackgroundColor = "#173243"
 textColor = "#E2EDF3"
