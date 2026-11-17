@@ -117,7 +117,14 @@ if view == 'Overview':
             {'Term':'Remaining energy relative to Tmin (MWh)','Energy':result['ending_relative_energy_mwh']}])
         st.dataframe(df,hide_index=True,width='stretch')
     st.caption(tr('Energy Sankey and time series represent simulated flows. Reported conservation residual checks numerical accounting, not agreement with measured hardware.', 'Sankey ve zaman grafikleri simülasyon akışlarını gösterir. Enerji dengesi kalanı sayısal hesabı denetler; gerçek donanım ölçümleriyle uyumu kanıtlamaz.'))
-    st.markdown('<div class="info-line"><b>Interpretation:</b> Theoretical sensible heat assumes the full selected temperature interval. The useful-heat result additionally includes ambient losses, but assumes a constant-temperature-grade heat consumer down to the set minimum. It is not a measured plant output.</div>',unsafe_allow_html=True)
+    st.info(tr(
+        "Interpretation: Theoretical heat capacity assumes the entire temperature interval. "
+        "Useful delivered heat additionally includes ambient losses and an idealized heat demand "
+        "down to the selected minimum temperature. These are simulated, not measured results.",
+        "Yorum: Teorik ısı kapasitesi seçilen sıcaklık aralığının tamamını kapsar. "
+        "Kullanılabilir ısı, ortam kayıplarını ve seçilen minimum sıcaklığa kadar basitleştirilmiş "
+        "ısı talebini de dikkate alır. Sonuçlar ölçüm değil, simülasyondur."
+    ))
 
 elif view == 'Thermal Dynamics':
     st.markdown(tr('<div class="sect">Transient response · 0-D energy balance</div>','<div class="sect">Geçici rejim · 0B enerji dengesi</div>'),unsafe_allow_html=True)
@@ -239,6 +246,6 @@ st.download_button(
     mime="application/json", key="home_scenario_export",
 )
 st.download_button(tr('↓ Export engineering summary · Markdown', '↓ Mühendislik özetini indir · Markdown'),scenario_markdown(design,material,result),file_name='sand_battery_engineering_summary.md',mime='text/markdown')
-st.markdown('<div class="foot">SAND BATTERY STUDIO · GROUP 8 · EDUCATIONAL NUMERICAL SIMULATION<br>Research and source references are available in the dedicated Research Hub.</div>',unsafe_allow_html=True)
+# Shared bilingual footer below provides attribution without duplicate branding.
 
 footer()
