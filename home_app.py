@@ -23,7 +23,7 @@ st.set_page_config(page_title='Sand Battery Studio | Engineering Workspace',page
                    layout='wide',initial_sidebar_state='expanded')
 
 from ui_theme import inject, hero, footer
-from localization import tr, language
+from localization import tr, language, preset_label
 inject()
 
 
@@ -49,7 +49,8 @@ DEMO_PRESETS = tuple(PRESETS)
 # The global editor lives in streamlit_app.py's sidebar.
 with st.sidebar:
     preset_name = st.selectbox(
-        tr("Illustrative presentation scenario","Örnek simülasyon senaryosu"),DEMO_PRESETS,key="demo_preset")
+        tr("Illustrative presentation scenario","Örnek simülasyon senaryosu"),
+        DEMO_PRESETS,format_func=preset_label,key="demo_preset")
     st.caption(tr('Example configurations only — not measured Finnish plants.', 'Yalnızca örnek yapılandırmalardır; Finlandiya tesislerinin ölçüm verileri değildir.'))
     if st.button(tr("Use selected preset","Seçili senaryoyu uygula"), key="home_apply_preset",
                  use_container_width=True):
