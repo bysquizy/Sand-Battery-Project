@@ -7,7 +7,16 @@ from __future__ import annotations
 from dataclasses import asdict
 from html import escape
 import streamlit as st
-from localization import tr, material_label, source_label, preset_label, material_option_label, source_option_label
+from localization import tr
+import localization
+
+# Streamlit may briefly run an older loaded localization module during a
+# Cloud redeploy. Fallback display labels must never prevent simulation.
+material_label = getattr(localization, "material_label", str)
+source_label = getattr(localization, "source_label", str)
+preset_label = getattr(localization, "preset_label", str)
+material_option_label = getattr(localization, "material_option_label", str)
+source_option_label = getattr(localization, "source_option_label", str)
 
 from engine.materials import MATERIALS
 from engine.scenarios import PRESETS, SLOTS, SOURCES, Scenario, from_mapping
