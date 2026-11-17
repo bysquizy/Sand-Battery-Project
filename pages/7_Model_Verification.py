@@ -67,7 +67,7 @@ def _grid(design, material, c_charge, c_discharge):
 
 
 with compare_tab:
-    st.subheader("Different physical topologies, different model boundaries")
+    st.subheader(tr("Different physical topologies, different model boundaries","Farklı fiziksel sistemler, farklı model sınırları"))
     st.write("The 0-D model stores all energy at one uniform temperature and "
              "delivers constant heat down to Tmin. The 1-D LTE model represents "
              "axial through-bed flow with a temperature front and separate "
@@ -116,10 +116,10 @@ with compare_tab:
                    "physical constraint as the 0-D constant-power stopping condition. "
                    "The 1-D residual is a numerical energy-ledger check, not calibration.")
     else:
-        st.info("Run both models to see the comparison and the reasons for differing results.")
+        st.info(tr("Run both models to see the comparison and the reasons for differing results.","Karşılaştırmayı ve sonuç farklarının nedenlerini görmek için iki modeli de çalıştırın."))
 
 with pipe_tab:
-    st.subheader("Embedded-pipe topology — idealized lumped-solid exchanger")
+    st.subheader(tr("Embedded-pipe topology — idealized lumped-solid exchanger","Gömülü boru sistemi — idealize toplu katı eşanjörü"))
     st.write("This separate model uses fluid convection, cylindrical metal-wall "
              "conduction and an effective radial solid conduction resistance. "
              "The solid has one mean temperature. Pipe temperature is solved "
@@ -208,13 +208,13 @@ with pipe_tab:
                    "construction, contact resistance, piping length validation "
                    "and measured local hot spots are excluded.")
     else:
-        st.caption("Execute the separate pipe scenario to calculate transient thermal output.")
+        st.caption(tr("Execute the separate pipe scenario to calculate transient thermal output.","Geçici rejimdeki ısı çıkışını hesaplamak için ayrı boru senaryosunu çalıştırın."))
 
 with material_tab:
-    st.subheader("Source-labelled material data and an interpolation method")
+    st.subheader(tr("Source-labelled material data and an interpolation method","Kaynak belirtilmiş malzeme verileri ve enterpolasyon yöntemi"))
     st.write(f"**{m.name}** — model input: {m.provenance}. Current base model "
              "uses an illustrative linear cp(T), NOT measured DSC curves.")
-    st.markdown("**Illustrative cp(T) profile — user-controlled, not a NREL dataset**")
+    st.markdown(tr("**Illustrative cp(T) profile — user-controlled, not a NREL dataset**","**Temsili cp(T) profili — kullanıcı girdisi, NREL ölçüm verisi değildir**"))
     a, b, c = st.columns(3)
     with a:
         cp1 = st.number_input("cp at Tmin (J/kgK)",400.,2000.,800.,50.,key="verify_cp1")
@@ -240,7 +240,7 @@ with material_tab:
         actual = summarize(d,m)["capacity_mwh"]
         hypothetical = (m.bulk_density*d.volume_m3*(
             tabulated.enthalpy(d.maximum_c)-tabulated.enthalpy(d.minimum_c))/3.6e9)
-        st.metric("Hypothetical table-based theoretical capacity",f"{hypothetical:.1f} MWhth")
+        st.metric(tr("Hypothetical table-based theoretical capacity","Varsayımsal tabloya dayalı teorik kapasite"),f"{hypothetical:.1f} MWhth")
         st.caption(f"Existing linear-model capacity: {actual:.1f} MWhth. "
                    "Difference is a **user assumption study**, NOT improved experimental accuracy.")
     except ValueError as exc:
@@ -254,7 +254,7 @@ with material_tab:
                    "https://www.nrel.gov/docs/fy23osti/84728.pdf")
 
 with insulation_tab:
-    st.subheader("Two-layer insulation thermal resistance study")
+    st.subheader(tr("Two-layer insulation thermal resistance study","İki katmanlı yalıtım ısıl direnç çalışması"))
     st.write("Explore independent inner/outer insulation assumptions. "
              "The cylinder side is radial conduction; the two caps use "
              "simplified plane conduction and outdoor convection.")
@@ -296,7 +296,7 @@ with insulation_tab:
 
 
 with convergence_tab:
-    st.subheader("Analytic and numerical boundary checks")
+    st.subheader(tr("Analytic and numerical boundary checks","Analitik ve sayısal sınır kontrolleri"))
     st.write("The 0-D constant-cp standby solution has an analytic Newton-cooling "
              "limit. Its comparison with the numerical solver is a software "
              "verification test, not evidence of plant temperature accuracy.")
@@ -308,7 +308,7 @@ with convergence_tab:
         ua = summarize(d, constant)["ua_w_k"]
         expected = d.ambient_c + (d.maximum_c-d.ambient_c)*exp(
             -3*86400*ua/(mass*constant.cp_25))
-        st.metric("3-day constant-cp Newton analytical error",
+        st.metric(tr("3-day constant-cp Newton analytical error","3 günlük sabit-cp Newton analitik hatası"),
                   f"{abs(cool['temperature_c'][-1]-expected):.3e} °C")
         st.caption("Constant-cp is a synthetic mathematical limit; it does not "
                    "remove real material-property uncertainty.")
