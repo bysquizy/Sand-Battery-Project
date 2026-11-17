@@ -15,8 +15,8 @@ inject()
 hero(tr("MATERIALS / EVIDENCE FIRST","MALZEMELER / KAYNAKLAR"), tr("Material Atlas","Malzeme Atlası"), tr("Explore storage media, thermal properties and screening scenarios with clear source and assumption labels.","Depolama malzemelerini, termal özellikleri ve varsayımları karşılaştırın."))
 shared = active()
 scenario_banner()
-st.caption('Local screening overrides below do not modify the shared scenario.')
-st.warning("Additional granular media are hypothetical screening inputs. Do not use material curves or maximum temperatures for engineering specification without testing.")
+st.caption(tr("Local screening overrides below do not modify the shared scenario.","Aşağıdaki yerel tarama ayarları ortak senaryoyu değiştirmez."))
+st.warning(tr("Additional granular media are hypothetical screening inputs. Do not use material curves or maximum temperatures for engineering specification without testing.","Ek granüler malzemeler varsayımsal karşılaştırma girdileridir. Malzeme eğrilerini ve maksimum sıcaklıkları test yapılmadan mühendislik şartnamesinde kullanmayın."))
 all_materials={**MATERIALS,**SCENARIOS}
 a,b,c=st.columns(3)
 with a:vol=st.number_input(tr("Packed bulk volume (m³)","Yığın hacmi (m³)"),50.,20000.,float(shared.volume_m3),step=100.,key='atlas_volume')
@@ -26,7 +26,7 @@ if high <= low:
     st.error('Maximum temperature must be above the minimum temperature.')
     st.stop()
 if high >= 570:
-    st.warning('Around 573 °C, quartz-rich media have a phase inversion not represented by these linear specific-heat curves. Rankings are not validated above this region.')
+    st.warning(tr("Around 573 °C, quartz-rich media have a phase inversion not represented by these linear specific-heat curves. Rankings are not validated above this region.","Kuvarsça zengin malzemeler yaklaşık 573 °C'de bu doğrusal özgül ısı eğrilerinin kapsamadığı bir faz dönüşümü geçirir. Sıralamalar bu sıcaklık bölgesinde doğrulanmamıştır."))
 rows=[]
 for m in all_materials.values():
     heat=m.bulk_density*vol*(m.enthalpy(high)-m.enthalpy(low))/3.6e9
@@ -45,7 +45,7 @@ with col1:
     st.plotly_chart(fig,width='stretch',key='atlas_mwh_fig')
 with col2:st.dataframe(df,height=600,hide_index=True,width='stretch')
 st.divider()
-st.subheader('Explore temperature-dependent specific heat assumptions')
+st.subheader(tr("Explore temperature-dependent specific heat assumptions","Sıcaklığa bağlı özgül ısı varsayımlarını inceleyin"))
 selected=st.multiselect('Compare media',list(all_materials),default=['Silica sand','Crushed basalt'],key='atlas_selected')
 temps=np.linspace(25,850,150)
 f=go.Figure()
@@ -53,8 +53,8 @@ for k in selected[:10]:f.add_trace(go.Scatter(x=temps,y=all_materials[k].cp(temp
 f.add_vline(x=573,line_dash='dash',annotation_text='Quartz inversion (~573°C), absent from cp model',line_color='#f1ae66')
 f.update_layout(template='plotly_dark',height=420,xaxis_title='Temperature °C',yaxis_title='Assumed cp(T), J/kgK')
 st.plotly_chart(f,width='stretch',key='atlas_cp_fig')
-st.subheader('Capacity response to maximum temperature')
-st.caption('A temperature-sweep of the same illustrative property models; it does not imply safe operation at those temperatures.')
+st.subheader(tr("Capacity response to maximum temperature","Maksimum sıcaklığa göre kapasite değişimi"))
+st.caption(tr("A temperature-sweep of the same illustrative property models; it does not imply safe operation at those temperatures.","Aynı temsili malzeme modelleriyle sıcaklık taraması yapılır; bu, söz konusu sıcaklıklarda güvenli çalışmanın kanıtı değildir."))
 heat_options=st.multiselect('Choose materials for the heatmap',list(all_materials),default=['Silica sand','Crushed basalt','Crushed refractory brick'],max_selections=8,key='atlas_heatmap_mats')
 if heat_options:
     # Every heatmap temperature must remain inside the selected range.
@@ -64,16 +64,16 @@ if heat_options:
     fg.update_layout(template='plotly_dark',height=max(260,64*len(heat_options)+110),xaxis_title='Maximum storage temperature (°C)',margin=dict(l=10,r=10,t=15,b=55))
     st.plotly_chart(fg,width='stretch',key='atlas_capacity_heatmap')
 st.divider()
-st.subheader('Idealized two-medium mixture')
+st.subheader(tr("Idealized two-medium mixture","İki malzemeli idealize karışım"))
 x,y=st.columns(2)
-with x:first=st.selectbox('Medium A',list(all_materials),key='atlas_first')
-with y:second=st.selectbox('Medium B',[z for z in all_materials if z!=first],key='atlas_second')
+with x:first=st.selectbox(tr("Medium A","Malzeme A"),list(all_materials),key='atlas_first')
+with y:second=st.selectbox(tr("Medium B","Malzeme B"),[z for z in all_materials if z!=first],key='atlas_second')
 frac=st.slider('Medium A: volume fraction (%)',0,100,50,5,key='atlas_fraction')/100
 mix=blend(all_materials[first],all_materials[second],frac)
 q=mix.bulk_density*vol*(mix.enthalpy(high)-mix.enthalpy(low))/3.6e9
-st.metric('Ideal volume-average composite thermal capacity',f'{q:.1f} MWhth')
+st.metric(tr("Ideal volume-average composite thermal capacity","İdeal hacim ortalamalı karışım ısı kapasitesi"),f'{q:.1f} MWhth')
 st.caption(mix.provenance)
-st.info('Unknown packing, thermal expansion, quartz transition, chemical durability and recycled-material environmental safety can invalidate these illustrative comparisons.')
+st.info(tr("Unknown packing, thermal expansion, quartz transition, chemical durability and recycled-material environmental safety can invalidate these illustrative comparisons.","Bilinmeyen paketlenme, ısıl genleşme, kuvars dönüşümü, kimyasal dayanıklılık ve geri dönüştürülmüş malzemelerin çevresel güvenliği bu temsili karşılaştırmaları geçersiz kılabilir."))
 st.markdown('Research basis: [Bošnjaković & Santa (2026)](https://doi.org/10.3390/cleantechnol8050165) and [NREL report 84728](https://www.nrel.gov/docs/fy23osti/84728.pdf). Cite actual tested material sources separately from assumed curves.')
 
 footer()
