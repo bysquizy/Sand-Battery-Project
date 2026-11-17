@@ -20,7 +20,7 @@ guide,methods,case_studies,sources,group=st.tabs([
 ])
 
 with guide:
-    st.markdown(tr(tr("### Start with the science","### Fiziksel temeller"),"### Temel prensipler"))
+    st.markdown(tr("### Start with the science","### Fiziksel temeller"))
     st.write(tr("The technical review examines charging, storage, discharge and practical design.","Teknik inceleme şarj, depolama, deşarj ve uygulanabilir tasarım kavramlarını ele alır."))
     a,b,c=st.columns(3)
     a.metric(tr("Operating phases","Çalışma aşamaları"),"3")
@@ -48,7 +48,7 @@ with guide:
     st.caption("This process map is deliberately not assigned fabricated energy "
                "percentages. Dashboard shows calculated numerical energy flows.")
 
-    st.markdown(tr(tr("### Explore research themes","### Araştırma konularını inceleyin"),"### Araştırma konuları"))
+    st.markdown(tr("### Explore research themes","### Araştırma konularını inceleyin"))
     lookup={t["label"]:t for t in TOPICS}
     choose=st.selectbox(tr("Choose a topic","Bir konu seçin"),list(lookup),key="hub_topic")
     t=lookup[choose]
