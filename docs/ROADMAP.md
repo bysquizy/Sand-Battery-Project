@@ -82,7 +82,7 @@ coefficients, add paid services or assert experimental calibration.
 
 ## Quality gate for every stage
 
-1. Feature branch and reviewed pull request.
+1. Review the proposed change (prefer a pull request; maintainer hotfixes require the same checks).
 2. Tests on Python 3.13, no newly failing regressions.
 3. Documented assumptions and a changelog entry.
 4. Merge only after GitHub Actions passes.
