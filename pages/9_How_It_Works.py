@@ -1,6 +1,6 @@
 """Bilingual guide to the educational thermal-storage model."""
 import streamlit as st
-from localization import t, tr
+from localization import t, tr, material_label
 from ui_theme import inject, hero, footer
 from project_info import PROJECT
 from engine.materials import MATERIALS
@@ -34,7 +34,8 @@ materials=list(MATERIALS)
 current_medium=active().material_name
 selected=st.selectbox(
     tr("Illustrative storage medium","Temsili depolama malzemesi"),
-    materials, index=materials.index(current_medium), key="guide_material",
+    materials, index=materials.index(current_medium),
+    format_func=material_label, key="guide_material",
 )
 col1,col2,col3=st.columns(3)
 with col1:
