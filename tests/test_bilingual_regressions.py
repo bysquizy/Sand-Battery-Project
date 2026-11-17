@@ -47,7 +47,9 @@ def test_translation_calls_not_nested_and_formula_escapes_valid():
     for path in checked:
         assert "tr(tr(" not in path.read_text(encoding="utf-8"), path.name
     guide = (ROOT / "pages/9_How_It_Works.py").read_text(encoding="utf-8")
-    assert r"Q=m\,c_p\,\Delta T" in guide
+    assert r"Q=m\int_{T_{\mathrm{low}}}^{T_{\mathrm{high}}}c_p(T)\,\mathrm{d}T" in guide
+    assert "material.enthalpy(temp)-material.enthalpy(low)" in guide
+    assert "mass*830*" not in guide
 
 
 def test_turkish_pages_start_without_runtime_errors():
