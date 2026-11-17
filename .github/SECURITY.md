@@ -2,7 +2,7 @@
 
 ## Scope and status
 
-Sand Battery Studio is a public, simulation-only academic web application. Its numerical results do **not** certify equipment, industrial performance, safety or investment suitability.
+Sand Battery Project is a public, simulation-only academic web application. Its numerical results do **not** certify equipment, industrial performance, safety or investment suitability.
 
 ## Supported versions
 
@@ -27,6 +27,6 @@ Include the affected version/commit, the impacted page or upload path and safe r
 - Uploaded CSV content is bounded by size, row count, finite numeric values and allowed power ranges before simulation.
 - Treat rate/CPU and memory protection as resource limits, not a security guarantee.
 - Update dependencies only after tests pass; investigate Dependabot alerts.
-- Do not disable Streamlit's default XSRF/CORS defenses in a shared development container.
+- Do not disable Streamlit's XSRF/CORS protections in the production web configuration.
 
 This security policy does not assert an independent penetration test or a certified security audit.
