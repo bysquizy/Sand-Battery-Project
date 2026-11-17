@@ -21,14 +21,14 @@ from scenario_state import active, scenario_banner
 st.set_page_config(page_title="Thermal Design Studio | Sand Battery", layout="wide", page_icon="📐")
 inject()
 hero(tr("DESIGN / THERMAL ENGINEERING","TASARIM / TERMAL MÜHENDİSLİK"), tr("Thermal Design Studio","Termal Tasarım"), tr("Examine insulation, passive cooling, modular tank geometry and target thermal capacity.","Yalıtımı, doğal soğumayı, depo geometrisini ve hedef ısı kapasitesini inceleyin."))
-st.write("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.")
-st.info("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.")
+st.write(tr("Explore heat retention, modular tank geometry, insulation, and energy-capacity sizing.","Isı tutma, modüler depo geometrisi, yalıtım ve enerji kapasitesi boyutlandırmasını inceleyin."))
+st.info(tr("Numerical examples based on the legacy study questions. Illustrative material properties, no measured sensors, and no structural certification.","Önceki araştırma sorularına dayanan sayısal örneklerdir. Malzeme özellikleri temsilidir; sensör ölçümü veya yapısal sertifika yoktur."))
 
 # All baseline geometry and material inputs come from the shared scenario.
 # The detailed study controls below remain local exploratory settings.
 shared = active()
 scenario_banner()
-st.caption("To edit the baseline design, use Active Scenario in the navigation sidebar.")
+st.caption(tr("To edit the baseline design, use Active Scenario in the navigation sidebar.","Temel tasarımı düzenlemek için yan menüdeki Aktif senaryoyu kullanın."))
 material_name = shared.material_name
 m = MATERIALS[material_name]
 d = shared.make_design()
@@ -56,8 +56,8 @@ cooling,modules_tab,insulation_tab,sizing=st.tabs([
 ])
 
 with cooling:
-    st.subheader("Passive standby cooling")
-    st.caption("Solves a lumped energy balance with temperature-dependent heat capacity. No thermal load or charging during standby.")
+    st.subheader(tr("Passive standby cooling","Bekleme sırasında pasif soğuma"))
+    st.caption(tr("Solves a lumped energy balance with temperature-dependent heat capacity. No thermal load or charging during standby.","Sıcaklığa bağlı ısı kapasitesiyle toplulaştırılmış enerji dengesi çözülür. Bekleme sırasında şarj veya ısı çıkışı yoktur."))
     days=st.slider("Simulated standby period · days",1,90,14,1,key="dl_days")
     try:
         res=cooling_profile(d,m,float(days),samples=121)
@@ -86,11 +86,11 @@ with cooling:
     except (ValueError,RuntimeError) as exc:
         st.error(str(exc))
     st.latex(r"m c_p(T) \frac{dT}{dt} = -UA(T-T_{amb})")
-    st.caption("With constant cp this reduces to Newton cooling; with cp(T), a numerical ODE solution is used.")
+    st.caption(tr("With constant cp this reduces to Newton cooling; with cp(T), a numerical ODE solution is used.","Sabit özgül ısıda Newton soğumasına indirgenir; cp(T) için sayısal diferansiyel denklem çözülür."))
 
 with modules_tab:
-    st.subheader("Same storage capacity, different silo arrangements")
-    st.caption("Split the same packed volume into multiple identical cylindrical modules. Only geometry and simplified heat-loss resistance change.")
+    st.subheader(tr("Same storage capacity, different silo arrangements","Aynı depolama kapasitesi, farklı depo düzenleri"))
+    st.caption(tr("Split the same packed volume into multiple identical cylindrical modules. Only geometry and simplified heat-loss resistance change.","Aynı malzeme hacmini birden çok özdeş silindirik modüle bölün. Yalnızca geometri ve basitleştirilmiş ısı kaybı direnci değişir."))
     try:
         rows=module_comparison(d,m,(1,2,3,4,6,8,12,16))
         frame=pd.DataFrame(rows)
@@ -121,15 +121,15 @@ with modules_tab:
             fig3.update_layout(template="plotly_dark",height=330,margin=dict(l=0,r=0,t=0,b=0),
                   scene=dict(xaxis_visible=False,yaxis_visible=False,zaxis_visible=False,aspectmode="data"))
             st.plotly_chart(fig3,width="stretch",key="dl_module_arrangement")
-            st.caption("Module array is schematic only. Spacing, outer footprint and structural foundations are not optimized.")
+            st.caption(tr("Module array is schematic only. Spacing, outer footprint and structural foundations are not optimized.","Modül dizilimi şematiktir; aralıklar, yerleşim alanı ve temel yapısı optimize edilmemiştir."))
         st.download_button("Download module comparison · CSV",frame.to_csv(index=False),
             file_name="module_comparison.csv",mime="text/csv",key="dl_module_csv")
     except ValueError as exc:
         st.error(str(exc))
 
 with insulation_tab:
-    st.subheader("Illustrative radial insulation temperature")
-    st.caption("Quasi-steady heat conduction through the cylindrical SIDE insulation with outside convection. The graph is NOT a transient 2-D solid-temperature prediction.")
+    st.subheader(tr("Illustrative radial insulation temperature","Temsili radyal yalıtım sıcaklığı"))
+    st.caption(tr("Quasi-steady heat conduction through the cylindrical SIDE insulation with outside convection. The graph is NOT a transient 2-D solid-temperature prediction.","Silindirin YAN yalıtımındaki yarı kararlı ısı iletimi ve dış taşınım gösterilir. Grafik, geçici 2B katı sıcaklık tahmini değildir."))
     t_inner=st.slider("Insulation inner-face temperature · °C",float(ambient),float(tmax),float(tmax),step=5.,key="dl_inner")
     try:
         rprof=radial_insulation_profile(d,t_inner)
@@ -142,9 +142,9 @@ with insulation_tab:
                   yaxis_title="Insulation temperature (°C)")
             st.plotly_chart(fig,width="stretch",key="dl_radial")
         with b:
-            st.metric("Outer insulation surface",f"{rprof['surface_c']:.1f} °C")
-            st.metric("Sidewall heat loss / module",f"{rprof['side_heat_kw_per_module']:.2f} kW")
-            st.caption("End-cap losses are accounted for separately in the 0-D design summary.")
+            st.metric(tr("Outer insulation surface","Yalıtımın dış yüzeyi"),f"{rprof['surface_c']:.1f} °C")
+            st.metric(tr("Sidewall heat loss / module","Modül başına yan duvar ısı kaybı"),f"{rprof['side_heat_kw_per_module']:.2f} kW")
+            st.caption(tr("End-cap losses are accounted for separately in the 0-D design summary.","Üst ve alt kapak kayıpları 0B tasarım özetinde ayrı hesaplanır."))
         if st.checkbox("Animate a quasi-steady wall profile across cooldown",value=False,key="dl_wall_animation"):
             cool=cooling_profile(d,m,14.,samples=16)
             profiles=[radial_insulation_profile(d,float(temp),nodes=45)["temperature_c"]
@@ -155,21 +155,21 @@ with insulation_tab:
             ff.update_layout(template="plotly_dark",height=340,
                              xaxis_title="Cooling time (days)",yaxis_title="Radial position (m)")
             st.plotly_chart(ff,width="stretch",key="dl_wall_heatmap")
-            st.caption("Each time slice is a steady wall approximation driven by the bulk 0-D cooling model.")
+            st.caption(tr("Each time slice is a steady wall approximation driven by the bulk 0-D cooling model.","Her zaman dilimi, ortalama 0B soğuma modeliyle belirlenen kararlı duvar yaklaşımıdır."))
     except (ValueError,RuntimeError) as exc:
         st.error(str(exc))
 
 with sizing:
-    st.subheader("Reverse-size the theoretical energy capacity")
-    st.caption("Find the bulk volume needed for a *theoretical sensible heat target*. This is NOT useful delivered heat or site construction clearance.")
+    st.subheader(tr("Reverse-size the theoretical energy capacity","Teorik enerji kapasitesine göre boyutlandırma"))
+    st.caption(tr("Find the bulk volume needed for a *theoretical sensible heat target*. This is NOT useful delivered heat or site construction clearance.","Hedeflenen *teorik duyulur ısı* için gereken hacmi bulun. Bu değer kullanılabilir ısı veya yapım onayı değildir."))
     target=st.number_input("Target theoretical storage · MWh(th)",1.,10000.,250.,step=25.,key="dl_target")
     try:
         needed=volume_for_target_mwh(m,tmin,tmax,target)
-        st.metric("Minimum theoretical packed volume",f"{needed:,.1f} m³")
-        st.caption("Based on the material's *illustrative* packed density and cp(T) assumptions.")
+        st.metric(tr("Minimum theoretical packed volume","Gerekli en düşük teorik dolu hacim"),f"{needed:,.1f} m³")
+        st.caption(tr("Based on the material's *illustrative* packed density and cp(T) assumptions.","Malzemenin *temsili* yığın yoğunluğu ve cp(T) varsayımlarına dayanır."))
         max_h=st.number_input("Maximum silo height · m",5.,100.,35.,step=1.,key="dl_maxheight")
         max_d=st.number_input("Maximum outside diameter · m",3.,60.,24.,step=1.,key="dl_maxdiam")
-        st.markdown("**Bounded geometry candidates for your current volume**")
+        st.markdown(tr("**Bounded geometry candidates for your current volume**","**Mevcut hacim için sınırlı geometri seçenekleri**"))
         candidate=bounded_geometry_candidates(d,m,max_h,max_d)
         if candidate:
             cf=pd.DataFrame(candidate)
@@ -184,7 +184,7 @@ with sizing:
             st.download_button("Download feasible geometry · CSV",cf.to_csv(index=False),
                                file_name="feasible_geometry.csv",key="dl_geo_csv")
         else:
-            st.warning("No geometry candidates satisfy both limits. Increase facility dimensions or change the base volume.")
+            st.warning(tr("No geometry candidates satisfy both limits. Increase facility dimensions or change the base volume.","Her iki sınırı sağlayan geometri bulunamadı. Alan ölçülerini veya temel hacmi değiştirin."))
         st.download_button("Export design inputs · JSON",
             json.dumps({"material":material_name,"design":d.__dict__,
                         "target_theoretical_mwh":target,"required_volume_m3":needed},indent=2),
@@ -194,6 +194,6 @@ with sizing:
 
 st.divider()
 st.markdown("**Method references:** Bošnjaković & Santa (2026), DOI 10.3390/cleantechnol8050165; original team legacy calculation archive (engineering workflow), not a measured dataset.")
-st.caption("All figures are mathematical visualization of numerical assumptions; no real prototype, instrumentation, CFD, structural qualification or cost validation is included.")
+st.caption(tr("All figures are mathematical visualization of numerical assumptions; no real prototype, instrumentation, CFD, structural qualification or cost validation is included.","Tüm görseller sayısal varsayımların matematiksel gösterimidir; gerçek prototip, sensör, CFD, yapısal yeterlilik veya maliyet doğrulaması değildir."))
 
 footer()
