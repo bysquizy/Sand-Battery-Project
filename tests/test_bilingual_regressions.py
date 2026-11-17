@@ -81,3 +81,9 @@ def test_display_translation_keeps_stable_source_keys(monkeypatch):
     )
     assert localization.material_label("Silica sand") == "Silica sand"
     assert localization.source_label("Electric heater") == "Electric heater"
+    # Selectbox option labels stay identical across language changes, avoiding
+    # the widget-state mismatch seen when a form is open during EN/TR toggling.
+    assert localization.material_option_label("Silica sand") == "Silica sand / Silis kumu"
+    assert localization.source_option_label("Electric heater") == "Electric heater / Elektrikli ısıtıcı"
+    assert "CSP" in localization.preset_option_label("CSP-assisted thermal storage")
+
