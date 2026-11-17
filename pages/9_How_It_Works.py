@@ -3,6 +3,8 @@ import streamlit as st
 from localization import t, tr
 from ui_theme import inject, hero, footer
 from project_info import PROJECT
+from engine.materials import MATERIALS
+from scenario_state import active
 
 st.set_page_config(page_title="How It Works | Sand Battery",page_icon="❔",layout="wide")
 inject()
@@ -28,15 +30,33 @@ with c:
                     "Model depodan ne kadar kullanılabilir ısı çekilebileceğini hesaplar. Bu ısı enerjisidir; üretilen elektrik değildir."))
 
 st.markdown(tr("## Try a simple calculation","## Basit bir hesap deneyin"))
+materials=list(MATERIALS)
+current_medium=active().material_name
+selected=st.selectbox(
+    tr("Illustrative storage medium","Temsili depolama malzemesi"),
+    materials, index=materials.index(current_medium), key="guide_material",
+)
 col1,col2,col3=st.columns(3)
-with col1: mass=st.slider(tr("Material mass (kg)","Malzeme kütlesi (kg)"),100,10000,1000,100)
-with col2: temp=st.slider(tr("Hot temperature (°C)","Yüksek sıcaklık (°C)"),150,600,500,10)
-with col3: low=st.slider(tr("Reference temperature (°C)","Referans sıcaklık (°C)"),20,min(temp-10,300),100,10)
-q=mass*830*(temp-low)/3_600_000_000
-st.metric(tr("Theoretical thermal energy (MWh)","Teorik ısı enerjisi (MWh)"),f"{q:.3f}")
-st.latex(r"Q=m\,c_p\,\Delta T")
-st.caption(tr("Demonstration assumes a constant heat capacity of 830 J/(kg·K) and ignores heat loss. The application's engineering pages use additional assumptions and models.",
-              "Bu örnekte özgül ısı 830 J/(kg·K) sabit kabul edilir ve ısı kaybı ihmal edilir. Uygulamanın mühendislik sayfalarında daha ayrıntılı modeller ve varsayımlar kullanılır."))
+with col1:
+    mass=st.slider(tr("Material mass (kg)","Malzeme kütlesi (kg)"),100,10000,1000,100,key="guide_mass")
+with col2:
+    temp=st.slider(tr("Hot temperature (°C)","Yüksek sıcaklık (°C)"),150,600,500,10,key="guide_high")
+with col3:
+    low=st.slider(tr("Reference temperature (°C)","Referans sıcaklık (°C)"),20,min(temp-10,300),100,10,key="guide_low")
+material=MATERIALS[selected]
+# Integrate the same illustrative temperature-dependent cp(T) curve as the engine.
+q=mass*(material.enthalpy(temp)-material.enthalpy(low))/3_600_000_000
+st.metric(tr("Theoretical thermal energy (MWhth)","Teorik ısı enerjisi (MWhth)"),f"{q:.3f}")
+st.latex(r"Q=m\int_{T_{\mathrm{low}}}^{T_{\mathrm{high}}}c_p(T)\,\mathrm{d}T")
+st.caption(tr(
+    "This example uses the model's assumed temperature-dependent heat capacity for the selected medium. It excludes insulation loss, exchanger limits and charging efficiency; it is neither electricity generated nor an experimental measurement.",
+    "Bu örnek seçilen malzemenin modelde varsayılan sıcaklığa bağlı özgül ısısını kullanır. Yalıtım kaybı, eşanjör sınırları ve şarj verimi dahil değildir; elektrik üretimi veya deneysel ölçüm değildir.",
+))
+if "Silica" in selected and low < 573 <= temp:
+    st.warning(tr(
+        "Quartz-rich materials undergo a phase transition near 573 °C, which this illustrative cp(T) model does not capture.",
+        "Kuvars içeren malzemelerde yaklaşık 573 °C'de, bu temsili cp(T) modelinde bulunmayan bir faz dönüşümü yaşanır.",
+    ))
 
 st.markdown(tr("## Using the application","## Uygulamanın kullanımı"))
 for title_en,title_tr,body_en,body_tr in [
