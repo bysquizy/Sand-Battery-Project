@@ -1,6 +1,9 @@
 """Bilingual guide to the educational thermal-storage model."""
 import streamlit as st
-from localization import t, tr, material_option_label
+from localization import t, tr
+import localization
+
+material_option_label = getattr(localization, "material_option_label", str)
 from ui_theme import inject, hero, footer
 from project_info import PROJECT
 from engine.materials import MATERIALS
