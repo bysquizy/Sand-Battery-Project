@@ -32,8 +32,41 @@ TEXT = {
  }
 }
 def language():
-    return st.session_state.get("sb_language", "en")
+    selected = st.session_state.get("sb_language", "en")
+    return selected if selected in TEXT else "en"
 def t(key):
     return TEXT[language()].get(key, TEXT["en"].get(key, key))
 def tr(en, turkish):
     return turkish if language()=="tr" else en
+
+
+# Display-only mappings: saved JSON, model keys and source identifiers stay English.
+SOURCE_TR = {
+    "Electric heater": "Elektrikli ısıtıcı",
+    "CSP thermal": "Yoğunlaştırılmış güneş ısısı",
+    "PV + wind": "Güneş PV + rüzgâr",
+}
+MATERIAL_TR = {
+    "Silica sand": "Silis kumu",
+    "Crushed basalt": "Kırılmış bazalt",
+    "Crushed refractory brick": "Kırılmış refrakter tuğla",
+    "Crushed soapstone (illustrative)": "Kırılmış sabuntaşı (temsili)",
+    "Industrial by-product (illustrative)": "Endüstriyel yan ürün (temsili)",
+}
+PRESET_TR = {
+    "Industrial thermal store": "Endüstriyel ısı deposu",
+    "Compact research study": "Kompakt araştırma örneği",
+    "CSP-assisted thermal storage": "CSP destekli ısı depolama",
+}
+
+
+def source_label(value: str) -> str:
+    return tr(value, SOURCE_TR.get(value, value))
+
+
+def material_label(value: str) -> str:
+    return tr(value, MATERIAL_TR.get(value, value))
+
+
+def preset_label(value: str) -> str:
+    return tr(value, PRESET_TR.get(value, value))
