@@ -117,7 +117,7 @@ if workspace == 'Thermal playback':
     cfg=(d,m,cells)
     if run:
         try:
-            with st.spinner("Computing finite-volume time slices"):
+            with st.spinner(tr("Computing finite-volume time slices","Sonlu hacim zaman dilimleri hesaplanıyor")):
                 st.session_state["visual_animation_result"]=_axial(*cfg)
                 st.session_state["visual_animation_cfg"]=cfg
         except (ValueError, RuntimeError, OverflowError) as exc:
@@ -133,7 +133,7 @@ if workspace == 'Thermal playback':
                 field, float(summarize(d,m)["radius_m"]),
                 d.minimum_c,d.maximum_c),width="stretch",
                 key="visual_axial_3d")
-        st.subheader("Time–height temperature field")
+        st.subheader(tr("Time–height temperature field","Zaman–yükseklik sıcaklık alanı"))
         st.plotly_chart(axial_history_heatmap(field),width="stretch",
                         key="visual_axial_map")
         st.caption("Snapshots are computed, not interpolated animation guesses. "
@@ -152,7 +152,7 @@ if workspace == 'Thermal playback':
         st.caption(tr('Run the 1-D solver to reveal real computed animation frames.', 'Hesaplanan animasyon karelerini görmek için 1B çözücüyü çalıştırın.'))
 
 elif workspace == 'Energy & sensitivities':
-    st.subheader("Thermal energy and assumption sensitivity")
+    st.subheader(tr("Thermal energy and assumption sensitivity","Isıl enerji ve varsayım duyarlılığı"))
     try:
         r=_cycle(d,m)
         st.plotly_chart(timeline(r),width="stretch",key="visual_0d_trace")
@@ -161,7 +161,7 @@ elif workspace == 'Energy & sensitivities':
             st.plotly_chart(energy,width="stretch",key="visual_energy_ledger")
         if st.button(tr("Compute ±10% input sensitivity","±%10 girdi duyarlılığını hesapla"),
                      type="primary",key="visual_run_sensitivity"):
-            with st.spinner("Recalculating controlled input perturbations"):
+            with st.spinner(tr("Recalculating controlled input perturbations","Girdi değişimlerine göre yeniden hesaplanıyor")):
                 st.session_state["visual_sensitivity"]=_sensitivity(d,m)
                 st.session_state["visual_sensitivity_cfg"]=(d,m)
         if st.session_state.get("visual_sensitivity_cfg")==(d,m):
@@ -178,12 +178,12 @@ elif workspace == 'Energy & sensitivities':
         st.error(tr(f"Unable to evaluate active scenario: {exc}", f"Aktif senaryo hesaplanamıyor: {exc}"))
 
 elif workspace == 'Design tradeoffs':
-    st.subheader("Thermal capacity vs envelope heat-loss tradeoff")
+    st.subheader(tr("Thermal capacity vs envelope heat-loss tradeoff","Termal kapasite ve dış yüzey ısı kaybı karşılaştırması"))
     st.write("Screen at most 16 variations of the active design's volume and "
              "insulation. The reported heat is recomputed by the same 0-D solver; "
              "it is not a globally optimized engineering solution.")
     if st.button(tr("Screen design alternatives","Tasarım alternatiflerini tara"),type="primary",key="visual_run_frontier"):
-        with st.spinner("Solving bounded design comparisons"):
+        with st.spinner(tr("Solving bounded design comparisons","Sınırlı tasarım karşılaştırmaları çözülüyor")):
             st.session_state["visual_frontier"]=_frontier(d,m)
             st.session_state["visual_frontier_cfg"]=(d,m)
     if st.session_state.get("visual_frontier_cfg")==(d,m):
@@ -204,7 +204,7 @@ elif workspace == 'Design tradeoffs':
         st.caption(tr('Run the design screen to display the source-constrained tradeoff.', 'Kaynak kısıtlarına göre karşılaştırma için tasarım taramasını çalıştırın.'))
 
 elif workspace == 'Engineering report':
-    st.subheader("Publish a reproducible scenario snapshot")
+    st.subheader(tr("Publish a reproducible scenario snapshot","Tekrarlanabilir senaryo raporu oluşturun"))
     st.write("Download the active model inputs and its freshly computed "
              "charging–holding–discharging results. The offline HTML contains "
              "a calculated vector chart, inputs, full energy ledger, team "
