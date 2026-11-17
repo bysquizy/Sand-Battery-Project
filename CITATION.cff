@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this academic simulator, cite the software and the relevant underlying scientific papers."
-title: "Sand Battery Studio"
+title: "Sand Battery Project"
 type: software
 authors:
   - family-names: "Topaç"
