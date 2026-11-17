@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from html import escape
 import streamlit as st
-from localization import tr
+from localization import tr, material_label, source_label, preset_label
 
 from engine.materials import MATERIALS
 from engine.scenarios import PRESETS, SLOTS, SOURCES, Scenario, from_mapping
@@ -47,21 +47,21 @@ def scenario_banner() -> None:
     """Shared compact scenario ribbon; labels are escaped before HTML use."""
     s = active()
     pills = [
-        s.material_name,
+        material_label(s.material_name),
         f"{s.volume_m3:,.0f} m³",
         f"{s.minimum_c:g}–{s.maximum_c:g} °C",
         f"{s.charge_power_mw():,.2f} MW " + tr("charge","şarj"),
-        s.source,
+        source_label(s.source),
     ]
     content = "".join(
         '<span class="sb-chip">' + escape(str(value)) + '</span>'
         for value in pills
     )
     st.html(
-        '<div class="sb-context" role="note" aria-label="Active design details">' +
+        '<div class="sb-context" role="note" aria-label="' + tr("Active design details","Aktif tasarım bilgileri") + '">' +
         tr('<span class="sb-context-label">ACTIVE DESIGN</span>','<span class="sb-context-label">AKTİF TASARIM</span>') +
         '<strong style="font-size:.85rem;color:#fff">'
-        + escape(s.name) + '</strong>' + content + '</div>'
+        + escape(preset_label(s.name)) + '</strong>' + content + '</div>'
     )
 
 
@@ -69,8 +69,8 @@ def sidebar_editor() -> None:
     scenario = active()
     with st.sidebar:
         st.markdown(tr("**Active Scenario**","**Aktif senaryo**"))
-        st.caption(f"{scenario.name} · {scenario.volume_m3:g} m³ · "
-                   f"{scenario.material_name}")
+        st.caption(f"{preset_label(scenario.name)} · {scenario.volume_m3:g} m³ · "
+                   f"{material_label(scenario.material_name)}")
         with st.expander(tr("Edit shared design","Ortak tasarımı düzenle"), expanded=False):
             # Epoch changes only when a validated design/preset is committed;
             # the edit widgets are re-created with current scenario defaults.
@@ -79,7 +79,8 @@ def sidebar_editor() -> None:
                                      max_chars=48)
                 medium = st.selectbox(
                     tr("Material","Malzeme"), list(MATERIALS),
-                    index=list(MATERIALS).index(scenario.material_name))
+                    index=list(MATERIALS).index(scenario.material_name),
+                    format_func=material_label)
                 volume = st.number_input(
                     tr("Packed volume · m³","Dolu hacim · m³"), 50.0, 20000.0,
                     float(scenario.volume_m3), step=25.0)
@@ -90,11 +91,13 @@ def sidebar_editor() -> None:
                     tr("Maximum storage temperature · °C","Maksimum depolama sıcaklığı · °C"), 250.0, 800.0,
                     float(scenario.maximum_c), step=10.0)
                 source = st.selectbox(tr("Charge source","Şarj kaynağı"), SOURCES,
-                                      index=SOURCES.index(scenario.source))
+                                      index=SOURCES.index(scenario.source),
+                                      format_func=source_label)
                 output = st.number_input(
                     tr("Thermal demand · MW","Isı talebi · MW"), 0.1, 40.0,
                     float(scenario.thermal_output_mw), step=0.5)
-                st.markdown("**Advanced geometry & source parameters**")
+                st.markdown(tr("**Advanced geometry & source parameters**",
+                                    "**Gelişmiş geometri ve kaynak ayarları**"))
                 with st.container(border=False):  # Group controls without nested expanders.
                     modules = st.number_input(tr("Identical silos","Özdeş depolar"), 1, 16,
                                               int(scenario.modules))
