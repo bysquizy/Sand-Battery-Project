@@ -70,3 +70,19 @@ def material_label(value: str) -> str:
 
 def preset_label(value: str) -> str:
     return tr(value, PRESET_TR.get(value, value))
+
+
+def material_option_label(value: str) -> str:
+    """Stable bilingual option: language switches cannot invalidate widget state."""
+    translated = MATERIAL_TR.get(value)
+    return f"{value} / {translated}" if translated else value
+
+
+def source_option_label(value: str) -> str:
+    translated = SOURCE_TR.get(value)
+    return f"{value} / {translated}" if translated else value
+
+
+def preset_option_label(value: str) -> str:
+    translated = PRESET_TR.get(value)
+    return f"{value} / {translated}" if translated else value
